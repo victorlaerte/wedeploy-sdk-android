@@ -2,7 +2,6 @@ package com.wedeploy.sdk;
 
 import com.wedeploy.sdk.internal.OkHttpTransport;
 import com.wedeploy.sdk.internal.Transport;
-import okhttp3.Response;
 
 /**
  * @author Silvio Santos

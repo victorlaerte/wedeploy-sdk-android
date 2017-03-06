@@ -1,8 +1,12 @@
 package com.wedeploy.sdk.internal;
 
 import com.wedeploy.sdk.Request;
+import com.wedeploy.sdk.Response;
 import com.wedeploy.sdk.WeDeployException;
-import okhttp3.*;
+import okhttp3.HttpUrl;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import okhttp3.internal.http.HttpMethod;
 
 import java.io.IOException;
@@ -15,7 +19,16 @@ public class OkHttpTransport implements Transport<Response> {
         OkHttpClient client = new OkHttpClient();
 
         try {
-            return client.newCall(okHttpRequest).execute();
+            okhttp3.Response okHttpResponse = client.newCall(okHttpRequest)
+	            .execute();
+
+            return new Response.Builder()
+	            .body(okHttpResponse.body().string())
+	            .headers(okHttpResponse.headers().toMultimap())
+	            .statusCode(okHttpResponse.code())
+	            .statusMessage(okHttpResponse.message())
+	            .build();
+
         }
         catch (IOException e) {
             throw new WeDeployException(e.getMessage(), e);

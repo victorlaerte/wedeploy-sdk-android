@@ -1,6 +1,5 @@
 package com.wedeploy.sdk;
 
-import okhttp3.Response;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Test;
@@ -29,10 +28,10 @@ public class WeDeployDataTest {
 	@Test
 	public void createAndDelete() throws Exception {
 		Response response = createObject();
-		assertEquals(200, response.code());
+		assertEquals(200, response.getStatusCode());
 
 		response = deleteObject(id);
-		assertEquals(204, response.code());
+		assertEquals(204, response.getStatusCode());
 
 		id = null;
 	}
@@ -51,13 +50,13 @@ public class WeDeployDataTest {
 			.update("messages/" + id, data)
 			.execute();
 
-		assertEquals(204, response.code());
+		assertEquals(204, response.getStatusCode());
 
 		String responseBody = WeDeploy.data(URL)
 			.auth("silvio.santos@liferay.com", "123456")
 			.get("messages/" + id)
 			.execute()
-			.body().string();
+			.getBody();
 
 		JSONObject responseData = new JSONObject(responseBody);
 		assertEquals(AUTHOR, responseData.get("author"));
@@ -74,9 +73,9 @@ public class WeDeployDataTest {
 			.create("messages", jsonObject)
 			.execute();
 
-		assertEquals(200, response.code());
+		assertEquals(200, response.getStatusCode());
 
-		JSONObject data = new JSONObject(response.body().string());
+		JSONObject data = new JSONObject(response.getBody());
 		this.id = data.getString("id");
 
 		return response;
@@ -88,7 +87,7 @@ public class WeDeployDataTest {
 			.delete("messages/" + id)
 			.execute();
 
-		assertEquals(204, response.code());
+		assertEquals(204, response.getStatusCode());
 
 		return response;
 	}
