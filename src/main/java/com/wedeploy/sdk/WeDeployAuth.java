@@ -4,6 +4,8 @@ import com.wedeploy.sdk.internal.OkHttpTransport;
 import com.wedeploy.sdk.internal.RequestMethod;
 import org.json.JSONObject;
 
+import java.util.Map;
+
 /**
  * @author Silvio Santos
  */
@@ -39,6 +41,28 @@ class WeDeployAuth {
 
 	}
 
+	public User createUser(String email, String password, String name) {
+		JSONObject json = new JSONObject()
+			.put("email", email)
+			.put("password", password)
+			.put("name", name);
+
+
+		Request.Builder builder = newAuthenticatedBuilder()
+			.path("users")
+			.body(json.toString())
+			.method(RequestMethod.POST);
+
+		Response response = new Call(builder.build(), new OkHttpTransport())
+			.execute();
+
+		if (!response.succeeded()) {
+			throw new WeDeployException(response.getStatusMessage());
+		}
+
+		return new User(new JSONObject(response.getBody()));
+	}
+
 	public User getCurrentUser() {
 		Auth auth = WeDeploy.auth;
 
@@ -63,6 +87,48 @@ class WeDeployAuth {
 		JSONObject jsonBody = new JSONObject(response.getBody());
 
 		return new User(jsonBody);
+	}
+
+	//TODO Change fields to be a Map<String, Any>
+	public void updateUser(String id, Map<String, String> fields) {
+		if (id == null) {
+			throw new IllegalArgumentException("User id can't be null");
+		}
+
+		if (fields == null || fields.isEmpty()) {
+			throw new IllegalArgumentException("You must provide fields to be updated");
+		}
+
+		JSONObject body = new JSONObject()
+			.put("id", id);
+
+		for (Map.Entry<String, String> entry : fields.entrySet()) {
+			body.put(entry.getKey(), entry.getValue());
+		}
+
+		Request request = newAuthenticatedBuilder()
+			.path("users/" + id)
+			.body(body.toString())
+			.method(RequestMethod.PATCH)
+			.build();
+
+		Call call = new Call(request, new OkHttpTransport());
+		Response response = call.execute();
+
+		if (!response.succeeded()) {
+			throw new WeDeployException(response.getStatusMessage());
+		}
+	}
+
+	private Request.Builder newAuthenticatedBuilder() {
+		Request.Builder builder = new Request.Builder()
+			.url(url);
+
+		if (WeDeploy.auth == null) {
+			return builder;
+		}
+
+		return WeDeploy.auth.authenticate(builder);
 	}
 
 	private String url;
