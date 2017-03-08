@@ -28,6 +28,7 @@ public class OkHttpTransport implements Transport<Response> {
 	            .headers(okHttpResponse.headers().toMultimap())
 	            .statusCode(okHttpResponse.code())
 	            .statusMessage(okHttpResponse.message())
+	            .succeeded(okHttpResponse.isSuccessful())
 	            .build();
 
         }

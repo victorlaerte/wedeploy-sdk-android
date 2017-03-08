@@ -5,6 +5,10 @@ package com.wedeploy.sdk;
  */
 public class WeDeployException extends RuntimeException {
 
+	public WeDeployException(String message) {
+		super(message);
+	}
+
 	public WeDeployException(String message, Exception e) {
 		super(message, e);
 	}

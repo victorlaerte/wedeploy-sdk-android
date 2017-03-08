@@ -30,11 +30,16 @@ public class Response {
         return statusMessage;
     }
 
-    public static class Builder {
+	public boolean succeeded() {
+		return succeeded;
+	}
+
+	public static class Builder {
 	    String body;
 	    Map<String, List<String>> headers;
 	    int statusCode;
 	    String statusMessage;
+	    boolean succeeded;
 
 	    public Builder body(String body) {
 		    this.body = body;
@@ -56,6 +61,11 @@ public class Response {
 		    return this;
 	    }
 
+		public Builder succeeded(boolean succeeded) {
+			this.succeeded = succeeded;
+			return this;
+		}
+
 	    public Response build() {
 	    	return new Response(this);
 	    }
@@ -67,11 +77,13 @@ public class Response {
 		this.headers = builder.headers;
 		this.statusCode = builder.statusCode;
 		this.statusMessage = builder.statusMessage;
+		this.succeeded = builder.succeeded;
     }
 
 	private final String body;
 	private final Map<String, List<String>> headers;
 	private final int statusCode;
 	private final String statusMessage;
+	private final boolean succeeded;
 
 }
