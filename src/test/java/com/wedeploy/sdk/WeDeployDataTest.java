@@ -45,6 +45,22 @@ public class WeDeployDataTest {
 	}
 
 	@Test
+	public void replace() throws Exception {
+		createObject();
+
+		final String message = "message21";
+
+		JSONObject data = new JSONObject();
+		data.put("message", message);
+
+		Response response = WeDeploy.data(DATA_URL)
+			.replace("messages/" + id, data)
+			.execute();
+
+		assertEquals(204, response.getStatusCode());
+	}
+
+	@Test
 	public void update() throws Exception {
 		createObject();
 
@@ -58,15 +74,6 @@ public class WeDeployDataTest {
 			.execute();
 
 		assertEquals(204, response.getStatusCode());
-
-		String responseBody = WeDeploy.data(DATA_URL)
-			.get("messages/" + id)
-			.execute()
-			.getBody();
-
-		JSONObject responseData = new JSONObject(responseBody);
-		assertEquals(AUTHOR, responseData.get("author"));
-		assertEquals(message, responseData.get("message"));
 	}
 
 	private Response createObject() throws Exception {

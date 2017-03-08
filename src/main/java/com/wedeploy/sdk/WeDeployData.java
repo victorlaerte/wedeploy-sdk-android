@@ -52,6 +52,16 @@ public class WeDeployData {
         return newCall(request);
     }
 
+	public Call<Response> replace(String resourcePath, JSONObject jsonObject) {
+		Request request = newAuthenticatedBuilder()
+			.path(resourcePath)
+			.method(RequestMethod.PUT)
+			.body(jsonObject.toString())
+			.build();
+
+		return newCall(request);
+	}
+
     private Request.Builder newAuthenticatedBuilder() {
         Request.Builder builder = new Request.Builder()
             .url(url);
