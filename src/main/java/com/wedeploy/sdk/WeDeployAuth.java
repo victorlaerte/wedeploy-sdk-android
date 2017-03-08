@@ -25,8 +25,7 @@ class WeDeployAuth {
 			.method(RequestMethod.POST)
 			.build();
 
-		Call call = new Call(request, new OkHttpTransport());
-		Response response = call.execute();
+		Response response = newCall(request).execute();
 
 		if (!response.succeeded()) {
 			throw new WeDeployException(response.getStatusMessage());
@@ -53,7 +52,7 @@ class WeDeployAuth {
 			.body(json.toString())
 			.method(RequestMethod.POST);
 
-		Response response = new Call(builder.build(), new OkHttpTransport())
+		Response response = newCall(builder.build())
 			.execute();
 
 		if (!response.succeeded()) {
@@ -77,8 +76,7 @@ class WeDeployAuth {
 
 		auth.authenticate(builder);
 
-		Call call = new Call(builder.build(), new OkHttpTransport());
-		Response response = call.execute();
+		Response response = newCall(builder.build()).execute();
 
 		if (!response.succeeded()) {
 			throw new WeDeployException(response.getStatusMessage());
@@ -112,8 +110,7 @@ class WeDeployAuth {
 			.method(RequestMethod.PATCH)
 			.build();
 
-		Call call = new Call(request, new OkHttpTransport());
-		Response response = call.execute();
+		Response response = newCall(request).execute();
 
 		if (!response.succeeded()) {
 			throw new WeDeployException(response.getStatusMessage());
@@ -129,6 +126,10 @@ class WeDeployAuth {
 		}
 
 		return WeDeploy.auth.authenticate(builder);
+	}
+
+	private Call<Response> newCall(Request request) {
+		return new Call<>(request, new OkHttpTransport(), Response.class);
 	}
 
 	private String url;

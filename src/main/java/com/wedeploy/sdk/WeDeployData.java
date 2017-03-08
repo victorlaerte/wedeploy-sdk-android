@@ -14,42 +14,42 @@ public class WeDeployData {
         return this;
     }
 
-    public Call create(String collection, JSONObject jsonObject) {
+    public Call<Response> create(String collection, JSONObject jsonObject) {
         Request request = newAuthenticatedBuilder()
             .path(collection)
             .method(RequestMethod.POST)
             .body(jsonObject.toString())
             .build();
 
-        return new Call(request, new OkHttpTransport());
+        return newCall(request);
     }
 
-    public Call delete(String resourcePath) {
+    public Call<Response> delete(String resourcePath) {
         Request request = newAuthenticatedBuilder()
             .path(resourcePath)
             .method(RequestMethod.DELETE)
             .build();
 
-        return new Call(request, new OkHttpTransport());
+        return newCall(request);
     }
 
-    public Call get(String resourcePath) {
+    public Call<Response> get(String resourcePath) {
         Request request = newAuthenticatedBuilder()
             .path(resourcePath)
             .method(RequestMethod.GET)
             .build();
 
-        return new Call(request, new OkHttpTransport());
+        return newCall(request);
     }
 
-    public Call update(String resourcePath, JSONObject jsonObject) {
+    public Call<Response> update(String resourcePath, JSONObject jsonObject) {
         Request request = newAuthenticatedBuilder()
             .path(resourcePath)
             .method(RequestMethod.PATCH)
             .body(jsonObject.toString())
             .build();
 
-        return new Call(request, new OkHttpTransport());
+        return newCall(request);
     }
 
     private Request.Builder newAuthenticatedBuilder() {
@@ -61,6 +61,10 @@ public class WeDeployData {
         }
 
         return auth.authenticate(builder);
+    }
+
+    private Call<Response> newCall(Request request) {
+        return new Call<>(request, new OkHttpTransport(), Response.class);
     }
 
     WeDeployData(String url) {
