@@ -3,6 +3,7 @@ package com.wedeploy.sdk.internal;
 import com.wedeploy.sdk.Request;
 import com.wedeploy.sdk.Response;
 import com.wedeploy.sdk.WeDeployException;
+import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -59,7 +60,19 @@ public class OkHttpTransport implements Transport<Response> {
             return null;
         }
 
-        return RequestBody.create(JSON, body);
+        Map<String, String> forms = request.getForms();
+
+	    if (!forms.isEmpty()) {
+		    FormBody.Builder builder = new FormBody.Builder();
+
+		    for (Map.Entry<String, String> entry : forms.entrySet()) {
+			    builder.add(entry.getKey(), entry.getValue());
+		    }
+
+		    return builder.build();
+	    }
+
+	    return RequestBody.create(JSON, body);
 
     }
 
