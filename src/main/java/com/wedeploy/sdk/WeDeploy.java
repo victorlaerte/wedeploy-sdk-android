@@ -12,7 +12,8 @@ public class WeDeploy {
 	}
 
 	public static WeDeployData data(String url) {
-		return new WeDeployData(url);
+		return new WeDeployData(url)
+			.auth(auth);
 	}
 
 }

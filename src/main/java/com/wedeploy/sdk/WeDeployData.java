@@ -2,7 +2,6 @@ package com.wedeploy.sdk;
 
 import com.wedeploy.sdk.internal.OkHttpTransport;
 import com.wedeploy.sdk.internal.RequestMethod;
-import okhttp3.Credentials;
 import org.json.JSONObject;
 
 /**
@@ -10,13 +9,14 @@ import org.json.JSONObject;
  */
 public class WeDeployData {
 
-    public WeDeployData auth(String email, String password) {
-        builder.header("Authorization", Credentials.basic(email, password));
+    public WeDeployData auth(Auth auth) {
+        this.auth = auth;
         return this;
     }
 
     public Call create(String collection, JSONObject jsonObject) {
-        Request request = builder.path(collection)
+        Request request = newAuthenticatedBuilder()
+            .path(collection)
             .method(RequestMethod.POST)
             .body(jsonObject.toString())
             .build();
@@ -25,7 +25,8 @@ public class WeDeployData {
     }
 
     public Call delete(String resourcePath) {
-        Request request = builder.path(resourcePath)
+        Request request = newAuthenticatedBuilder()
+            .path(resourcePath)
             .method(RequestMethod.DELETE)
             .build();
 
@@ -33,7 +34,8 @@ public class WeDeployData {
     }
 
     public Call get(String resourcePath) {
-        Request request = builder.path(resourcePath)
+        Request request = newAuthenticatedBuilder()
+            .path(resourcePath)
             .method(RequestMethod.GET)
             .build();
 
@@ -41,7 +43,8 @@ public class WeDeployData {
     }
 
     public Call update(String resourcePath, JSONObject jsonObject) {
-        Request request = builder.path(resourcePath)
+        Request request = newAuthenticatedBuilder()
+            .path(resourcePath)
             .method(RequestMethod.PATCH)
             .body(jsonObject.toString())
             .build();
@@ -49,10 +52,22 @@ public class WeDeployData {
         return new Call(request, new OkHttpTransport());
     }
 
-    WeDeployData(String url) {
-        builder = new Request.Builder().url(url);
+    private Request.Builder newAuthenticatedBuilder() {
+        Request.Builder builder = new Request.Builder()
+            .url(url);
+
+        if (auth == null) {
+            return builder;
+        }
+
+        return auth.authenticate(builder);
     }
 
-    private Request.Builder builder;
+    WeDeployData(String url) {
+        this.url = url;
+    }
+
+    private Auth auth;
+    private String url;
 
 }

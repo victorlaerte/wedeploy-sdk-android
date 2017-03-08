@@ -2,6 +2,7 @@ package com.wedeploy.sdk;
 
 import org.json.JSONObject;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -15,8 +16,15 @@ public class WeDeployDataTest {
 	private static final String USERNAME = "silvio.santos@liferay.com";
 	private static final String AUTHOR = "Silvio";
 	private static final String MESSAGE = "message20";
-	private static String URL = "http://data.silvio.wedeploy.io";
+	private static String AUTH_URL = "http://auth.silvio.wedeploy.io";
+	private static String DATA_URL = "http://data.silvio.wedeploy.io";
 	private String id;
+
+	@Before
+	public void setUp() throws Exception {
+		WeDeploy.auth(AUTH_URL)
+			.signIn(USERNAME, PASSWORD);
+	}
 
 	@After
 	public void tearDown() throws Exception {
@@ -45,15 +53,13 @@ public class WeDeployDataTest {
 		JSONObject data = new JSONObject();
 		data.put("message", message);
 
-		Response response = WeDeploy.data(URL)
-			.auth("silvio.santos@liferay.com", "123456")
+		Response response = WeDeploy.data(DATA_URL)
 			.update("messages/" + id, data)
 			.execute();
 
 		assertEquals(204, response.getStatusCode());
 
-		String responseBody = WeDeploy.data(URL)
-			.auth("silvio.santos@liferay.com", "123456")
+		String responseBody = WeDeploy.data(DATA_URL)
 			.get("messages/" + id)
 			.execute()
 			.getBody();
@@ -68,8 +74,7 @@ public class WeDeployDataTest {
 		jsonObject.put("author", AUTHOR);
 		jsonObject.put("message", MESSAGE);
 
-		Response response = WeDeploy.data(URL)
-			.auth(USERNAME, PASSWORD)
+		Response response = WeDeploy.data(DATA_URL)
 			.create("messages", jsonObject)
 			.execute();
 
@@ -82,8 +87,7 @@ public class WeDeployDataTest {
 	}
 
 	private Response deleteObject(String id) throws Exception {
-		Response response = WeDeploy.data(URL)
-			.auth("silvio.santos@liferay.com", "123456")
+		Response response = WeDeploy.data(DATA_URL)
 			.delete("messages/" + id)
 			.execute();
 
