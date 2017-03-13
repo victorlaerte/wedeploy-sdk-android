@@ -10,6 +10,7 @@ import java.util.Map;
 
 import static com.wedeploy.sdk.Constants.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * @author Silvio Santos
@@ -24,28 +25,36 @@ public class WeDeployAuthTest {
 
 	@Test
 	public void signIn() throws Exception {
-		User user = weDeployAuth
+		Auth auth = WeDeploy.auth(AUTH_URL)
+			.auth(AUTH)
 			.signIn(USERNAME, PASSWORD);
 
-		assertEquals(NAME, user.getName());
-		assertEquals(USERNAME, user.getEmail());
+		assertNotNull(auth);
 	}
 
 	@Test
 	public void updateUser() throws Exception {
+		Auth auth = WeDeploy.auth(AUTH_URL)
+			.auth(AUTH)
+			.signIn(USERNAME, PASSWORD);
+
 		Map<String, String> fields = new HashMap<>();
 		fields.put("name", "Silvio Santos 2");
 
-		weDeployAuth
+		WeDeploy.auth(AUTH_URL)
+			.auth(auth)
 			.updateUser(USER_ID, fields);
 
 		User user = WeDeploy.auth(AUTH_URL)
+			.auth(auth)
 			.getCurrentUser();
 
 		assertEquals("Silvio Santos 2", user.getName());
 
 		fields.put("name", NAME);
-		weDeployAuth.updateUser(USER_ID, fields);
+		WeDeploy.auth(AUTH_URL)
+			.auth(auth)
+			.updateUser(USER_ID, fields);
 	}
 
 	private static void createUser() {
@@ -67,7 +76,5 @@ public class WeDeployAuthTest {
 
 		call.execute();
 	}
-
-	private WeDeployAuth weDeployAuth = WeDeploy.auth(AUTH_URL);
 
 }

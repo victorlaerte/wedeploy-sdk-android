@@ -15,7 +15,13 @@ class WeDeployAuth {
 		this.url = url;
 	}
 
-	public User signIn(String email, String password) {
+	public WeDeployAuth auth(Auth auth) {
+		this.auth = auth;
+
+		return this;
+	}
+
+	public Auth signIn(String email, String password) {
 		Request request = new Request.Builder()
 			.url(url)
 			.forms("grant_type", "password")
@@ -33,10 +39,8 @@ class WeDeployAuth {
 
 		JSONObject jsonBody = new JSONObject(response.getBody());
 		String token = jsonBody.getString("access_token");
-		TokenAuth auth = new TokenAuth(token);
-		WeDeploy.auth = auth;
 
-		return getCurrentUser();
+		return new TokenAuth(token);
 
 	}
 
@@ -45,7 +49,6 @@ class WeDeployAuth {
 			.put("email", email)
 			.put("password", password)
 			.put("name", name);
-
 
 		Request.Builder builder = newAuthenticatedBuilder()
 			.path("users")
@@ -63,12 +66,6 @@ class WeDeployAuth {
 	}
 
 	public User getCurrentUser() {
-		Auth auth = WeDeploy.auth;
-
-		if (auth == null) {
-			throw new IllegalStateException("There is no signed in user");
-		}
-
 		Request.Builder builder = new Request.Builder()
 			.url(url)
 			.path("user")
@@ -121,17 +118,18 @@ class WeDeployAuth {
 		Request.Builder builder = new Request.Builder()
 			.url(url);
 
-		if (WeDeploy.auth == null) {
+		if (auth == null) {
 			return builder;
 		}
 
-		return WeDeploy.auth.authenticate(builder);
+		return auth.authenticate(builder);
 	}
 
 	private Call<Response> newCall(Request request) {
 		return new Call<>(request, new OkHttpTransport(), Response.class);
 	}
 
+	private Auth auth;
 	private String url;
 
 }
