@@ -2,6 +2,7 @@ package com.wedeploy.sdk;
 
 import com.wedeploy.sdk.internal.OkHttpTransport;
 import com.wedeploy.sdk.internal.RequestMethod;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -14,15 +15,13 @@ public class WeDeployData {
         return this;
     }
 
-    public Call<Response> create(String collection, JSONObject jsonObject) {
-        Request request = newAuthenticatedBuilder()
-            .path(collection)
-            .method(RequestMethod.POST)
-            .body(jsonObject.toString())
-            .build();
+	public Call<Response> create(String collection, JSONArray jsonArray) {
+		return create(collection, jsonArray.toString());
+	}
 
-        return newCall(request);
-    }
+	public Call<Response> create(String collection, JSONObject jsonObject) {
+		return create(collection, jsonObject.toString());
+	}
 
     public Call<Response> delete(String resourcePath) {
         Request request = newAuthenticatedBuilder()
@@ -37,7 +36,7 @@ public class WeDeployData {
         Request request = newAuthenticatedBuilder()
             .path(resourcePath)
             .method(RequestMethod.GET)
-            .build();
+	        .build();
 
         return newCall(request);
     }
@@ -72,6 +71,16 @@ public class WeDeployData {
 
         return auth.authenticate(builder);
     }
+
+	private Call<Response> create(String collection, String json) {
+		Request request = newAuthenticatedBuilder()
+			.path(collection)
+			.method(RequestMethod.POST)
+			.body(json)
+			.build();
+
+		return newCall(request);
+	}
 
     private Call<Response> newCall(Request request) {
         return new Call<>(request, new OkHttpTransport(), Response.class);
