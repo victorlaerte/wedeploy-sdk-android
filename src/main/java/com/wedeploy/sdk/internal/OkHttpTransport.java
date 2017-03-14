@@ -11,15 +11,16 @@ import okhttp3.RequestBody;
 import okhttp3.internal.http.HttpMethod;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Map;
 
 public class OkHttpTransport implements Transport<Response> {
 
     public Response send(Request request) {
-        okhttp3.Request okHttpRequest = geOkHttpRequest(request);
-        OkHttpClient client = new OkHttpClient();
-
         try {
+	        okhttp3.Request okHttpRequest = geOkHttpRequest(request);
+	        OkHttpClient client = new OkHttpClient();
             okhttp3.Response okHttpResponse = client.newCall(okHttpRequest)
 	            .execute();
 
@@ -32,12 +33,12 @@ public class OkHttpTransport implements Transport<Response> {
 	            .build();
 
         }
-        catch (IOException e) {
+        catch (Exception e) {
             throw new WeDeployException(e.getMessage(), e);
         }
     }
 
-    private okhttp3.Request geOkHttpRequest(Request request) {
+    private okhttp3.Request geOkHttpRequest(Request request) throws UnsupportedEncodingException {
         HttpUrl url = getUrl(request);
         RequestBody body = getRequestBody(request);
         String method = request.getMethod().getValue();
@@ -77,13 +78,16 @@ public class OkHttpTransport implements Transport<Response> {
 
     }
 
-    private HttpUrl getUrl(Request request) {
+    private HttpUrl getUrl(Request request) throws UnsupportedEncodingException {
         HttpUrl.Builder builder = HttpUrl.parse(request.getUrl())
             .newBuilder()
             .addPathSegments(request.getPath());
 
         for (Map.Entry<String, String> entry : request.getParams().entrySet()) {
-            builder.addQueryParameter(entry.getKey(), entry.getValue());
+	        String encodedValue = URLEncoder.encode(
+		        entry.getValue(), "UTF-8");
+
+	        builder.addEncodedQueryParameter(entry.getKey(), encodedValue);
         }
 
         return builder.build();
