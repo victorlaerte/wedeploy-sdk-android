@@ -89,64 +89,13 @@ public class Aggregation extends BodyConvertible {
 		return MapWrapper.wrap(field, map);
 	}
 
-	public static final class DistanceAggregation extends Aggregation {
-
-		public DistanceAggregation range(Object from, Object to) {
-			return range(Range.range(from, to));
-		}
-
-		public DistanceAggregation range(Range range) {
-			this.ranges.add(range);
-			return this;
-		}
-
-		public DistanceAggregation unit(String unit) {
-			((Map)value).put("unit", unit);
-			return this;
-		}
-
-		private DistanceAggregation(
-			String name, String field, Object location, Range...ranges) {
-
-			super(name, field, "geoDistance", new HashMap());
-
-			Map map = (Map)value;
-			this.ranges = new ArrayList();
-			this.ranges.addAll(Arrays.asList(ranges));
-
-			map.put("location", location);
-			map.put("ranges", this.ranges);
-		}
-
-		private final List<Object> ranges;
-
-	}
-
-	public static final class RangeAggregation extends Aggregation {
-
-		public RangeAggregation range(Object from, Object to) {
-			return range(Range.range(from, to));
-		}
-
-		public RangeAggregation range(Range range) {
-			((List)this.value).add(range);
-			return this;
-		}
-
-		private RangeAggregation(String name, String field, Range...ranges) {
-			super(name, field, "range", new ArrayList());
-			((List)this.value).addAll(Arrays.asList(ranges));
-		}
-
-	}
-
 	protected final Object value;
 
-	private Aggregation(String name, String field, String operator) {
+	Aggregation(String name, String field, String operator) {
 		this(name, field, operator, null);
 	}
 
-	private Aggregation(
+	Aggregation(
 		String name, String field, String operator, Object value) {
 
 		this.name = name;
