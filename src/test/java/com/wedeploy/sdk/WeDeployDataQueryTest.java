@@ -1,5 +1,6 @@
 package com.wedeploy.sdk;
 
+import com.wedeploy.sdk.query.SortOrder;
 import com.wedeploy.sdk.query.aggregation.Aggregation;
 import com.wedeploy.sdk.query.filter.Filter;
 import org.json.JSONArray;
@@ -11,6 +12,7 @@ import static com.wedeploy.sdk.Constants.AUTH;
 import static com.wedeploy.sdk.Constants.DATA_URL;
 import static com.wedeploy.sdk.DataTestHelper.initDataFromFile;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * @author Silvio Santos
@@ -59,6 +61,39 @@ public class WeDeployDataQueryTest {
 		int total = new JSONArray(response.getBody()).length();
 
 		assertEquals(5, total);
+	}
+
+	@Test
+	public void sort_ascending() throws Exception {
+		sort(SortOrder.ASCENDING);
+	}
+
+	@Test
+	public void sort_descending() throws Exception {
+		sort(SortOrder.DESCENDING);
+	}
+
+	private void sort(SortOrder order) {
+		Response response = WeDeploy.data(DATA_URL)
+			.auth(AUTH)
+			.sort("message", order)
+			.get("messages")
+			.execute();
+
+		JSONArray messagesArray = new JSONArray(response.getBody());
+
+		for (int i = 0; i < messagesArray.length() - 1; i++) {
+			String message1 = messagesArray.getJSONObject(i).getString("message");
+			String message2 = messagesArray.getJSONObject(i + 1).getString("message");
+
+			int compare = message1.compareTo(message2);
+
+			if ((compare > 0) && (order == SortOrder.ASCENDING) ||
+				(compare < 0) && (order == SortOrder.DESCENDING)) {
+
+				fail();
+			}
+		}
 	}
 
 	@Test

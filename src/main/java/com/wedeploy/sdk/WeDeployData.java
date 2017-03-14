@@ -4,6 +4,7 @@ import com.wedeploy.sdk.internal.OkHttpTransport;
 import com.wedeploy.sdk.internal.RequestMethod;
 import com.wedeploy.sdk.query.BodyToJsonStringConverter;
 import com.wedeploy.sdk.query.Query;
+import com.wedeploy.sdk.query.SortOrder;
 import com.wedeploy.sdk.query.aggregation.Aggregation;
 import com.wedeploy.sdk.query.filter.Filter;
 import org.json.JSONArray;
@@ -88,6 +89,22 @@ public class WeDeployData {
 
 	public WeDeployData offset(int offset) {
 		getOrCreateQueryBuilder().offset(offset);
+
+		return this;
+	}
+
+	public WeDeployData sort(String field) {
+		sort(field, SortOrder.ASCENDING);
+
+		return this;
+	}
+
+	public WeDeployData sort(String field, SortOrder order) {
+    	if (order == null) {
+    		throw new IllegalArgumentException("SortOrder can't be null");
+	    }
+
+		getOrCreateQueryBuilder().sort(field, order.getValue());
 
 		return this;
 	}
