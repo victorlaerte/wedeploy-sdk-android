@@ -1,4 +1,9 @@
-package com.wedeploy.sdk.query;
+package com.wedeploy.sdk.query.aggregation;
+
+import com.wedeploy.sdk.query.BaseEmbodied;
+import com.wedeploy.sdk.query.Query;
+import com.wedeploy.sdk.query.filter.Range;
+import com.wedeploy.sdk.query.Util;
 
 import java.util.ArrayList;
 import java.util.Arrays;

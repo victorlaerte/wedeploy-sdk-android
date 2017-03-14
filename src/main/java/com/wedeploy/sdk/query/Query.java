@@ -1,5 +1,8 @@
 package com.wedeploy.sdk.query;
 
+import com.wedeploy.sdk.query.aggregation.Aggregation;
+import com.wedeploy.sdk.query.filter.Filter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -1,5 +1,7 @@
 package com.wedeploy.sdk.query;
 
+import com.wedeploy.sdk.query.aggregation.Aggregation;
+import com.wedeploy.sdk.query.filter.Filter;
 import org.junit.Assert;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
