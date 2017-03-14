@@ -2,8 +2,14 @@ package com.wedeploy.sdk;
 
 import com.wedeploy.sdk.internal.OkHttpTransport;
 import com.wedeploy.sdk.internal.RequestMethod;
+import com.wedeploy.sdk.query.BodyToJsonStringConverter;
+import com.wedeploy.sdk.query.Query;
+import com.wedeploy.sdk.query.aggregation.Aggregation;
+import com.wedeploy.sdk.query.filter.Filter;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.Map;
 
 /**
  * @author Silvio Santos
@@ -33,12 +39,19 @@ public class WeDeployData {
     }
 
     public Call<Response> get(String resourcePath) {
-        Request request = newAuthenticatedBuilder()
-            .path(resourcePath)
-            .method(RequestMethod.GET)
-	        .build();
+	    Request.Builder builder = newAuthenticatedBuilder();
+	    Query query = getOrCreateQueryBuilder().build();
 
-        return newCall(request);
+	    builder.path(resourcePath)
+            .method(RequestMethod.GET);
+
+        for (Map.Entry<String, Object> entry : query.body().entrySet()) {
+            builder.param(
+            	entry.getKey(),
+	            BodyToJsonStringConverter.toString(entry.getValue()));
+        }
+
+	    return newCall(builder.build());
     }
 
     public Call<Response> update(String resourcePath, JSONObject jsonObject) {
@@ -61,7 +74,39 @@ public class WeDeployData {
 		return newCall(request);
 	}
 
-    private Request.Builder newAuthenticatedBuilder() {
+	public WeDeployData aggregate(Aggregation aggregation) {
+		getOrCreateQueryBuilder().aggregate(aggregation);
+
+		return this;
+	}
+
+	public WeDeployData limit(int limit) {
+		getOrCreateQueryBuilder().limit(limit);
+
+		return this;
+	}
+
+	public WeDeployData offset(int offset) {
+		getOrCreateQueryBuilder().offset(offset);
+
+		return this;
+	}
+
+	public WeDeployData where(Filter filter) {
+    	getOrCreateQueryBuilder().filter(filter);
+
+    	return this;
+	}
+
+	private Query.Builder getOrCreateQueryBuilder() {
+		if (queryBuilder == null) {
+			queryBuilder = new Query.Builder();
+		}
+
+		return queryBuilder;
+	}
+
+	private Request.Builder newAuthenticatedBuilder() {
         Request.Builder builder = new Request.Builder()
             .url(url);
 
@@ -91,6 +136,7 @@ public class WeDeployData {
     }
 
     private Auth auth;
+    private Query.Builder queryBuilder;
     private String url;
 
 }
