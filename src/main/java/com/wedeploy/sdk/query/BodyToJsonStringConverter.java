@@ -89,20 +89,6 @@ public class BodyToJsonStringConverter {
 		return value.toString();
 	}
 
-	/**
-	 * Wraps a <code>(key, value)</code> pair into a {@link Map}.
-	 *
-	 * @param key the map key
-	 * @param value the value associated to the key
-	 * @return a map with a entry <code>(key, value)</code>
-	 */
-	public static Map wrap(String key, Object value) {
-		Map map = new HashMap();
-
-		map.put(key, value);
-		return map;
-	}
-
 	protected BodyToJsonStringConverter() {
 	}
 

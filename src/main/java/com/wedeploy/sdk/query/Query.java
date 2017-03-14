@@ -125,7 +125,7 @@ public class Query extends BodyConvertible {
 		}
 
 		public Builder sort(String field, String direction) {
-			sort.add(BodyToJsonStringConverter.wrap(field, direction));
+			sort.add(MapWrapper.wrap(field, direction));
 			return this;
 		}
 

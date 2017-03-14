@@ -1,6 +1,7 @@
 package com.wedeploy.sdk.query.filter;
 
 import com.wedeploy.sdk.query.BodyToJsonStringConverter;
+import com.wedeploy.sdk.query.MapWrapper;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -31,7 +32,7 @@ public final class SimilarFilter extends Filter {
 	}
 
 	protected SimilarFilter(String field, String query) {
-		super(field, "similar", BodyToJsonStringConverter.wrap("query", query));
+		super(field, "similar", MapWrapper.wrap("query", query));
 		this.mapValue = (Map)this.value;
 	}
 

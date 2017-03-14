@@ -1,6 +1,7 @@
 package com.wedeploy.sdk.query.aggregation;
 
 import com.wedeploy.sdk.query.BodyConvertible;
+import com.wedeploy.sdk.query.MapWrapper;
 import com.wedeploy.sdk.query.Query;
 import com.wedeploy.sdk.query.filter.Range;
 import com.wedeploy.sdk.query.BodyToJsonStringConverter;
@@ -85,12 +86,7 @@ public class Aggregation extends BodyConvertible {
 			map.put("value", value);
 		}
 
-		return BodyToJsonStringConverter.wrap(field, map);
-	}
-
-	@Override
-	public String toString() {
-		return BodyToJsonStringConverter.toString(new Query.Builder().aggregate(this).build());
+		return MapWrapper.wrap(field, map);
 	}
 
 	public static final class DistanceAggregation extends Aggregation {

@@ -1,6 +1,7 @@
 package com.wedeploy.sdk.query.filter;
 
 import com.wedeploy.sdk.query.BodyConvertible;
+import com.wedeploy.sdk.query.MapWrapper;
 import com.wedeploy.sdk.query.Query;
 import com.wedeploy.sdk.query.BodyToJsonStringConverter;
 
@@ -227,10 +228,10 @@ public class Filter extends BodyConvertible {
 			List valueList = (List)value;
 
 			if (valueList.size() == 1) {
-				return BodyToJsonStringConverter.wrap(operator, valueList.get(0));
+				return MapWrapper.wrap(operator, valueList.get(0));
 			}
 
-			return BodyToJsonStringConverter.wrap(operator, value);
+			return MapWrapper.wrap(operator, value);
 		}
 
 		Map map = new HashMap();
@@ -241,7 +242,7 @@ public class Filter extends BodyConvertible {
 			map.put("value", value);
 		}
 
-		return BodyToJsonStringConverter.wrap(field, map);
+		return MapWrapper.wrap(field, map);
 	}
 
 	public Filter or(Filter filter) {
@@ -258,11 +259,6 @@ public class Filter extends BodyConvertible {
 
 	public Filter or(String field, String operator, Object value) {
 		return or(Filter.field(field, operator, value));
-	}
-
-	@Override
-	public String toString() {
-		return BodyToJsonStringConverter.toString(new Query.Builder().filter(this).build());
 	}
 
 	protected Filter(String operator, Object value) {

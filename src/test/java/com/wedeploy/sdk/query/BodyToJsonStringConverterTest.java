@@ -16,7 +16,7 @@ public class BodyToJsonStringConverterTest {
 		Assert.assertEquals(
 			"[1,\"a\",true,{\"key\":\"value\"}]",
 			BodyToJsonStringConverter.toString(
-				new Object[] {1, "a", true, BodyToJsonStringConverter.wrap("key", "value")}));
+				new Object[] {1, "a", true, MapWrapper.wrap("key", "value")}));
 	}
 
 	@Test
@@ -26,7 +26,7 @@ public class BodyToJsonStringConverterTest {
 		Assert.assertEquals(
 			"[1,\"a\",true,{\"key\":\"value\"}]",
 			BodyToJsonStringConverter.toString(
-				Arrays.asList(1, "a", true, BodyToJsonStringConverter.wrap("key", "value"))));
+				Arrays.asList(1, "a", true, MapWrapper.wrap("key", "value"))));
 	}
 
 	@Test
@@ -46,12 +46,12 @@ public class BodyToJsonStringConverterTest {
 	@Test
 	public void testToString_withMap() {
 		Assert.assertEquals("{}", BodyToJsonStringConverter.toString(Collections.emptyMap()));
-		Assert.assertEquals("{\"key\":1}", BodyToJsonStringConverter.toString(BodyToJsonStringConverter.wrap("key", 1)));
+		Assert.assertEquals("{\"key\":1}", BodyToJsonStringConverter.toString(MapWrapper.wrap("key", 1)));
 	}
 
 	@Test
 	public void testToString_withObject() {
-		Object value = BodyToJsonStringConverter.wrap("key", 1);
+		Object value = MapWrapper.wrap("key", 1);
 		Assert.assertEquals("{\"key\":1}", BodyToJsonStringConverter.toString(value));
 		value = "a\"\\\n\r\f\t\b/";
 		Assert.assertEquals(
@@ -97,7 +97,7 @@ public class BodyToJsonStringConverterTest {
 	public void testWrap() {
 		String name = "name";
 		Object value = 1;
-		Map map = BodyToJsonStringConverter.wrap(name, value);
+		Map map = MapWrapper.wrap(name, value);
 		Assert.assertNotNull(map);
 		Assert.assertEquals(1, map.size());
 		Assert.assertEquals(name, map.keySet().iterator().next());
