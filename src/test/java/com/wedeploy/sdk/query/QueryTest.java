@@ -205,18 +205,4 @@ public class QueryTest {
 			"{\"type\":\"fetch\"}", query.bodyAsJson(), true);
 	}
 
-	@Test
-	public void testToString() {
-		Query query = new Query.Builder()
-			.filter("field", "value")
-			.search("query")
-			.aggregate("name", "field", "min")
-			.highlight("field")
-			.offset(1)
-			.limit(10)
-			.build();
-
-		Assert.assertEquals(query.bodyAsJson(), query.toString());
-	}
-
 }

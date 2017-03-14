@@ -268,16 +268,6 @@ public class FilterTest {
 			Filter.range("f", Range.to(1)).bodyAsJson(), true);
 	}
 
-	@Test
-	public void testToString() {
-		Filter filter = Filter.field("field", "=", "value");
-		Query query = new Query.Builder()
-			.filter(filter)
-			.build();
-
-		Assert.assertEquals(query.toString(), filter.toString());
-	}
-
 	private String getCompositeFilter(String operator, int count) {
 		StringBuilder builder = new StringBuilder();
 

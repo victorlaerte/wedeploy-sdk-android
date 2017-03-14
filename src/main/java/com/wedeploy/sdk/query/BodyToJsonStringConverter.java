@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Utility class for Query components parsing.
  */
-public class Util {
+public class BodyToJsonStringConverter {
 
 	public static String toString(Iterable value) {
 		StringBuilder builder = new StringBuilder();
@@ -50,8 +50,8 @@ public class Util {
 	}
 
 	public static String toString(Object value) {
-		if (value instanceof Embodied) {
-			return toString(((Embodied)value).body());
+		if (value instanceof BodyConvertible) {
+			return toString(((BodyConvertible)value).body());
 		}
 
 		if (value instanceof Iterable) {
@@ -103,7 +103,7 @@ public class Util {
 		return map;
 	}
 
-	protected Util() {
+	protected BodyToJsonStringConverter() {
 	}
 
 	private static String toString(String value) {

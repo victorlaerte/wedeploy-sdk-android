@@ -1,6 +1,6 @@
 package com.wedeploy.sdk.query.filter;
 
-import com.wedeploy.sdk.query.BaseEmbodied;
+import com.wedeploy.sdk.query.BodyConvertible;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Geo builder.
  */
-public abstract class Geo<T> extends BaseEmbodied {
+public abstract class Geo<T> extends BodyConvertible {
 
 	public static BoundingBox boundingBox(Object upperLeft, Object lowerRight) {
 		return new BoundingBox(upperLeft, lowerRight);
@@ -36,11 +36,6 @@ public abstract class Geo<T> extends BaseEmbodied {
 	@Override
 	public Object body() {
 		return body;
-	}
-
-	@Override
-	public String toString() {
-		return bodyAsJson();
 	}
 
 	public static final class BoundingBox extends Geo<Map> {

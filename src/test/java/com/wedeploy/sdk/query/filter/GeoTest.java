@@ -41,11 +41,4 @@ public class GeoTest {
 			Geo.polygon("0,0", "0,0").hole("0,0", "0,0").bodyAsJson(), true);
 	}
 
-	@Test
-	public void testToString() {
-		Geo geo = Geo.circle("0,0", "10m");
-
-		Assert.assertEquals(geo.bodyAsJson(), geo.toString());
-	}
-
 }

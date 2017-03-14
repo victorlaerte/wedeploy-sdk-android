@@ -16,11 +16,4 @@ public class RangeTest {
 			"{\"from\":1,\"to\":2}", Range.range(1, 2).bodyAsJson(), true);
 	}
 
-	@Test
-	public void testToString() {
-		Range range = Range.range(1, 2);
-
-		Assert.assertEquals(range.bodyAsJson(), range.toString());
-	}
-
 }

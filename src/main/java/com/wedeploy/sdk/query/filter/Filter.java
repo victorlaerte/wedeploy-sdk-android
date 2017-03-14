@@ -1,8 +1,8 @@
 package com.wedeploy.sdk.query.filter;
 
-import com.wedeploy.sdk.query.BaseEmbodied;
+import com.wedeploy.sdk.query.BodyConvertible;
 import com.wedeploy.sdk.query.Query;
-import com.wedeploy.sdk.query.Util;
+import com.wedeploy.sdk.query.BodyToJsonStringConverter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +15,7 @@ import java.util.Set;
 /**
  * Filter builder.
  */
-public class Filter extends BaseEmbodied {
+public class Filter extends BodyConvertible {
 
 	public static final String ALL = "*";
 
@@ -227,10 +227,10 @@ public class Filter extends BaseEmbodied {
 			List valueList = (List)value;
 
 			if (valueList.size() == 1) {
-				return Util.wrap(operator, valueList.get(0));
+				return BodyToJsonStringConverter.wrap(operator, valueList.get(0));
 			}
 
-			return Util.wrap(operator, value);
+			return BodyToJsonStringConverter.wrap(operator, value);
 		}
 
 		Map map = new HashMap();
@@ -241,7 +241,7 @@ public class Filter extends BaseEmbodied {
 			map.put("value", value);
 		}
 
-		return Util.wrap(field, map);
+		return BodyToJsonStringConverter.wrap(field, map);
 	}
 
 	public Filter or(Filter filter) {
@@ -262,7 +262,7 @@ public class Filter extends BaseEmbodied {
 
 	@Override
 	public String toString() {
-		return Util.toString(new Query.Builder().filter(this).build());
+		return BodyToJsonStringConverter.toString(new Query.Builder().filter(this).build());
 	}
 
 	protected Filter(String operator, Object value) {

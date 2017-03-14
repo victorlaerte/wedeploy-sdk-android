@@ -1,9 +1,9 @@
 package com.wedeploy.sdk.query.aggregation;
 
-import com.wedeploy.sdk.query.BaseEmbodied;
+import com.wedeploy.sdk.query.BodyConvertible;
 import com.wedeploy.sdk.query.Query;
 import com.wedeploy.sdk.query.filter.Range;
-import com.wedeploy.sdk.query.Util;
+import com.wedeploy.sdk.query.BodyToJsonStringConverter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Aggregation builder.
  */
-public class Aggregation extends BaseEmbodied {
+public class Aggregation extends BodyConvertible {
 
 	public static Aggregation avg(String name, String field) {
 		return of(name, field, "avg");
@@ -85,12 +85,12 @@ public class Aggregation extends BaseEmbodied {
 			map.put("value", value);
 		}
 
-		return Util.wrap(field, map);
+		return BodyToJsonStringConverter.wrap(field, map);
 	}
 
 	@Override
 	public String toString() {
-		return Util.toString(new Query.Builder().aggregate(this).build());
+		return BodyToJsonStringConverter.toString(new Query.Builder().aggregate(this).build());
 	}
 
 	public static final class DistanceAggregation extends Aggregation {

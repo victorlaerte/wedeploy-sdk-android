@@ -1,6 +1,6 @@
 package com.wedeploy.sdk.query.filter;
 
-import com.wedeploy.sdk.query.BaseEmbodied;
+import com.wedeploy.sdk.query.BodyConvertible;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Range builder.
  */
-public final class Range extends BaseEmbodied {
+public final class Range extends BodyConvertible {
 
 	public static Range from(Object value) {
 		return new Range(value, null);
@@ -35,11 +35,6 @@ public final class Range extends BaseEmbodied {
 		}
 
 		return map;
-	}
-
-	@Override
-	public String toString() {
-		return bodyAsJson();
 	}
 
 	protected final Object from;

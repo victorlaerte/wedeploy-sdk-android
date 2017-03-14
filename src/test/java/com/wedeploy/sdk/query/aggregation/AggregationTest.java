@@ -112,15 +112,4 @@ public class AggregationTest {
 			Aggregation.terms("name", "field").bodyAsJson(), true);
 	}
 
-	@Test
-	public void testToString() {
-		Aggregation aggregation = Aggregation.avg("name", "field");
-
-		Query query = new Query.Builder()
-			.aggregate(aggregation)
-			.build();
-
-		Assert.assertEquals(query.toString(), aggregation.toString());
-	}
-
 }

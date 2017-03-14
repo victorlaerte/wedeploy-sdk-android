@@ -11,16 +11,11 @@ import java.util.Map;
 /**
  * Query builder.
  */
-public class Query extends BaseEmbodied {
+public class Query extends BodyConvertible {
 
 	@Override
 	public Object body() {
 		return body;
-	}
-
-	@Override
-	public String toString() {
-		return bodyAsJson();
 	}
 
 	public static final class Builder {
@@ -130,7 +125,7 @@ public class Query extends BaseEmbodied {
 		}
 
 		public Builder sort(String field, String direction) {
-			sort.add(Util.wrap(field, direction));
+			sort.add(BodyToJsonStringConverter.wrap(field, direction));
 			return this;
 		}
 

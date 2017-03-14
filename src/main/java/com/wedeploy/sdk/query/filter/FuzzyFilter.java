@@ -1,6 +1,6 @@
 package com.wedeploy.sdk.query.filter;
 
-import com.wedeploy.sdk.query.Util;
+import com.wedeploy.sdk.query.BodyToJsonStringConverter;
 
 import java.util.Map;
 
@@ -15,7 +15,7 @@ public final class FuzzyFilter extends Filter {
 	}
 
 	protected FuzzyFilter(String field, String operator, String query) {
-		super(field, operator, Util.wrap("query", query));
+		super(field, operator, BodyToJsonStringConverter.wrap("query", query));
 		this.mapValue = (Map)this.value;
 	}
 
