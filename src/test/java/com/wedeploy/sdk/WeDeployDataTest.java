@@ -1,5 +1,6 @@
 package com.wedeploy.sdk;
 
+import com.wedeploy.sdk.transport.Response;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;

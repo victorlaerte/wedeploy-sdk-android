@@ -1,4 +1,4 @@
-package com.wedeploy.sdk;
+package com.wedeploy.sdk.exception;
 
 /**
  * @author Silvio Santos

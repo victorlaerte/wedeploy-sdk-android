@@ -1,5 +1,6 @@
 package com.wedeploy.sdk;
 
+import com.wedeploy.sdk.auth.Auth;
 import com.wedeploy.sdk.internal.OkHttpTransport;
 import com.wedeploy.sdk.internal.RequestMethod;
 import com.wedeploy.sdk.query.BodyToJsonStringConverter;
@@ -7,6 +8,8 @@ import com.wedeploy.sdk.query.Query;
 import com.wedeploy.sdk.query.SortOrder;
 import com.wedeploy.sdk.query.aggregation.Aggregation;
 import com.wedeploy.sdk.query.filter.Filter;
+import com.wedeploy.sdk.transport.Request;
+import com.wedeploy.sdk.transport.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

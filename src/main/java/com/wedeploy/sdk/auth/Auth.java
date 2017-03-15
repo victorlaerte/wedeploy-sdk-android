@@ -1,4 +1,6 @@
-package com.wedeploy.sdk;
+package com.wedeploy.sdk.auth;
+
+import com.wedeploy.sdk.transport.Request;
 
 /**
  * @author Silvio Santos

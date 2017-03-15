@@ -1,5 +1,7 @@
 package com.wedeploy.sdk;
 
+import com.wedeploy.sdk.auth.TokenAuth;
+
 /**
  * @author Silvio Santos
  */

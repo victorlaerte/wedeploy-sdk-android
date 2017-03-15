@@ -1,6 +1,4 @@
-package com.wedeploy.sdk.internal;
-
-import com.wedeploy.sdk.Request;
+package com.wedeploy.sdk.transport;
 
 /**
  * @author Silvio Santos

@@ -3,6 +3,7 @@ package com.wedeploy.sdk;
 import com.wedeploy.sdk.query.SortOrder;
 import com.wedeploy.sdk.query.aggregation.Aggregation;
 import com.wedeploy.sdk.query.filter.Filter;
+import com.wedeploy.sdk.transport.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.BeforeClass;

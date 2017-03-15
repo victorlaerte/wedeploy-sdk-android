@@ -1,7 +1,10 @@
 package com.wedeploy.sdk;
 
+import com.wedeploy.sdk.exception.WeDeployException;
 import com.wedeploy.sdk.internal.OkHttpTransport;
-import com.wedeploy.sdk.internal.Transport;
+import com.wedeploy.sdk.transport.Request;
+import com.wedeploy.sdk.transport.Response;
+import com.wedeploy.sdk.transport.Transport;
 
 /**
  * @author Silvio Santos

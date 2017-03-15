@@ -1,8 +1,9 @@
 package com.wedeploy.sdk.internal;
 
-import com.wedeploy.sdk.Request;
-import com.wedeploy.sdk.Response;
-import com.wedeploy.sdk.WeDeployException;
+import com.wedeploy.sdk.transport.Request;
+import com.wedeploy.sdk.transport.Response;
+import com.wedeploy.sdk.transport.Transport;
+import com.wedeploy.sdk.exception.WeDeployException;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -10,7 +11,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.internal.http.HttpMethod;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Map;

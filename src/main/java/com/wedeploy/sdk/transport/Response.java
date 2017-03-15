@@ -1,4 +1,4 @@
-package com.wedeploy.sdk;
+package com.wedeploy.sdk.transport;
 
 import java.util.List;
 import java.util.Map;
