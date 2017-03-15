@@ -109,6 +109,10 @@ public class Query extends BodyConvertible {
 			return this;
 		}
 
+		public Builder search() {
+			return type("search");
+		}
+
 		public Builder search(Filter filter) {
 			queries.add(filter);
 			return this;

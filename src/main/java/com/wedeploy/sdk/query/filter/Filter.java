@@ -18,8 +18,6 @@ import java.util.Set;
  */
 public class Filter extends BodyConvertible {
 
-	public static final String ALL = "*";
-
 	public static Filter any(String field, Iterable values) {
 		return field(field, "any", values);
 	}
@@ -303,6 +301,8 @@ public class Filter extends BodyConvertible {
 
 		return false;
 	}
+
+	private static final String ALL = "*";
 
 	private static final Set<String> COMPOSITE_FILTERS = new HashSet<>(
 		Arrays.asList("and", "or", "not"));

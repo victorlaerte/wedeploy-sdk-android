@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static com.wedeploy.sdk.Constants.*;
+import static com.wedeploy.sdk.query.filter.Filter.*;
 import static org.junit.Assert.*;
 
 /**
@@ -75,6 +76,20 @@ public class WeDeployDataTest {
 		JSONObject updatedMessageObject = getMessageObject(id);
 		assertEquals(message, updatedMessageObject.getString("message"));
 		assertEquals(AUTHOR, updatedMessageObject.opt("author"));
+	}
+
+	@Test
+	public void search() throws Exception {
+		DataTestHelper.initDataFromFile("messages.json");
+
+		Response response = WeDeploy.data(DATA_URL)
+			.where(any("message", "message1", "message5")
+				.and(equal("author", "Silvio Santos")))
+			.search("messages")
+			.execute();
+
+		assertEquals(200, response.getStatusCode());
+		assertEquals(1, new JSONObject(response.getBody()).getInt("total"));
 	}
 
 	private Response createMessageObject() throws Exception {

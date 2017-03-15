@@ -46,16 +46,12 @@ public class WeDeployData {
 	    builder.path(resourcePath)
             .method(RequestMethod.GET);
 
-        for (Map.Entry<String, Object> entry : query.body().entrySet()) {
-            builder.param(
-            	entry.getKey(),
-	            BodyToJsonStringConverter.toString(entry.getValue()));
-        }
+        setQueryParams(builder, query);
 
 	    return newCall(builder.build());
     }
 
-    public Call<Response> update(String resourcePath, JSONObject jsonObject) {
+	public Call<Response> update(String resourcePath, JSONObject jsonObject) {
         Request request = newAuthenticatedBuilder()
             .path(resourcePath)
             .method(RequestMethod.PATCH)
@@ -73,6 +69,18 @@ public class WeDeployData {
 			.build();
 
 		return newCall(request);
+	}
+
+	public Call<Response> search(String resourcePath) {
+    	Query query = getOrCreateQueryBuilder().search().build();
+
+		Request.Builder builder = newAuthenticatedBuilder()
+			.path(resourcePath)
+			.method(RequestMethod.GET);
+
+		setQueryParams(builder, query);
+
+		return newCall(builder.build());
 	}
 
 	public WeDeployData aggregate(Aggregation aggregation) {
@@ -147,6 +155,14 @@ public class WeDeployData {
     private Call<Response> newCall(Request request) {
         return new Call<>(request, new OkHttpTransport(), Response.class);
     }
+
+	private void setQueryParams(Request.Builder builder, Query query) {
+		for (Map.Entry<String, Object> entry : query.body().entrySet()) {
+			builder.param(
+				entry.getKey(),
+				BodyToJsonStringConverter.toString(entry.getValue()));
+		}
+	}
 
     WeDeployData(String url) {
         this.url = url;
