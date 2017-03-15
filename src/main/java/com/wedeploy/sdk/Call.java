@@ -11,24 +11,24 @@ import com.wedeploy.sdk.transport.Transport;
  */
 public class Call<T> {
 
-    Call(Request request, Transport transport, Class<T> clazz) {
-        this.request = request;
-        this.transport = transport;
-        this.clazz = clazz;
-    }
+	Call(Request request, Transport transport, Class<T> clazz) {
+		this.request = request;
+		this.transport = transport;
+		this.clazz = clazz;
+	}
 
-    public T execute() {
-        Response response = transport.send(request);
+	public T execute() {
+		Response response = transport.send(request);
 
-        if (clazz.isInstance(response)) {
-            return clazz.cast(response);
-        }
+		if (clazz.isInstance(response)) {
+			return clazz.cast(response);
+		}
 
-        throw new WeDeployException("Unable to convert response to " + clazz.getSimpleName());
-    }
+		throw new WeDeployException("Unable to convert response to " + clazz.getSimpleName());
+	}
 
-    private Class<T> clazz;
-    private Request request;
-    private Transport<Response> transport = new OkHttpTransport();
+	private Class<T> clazz;
+	private Request request;
+	private Transport<Response> transport = new OkHttpTransport();
 
 }

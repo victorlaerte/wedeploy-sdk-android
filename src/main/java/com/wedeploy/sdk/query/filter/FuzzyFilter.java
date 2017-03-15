@@ -1,6 +1,5 @@
 package com.wedeploy.sdk.query.filter;
 
-import com.wedeploy.sdk.query.BodyToJsonStringConverter;
 import com.wedeploy.sdk.query.MapWrapper;
 
 import java.util.Map;
@@ -9,11 +8,6 @@ import java.util.Map;
  * Fuzzy filter.
  */
 public final class FuzzyFilter extends Filter {
-
-	public FuzzyFilter fuzziness(int fuzziness) {
-		this.mapValue.put("fuzziness", fuzziness);
-		return this;
-	}
 
 	protected FuzzyFilter(String field, String operator, String query) {
 		super(field, operator, MapWrapper.wrap("query", query));
@@ -28,6 +22,11 @@ public final class FuzzyFilter extends Filter {
 		if (fuzziness != null) {
 			fuzziness(fuzziness);
 		}
+	}
+
+	public FuzzyFilter fuzziness(int fuzziness) {
+		this.mapValue.put("fuzziness", fuzziness);
+		return this;
 	}
 
 	private final Map mapValue;

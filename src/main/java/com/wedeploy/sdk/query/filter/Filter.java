@@ -2,8 +2,6 @@ package com.wedeploy.sdk.query.filter;
 
 import com.wedeploy.sdk.query.BodyConvertible;
 import com.wedeploy.sdk.query.MapWrapper;
-import com.wedeploy.sdk.query.Query;
-import com.wedeploy.sdk.query.BodyToJsonStringConverter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +15,24 @@ import java.util.Set;
  * Filter builder.
  */
 public class Filter extends BodyConvertible {
+
+	protected Filter(String operator, Object value) {
+		this.field = null;
+		this.operator = operator;
+		this.value = value;
+	}
+
+	protected Filter(String field, String operator, Object value) {
+		if (isComposite(operator)) {
+			throw new IllegalArgumentException(
+				"\"" + operator + "\" is a composite filter operator. " +
+					"Please use Filter.composite(operator, filters) for that.");
+		}
+
+		this.field = field;
+		this.operator = operator;
+		this.value = value;
+	}
 
 	public static Filter any(String field, Iterable values) {
 		return field(field, "any", values);
@@ -168,7 +184,7 @@ public class Filter extends BodyConvertible {
 		return Filter.field(field, "phrase", query);
 	}
 
-	public static Filter polygon(String field, Object...points) {
+	public static Filter polygon(String field, Object... points) {
 		return Filter.field(field, "gp", Arrays.asList(points));
 	}
 
@@ -192,7 +208,7 @@ public class Filter extends BodyConvertible {
 		return field(field, "~", value);
 	}
 
-	public static GeoShapeFilter shape(String field, Object...shapes) {
+	public static GeoShapeFilter shape(String field, Object... shapes) {
 		return new GeoShapeFilter(field, shapes);
 	}
 
@@ -259,24 +275,6 @@ public class Filter extends BodyConvertible {
 		return or(Filter.field(field, operator, value));
 	}
 
-	protected Filter(String operator, Object value) {
-		this.field = null;
-		this.operator = operator;
-		this.value = value;
-	}
-
-	protected Filter(String field, String operator, Object value) {
-		if (isComposite(operator)) {
-			throw new IllegalArgumentException(
-				"\"" + operator + "\" is a composite filter operator. " +
-					"Please use Filter.composite(operator, filters) for that.");
-		}
-
-		this.field = field;
-		this.operator = operator;
-		this.value = value;
-	}
-
 	protected Filter addToComposite(Filter filter) {
 		((List)this.value).add(filter);
 		return this;
@@ -290,10 +288,6 @@ public class Filter extends BodyConvertible {
 		return Filter.composite(newOperator, this, filter);
 	}
 
-	protected final String field;
-	protected final String operator;
-	protected final Object value;
-
 	private boolean isComposite(String filter) {
 		if ((filter != null) && COMPOSITE_FILTERS.contains(filter)) {
 			return true;
@@ -302,6 +296,9 @@ public class Filter extends BodyConvertible {
 		return false;
 	}
 
+	protected final String field;
+	protected final String operator;
+	protected final Object value;
 	private static final String ALL = "*";
 
 	private static final Set<String> COMPOSITE_FILTERS = new HashSet<>(

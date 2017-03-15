@@ -21,7 +21,7 @@ public abstract class Geo<T> extends BodyConvertible {
 		return new Circle(center, radius);
 	}
 
-	public static Line line(Object...points) {
+	public static Line line(Object... points) {
 		return new Line(points);
 	}
 
@@ -29,7 +29,7 @@ public abstract class Geo<T> extends BodyConvertible {
 		return new Point(lat, lon);
 	}
 
-	public static Polygon polygon(Object...points) {
+	public static Polygon polygon(Object... points) {
 		return new Polygon(points);
 	}
 
@@ -38,11 +38,13 @@ public abstract class Geo<T> extends BodyConvertible {
 		return body;
 	}
 
-	public static final class BoundingBox extends Geo<Map> {
+	protected final T body;
 
-		public List<Object> points() {
-			return (List)body.get("coordinates");
-		}
+	private Geo(T body) {
+		this.body = body;
+	}
+
+	public static final class BoundingBox extends Geo<Map> {
 
 		protected BoundingBox(Object upperLeft, Object lowerRight) {
 			super(new HashMap<>());
@@ -50,9 +52,20 @@ public abstract class Geo<T> extends BodyConvertible {
 			body.put("coordinates", Arrays.asList(upperLeft, lowerRight));
 		}
 
+		public List<Object> points() {
+			return (List)body.get("coordinates");
+		}
+
 	}
 
 	public static final class Circle extends Geo<Map> {
+
+		protected Circle(Object center, String radius) {
+			super(new HashMap<>());
+			body.put("type", "circle");
+			body.put("coordinates", center);
+			body.put("radius", radius);
+		}
 
 		public Object center() {
 			return body.get("coordinates");
@@ -60,13 +73,6 @@ public abstract class Geo<T> extends BodyConvertible {
 
 		public String radius() {
 			return (String)body.get("radius");
-		}
-
-		protected Circle(Object center, String radius) {
-			super(new HashMap<>());
-			body.put("type", "circle");
-			body.put("coordinates", center);
-			body.put("radius", radius);
 		}
 
 	}
@@ -91,12 +97,7 @@ public abstract class Geo<T> extends BodyConvertible {
 
 	public static final class Polygon extends Geo<Map> {
 
-		public Polygon hole(Object...points) {
-			lines.add(Arrays.asList(points));
-			return this;
-		}
-
-		protected Polygon(Object...points) {
+		protected Polygon(Object... points) {
 			super(new HashMap<>());
 			lines = new ArrayList();
 			lines.add(Arrays.asList(points));
@@ -105,14 +106,13 @@ public abstract class Geo<T> extends BodyConvertible {
 			body.put("coordinates", lines);
 		}
 
+		public Polygon hole(Object... points) {
+			lines.add(Arrays.asList(points));
+			return this;
+		}
+
 		private final List lines;
 
-	}
-
-	protected final T body;
-
-	private Geo(T body) {
-		this.body = body;
 	}
 
 }

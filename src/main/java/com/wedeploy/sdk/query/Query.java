@@ -62,7 +62,25 @@ public class Query extends BodyConvertible {
 		return body;
 	}
 
+	private final List<Aggregation> aggregations;
+	private final List<Filter> filters;
+	private final List<String> highlights;
+	private final Integer limit;
+	private final Integer offset;
+	private final List<Filter> queries;
+	private final List<Map> sort;
+	private final String type;
+
 	public static class Builder {
+
+		List<Aggregation> aggregations = new ArrayList<>();
+		List<Filter> filters = new ArrayList<>();
+		List<String> highlights = new ArrayList<>();
+		Integer limit;
+		Integer offset;
+		List<Filter> queries = new ArrayList<>();
+		List<Map> sort = new ArrayList<>();
+		String type;
 
 		public Builder aggregate(Aggregation aggregation) {
 			aggregations.add(aggregation);
@@ -148,24 +166,6 @@ public class Query extends BodyConvertible {
 			return new Query(this);
 		}
 
-		List<Aggregation> aggregations = new ArrayList<>();
-		List<Filter> filters = new ArrayList<>();
-		List<String> highlights = new ArrayList<>();
-		Integer limit;
-		Integer offset;
-		List<Filter> queries = new ArrayList<>();
-		List<Map> sort = new ArrayList<>();
-		String type;
-
 	}
-
-	private final List<Aggregation> aggregations;
-	private final List<Filter> filters;
-	private final List<String> highlights;
-	private final Integer limit;
-	private final Integer offset;
-	private final List<Filter> queries;
-	private final List<Map> sort;
-	private final String type;
 
 }

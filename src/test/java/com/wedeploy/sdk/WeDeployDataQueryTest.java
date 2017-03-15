@@ -74,6 +74,24 @@ public class WeDeployDataQueryTest {
 		sort(SortOrder.DESCENDING);
 	}
 
+	@Test
+	public void where() {
+		final String filterMessage = "message1";
+		Filter filter = Filter.prefix("message1");
+
+		Response response = WeDeploy.data(DATA_URL)
+			.where(filter)
+			.get("messages")
+			.execute();
+
+		assertEquals(200, response.getStatusCode());
+
+		JSONArray jsonArray = new JSONArray(response.getBody());
+		JSONObject messageJson = jsonArray.getJSONObject(0);
+
+		assertEquals(filterMessage, messageJson.getString("message"));
+	}
+
 	private void sort(SortOrder order) {
 		Response response = WeDeploy.data(DATA_URL)
 			.auth(AUTH)
@@ -95,24 +113,6 @@ public class WeDeployDataQueryTest {
 				fail();
 			}
 		}
-	}
-
-	@Test
-	public void where() {
-		final String filterMessage = "message1";
-		Filter filter = Filter.prefix("message1");
-
-		Response response = WeDeploy.data(DATA_URL)
-			.where(filter)
-			.get("messages")
-			.execute();
-
-		assertEquals(200, response.getStatusCode());
-
-		JSONArray jsonArray = new JSONArray(response.getBody());
-		JSONObject messageJson = jsonArray.getJSONObject(0);
-
-		assertEquals(filterMessage, messageJson.getString("message"));
 	}
 
 }

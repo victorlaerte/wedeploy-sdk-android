@@ -12,11 +12,11 @@ public class BodyToJsonStringConverterTest {
 
 	@Test
 	public void testToString_withArray() {
-		Assert.assertEquals("[1,2]", BodyToJsonStringConverter.toString(new int[] {1, 2}));
+		Assert.assertEquals("[1,2]", BodyToJsonStringConverter.toString(new int[]{1, 2}));
 		Assert.assertEquals(
 			"[1,\"a\",true,{\"key\":\"value\"}]",
 			BodyToJsonStringConverter.toString(
-				new Object[] {1, "a", true, MapWrapper.wrap("key", "value")}));
+				new Object[]{1, "a", true, MapWrapper.wrap("key", "value")}));
 	}
 
 	@Test
@@ -46,7 +46,8 @@ public class BodyToJsonStringConverterTest {
 	@Test
 	public void testToString_withMap() {
 		Assert.assertEquals("{}", BodyToJsonStringConverter.toString(Collections.emptyMap()));
-		Assert.assertEquals("{\"key\":1}", BodyToJsonStringConverter.toString(MapWrapper.wrap("key", 1)));
+		Assert.assertEquals("{\"key\":1}", BodyToJsonStringConverter.toString(MapWrapper.wrap
+			("key", 1)));
 	}
 
 	@Test

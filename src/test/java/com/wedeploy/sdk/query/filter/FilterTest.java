@@ -1,7 +1,5 @@
 package com.wedeploy.sdk.query.filter;
 
-import com.wedeploy.sdk.query.Query;
-import org.junit.Assert;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 
@@ -22,9 +20,9 @@ public class FilterTest {
 		JSONAssert.assertEquals(
 			"{\"or\":[" +
 				"{\"and\":[" +
-					"{\"a\":{\"operator\":\"=\",\"value\":1}}," +
-					"{\"a\":{\"operator\":\"=\",\"value\":1}}," +
-					"{\"a\":{\"operator\":\">\",\"value\":1}}]}," +
+				"{\"a\":{\"operator\":\"=\",\"value\":1}}," +
+				"{\"a\":{\"operator\":\"=\",\"value\":1}}," +
+				"{\"a\":{\"operator\":\">\",\"value\":1}}]}," +
 				"{\"a\":{\"operator\":\"=\",\"value\":1}}," +
 				"{\"a\":{\"operator\":\">\",\"value\":1}}]}",
 			filter.bodyAsJson(), true);
@@ -127,7 +125,7 @@ public class FilterTest {
 
 		String body = Filter.shape("f", "0,0")
 			.shape(Arrays.asList(0, 0))
-			.shape(new int[] {0, 0})
+			.shape(new int[]{0, 0})
 			.shape(Geo.point(0, 0))
 			.shape(new int[0])
 			.shape(Arrays.asList())
@@ -144,9 +142,9 @@ public class FilterTest {
 				"{\"type\":\"envelope\",\"coordinates\":[\"0,0\",\"0,0\"]}," +
 				"{\"type\":\"linestring\",\"coordinates\":[\"0,0\",\"0,0\"]}," +
 				"{\"type\":\"circle\"," +
-					"\"coordinates\":\"0,0\",\"radius\":\"1m\"}," +
+				"\"coordinates\":\"0,0\",\"radius\":\"1m\"}," +
 				"{\"type\":\"polygon\"," +
-					"\"coordinates\":[[\"0,0\",\"0,0\"],[\"0,0\",\"0,0\"]]}," +
+				"\"coordinates\":[[\"0,0\",\"0,0\"],[\"0,0\",\"0,0\"]]}," +
 				"]}}}",
 			body, true);
 	}
@@ -277,7 +275,7 @@ public class FilterTest {
 			builder.append("{\"field\":{\"operator\":\"=\",\"value\":1}},");
 		}
 
-		builder.setCharAt(builder.length()-1, ']');
+		builder.setCharAt(builder.length() - 1, ']');
 		builder.append("}");
 
 		return builder.toString();

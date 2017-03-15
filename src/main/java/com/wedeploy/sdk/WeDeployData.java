@@ -20,10 +20,14 @@ import java.util.Map;
  */
 public class WeDeployData {
 
-    public WeDeployData auth(Auth auth) {
-        this.auth = auth;
-        return this;
-    }
+	WeDeployData(String url) {
+		this.url = url;
+	}
+
+	public WeDeployData auth(Auth auth) {
+		this.auth = auth;
+		return this;
+	}
 
 	public Call<Response> create(String collection, JSONArray jsonArray) {
 		return create(collection, jsonArray.toString());
@@ -33,36 +37,36 @@ public class WeDeployData {
 		return create(collection, jsonObject.toString());
 	}
 
-    public Call<Response> delete(String resourcePath) {
-        Request request = newAuthenticatedBuilder()
-            .path(resourcePath)
-            .method(RequestMethod.DELETE)
-            .build();
+	public Call<Response> delete(String resourcePath) {
+		Request request = newAuthenticatedBuilder()
+			.path(resourcePath)
+			.method(RequestMethod.DELETE)
+			.build();
 
-        return newCall(request);
-    }
+		return newCall(request);
+	}
 
-    public Call<Response> get(String resourcePath) {
-	    Request.Builder builder = newAuthenticatedBuilder();
-	    Query query = getOrCreateQueryBuilder().build();
+	public Call<Response> get(String resourcePath) {
+		Request.Builder builder = newAuthenticatedBuilder();
+		Query query = getOrCreateQueryBuilder().build();
 
-	    builder.path(resourcePath)
-            .method(RequestMethod.GET);
+		builder.path(resourcePath)
+			.method(RequestMethod.GET);
 
-        setQueryParams(builder, query);
+		setQueryParams(builder, query);
 
-	    return newCall(builder.build());
-    }
+		return newCall(builder.build());
+	}
 
 	public Call<Response> update(String resourcePath, JSONObject jsonObject) {
-        Request request = newAuthenticatedBuilder()
-            .path(resourcePath)
-            .method(RequestMethod.PATCH)
-            .body(jsonObject.toString())
-            .build();
+		Request request = newAuthenticatedBuilder()
+			.path(resourcePath)
+			.method(RequestMethod.PATCH)
+			.body(jsonObject.toString())
+			.build();
 
-        return newCall(request);
-    }
+		return newCall(request);
+	}
 
 	public Call<Response> replace(String resourcePath, JSONObject jsonObject) {
 		Request request = newAuthenticatedBuilder()
@@ -75,7 +79,7 @@ public class WeDeployData {
 	}
 
 	public Call<Response> search(String resourcePath) {
-    	Query query = getOrCreateQueryBuilder().search().build();
+		Query query = getOrCreateQueryBuilder().search().build();
 
 		Request.Builder builder = newAuthenticatedBuilder()
 			.path(resourcePath)
@@ -111,9 +115,9 @@ public class WeDeployData {
 	}
 
 	public WeDeployData sort(String field, SortOrder order) {
-    	if (order == null) {
-    		throw new IllegalArgumentException("SortOrder can't be null");
-	    }
+		if (order == null) {
+			throw new IllegalArgumentException("SortOrder can't be null");
+		}
 
 		getOrCreateQueryBuilder().sort(field, order.getValue());
 
@@ -121,29 +125,10 @@ public class WeDeployData {
 	}
 
 	public WeDeployData where(Filter filter) {
-    	getOrCreateQueryBuilder().filter(filter);
+		getOrCreateQueryBuilder().filter(filter);
 
-    	return this;
+		return this;
 	}
-
-	private Query.Builder getOrCreateQueryBuilder() {
-		if (queryBuilder == null) {
-			queryBuilder = new Query.Builder();
-		}
-
-		return queryBuilder;
-	}
-
-	private Request.Builder newAuthenticatedBuilder() {
-        Request.Builder builder = new Request.Builder()
-            .url(url);
-
-        if (auth == null) {
-            return builder;
-        }
-
-        return auth.authenticate(builder);
-    }
 
 	private Call<Response> create(String collection, String json) {
 		Request request = newAuthenticatedBuilder()
@@ -155,9 +140,28 @@ public class WeDeployData {
 		return newCall(request);
 	}
 
-    private Call<Response> newCall(Request request) {
-        return new Call<>(request, new OkHttpTransport(), Response.class);
-    }
+	private Query.Builder getOrCreateQueryBuilder() {
+		if (queryBuilder == null) {
+			queryBuilder = new Query.Builder();
+		}
+
+		return queryBuilder;
+	}
+
+	private Request.Builder newAuthenticatedBuilder() {
+		Request.Builder builder = new Request.Builder()
+			.url(url);
+
+		if (auth == null) {
+			return builder;
+		}
+
+		return auth.authenticate(builder);
+	}
+
+	private Call<Response> newCall(Request request) {
+		return new Call<>(request, new OkHttpTransport(), Response.class);
+	}
 
 	private void setQueryParams(Request.Builder builder, Query query) {
 		for (Map.Entry<String, Object> entry : query.body().entrySet()) {
@@ -167,12 +171,8 @@ public class WeDeployData {
 		}
 	}
 
-    WeDeployData(String url) {
-        this.url = url;
-    }
-
-    private Auth auth;
-    private Query.Builder queryBuilder;
-    private String url;
+	private Auth auth;
+	private Query.Builder queryBuilder;
+	private String url;
 
 }

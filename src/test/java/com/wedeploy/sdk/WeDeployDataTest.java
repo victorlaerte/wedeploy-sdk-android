@@ -6,8 +6,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static com.wedeploy.sdk.Constants.*;
-import static com.wedeploy.sdk.query.filter.Filter.*;
-import static org.junit.Assert.*;
+import static com.wedeploy.sdk.query.filter.Filter.any;
+import static com.wedeploy.sdk.query.filter.Filter.equal;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * @author Silvio Santos
@@ -93,6 +95,15 @@ public class WeDeployDataTest {
 		assertEquals(1, new JSONObject(response.getBody()).getInt("total"));
 	}
 
+	public JSONObject getMessageObject(String id) {
+		Response response = WeDeploy.data(DATA_URL)
+			.auth(AUTH)
+			.get("messages/" + id)
+			.execute();
+
+		return new JSONObject(response.getBody());
+	}
+
 	private Response createMessageObject() throws Exception {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("author", AUTHOR);
@@ -115,16 +126,6 @@ public class WeDeployDataTest {
 			.delete("")
 			.execute();
 	}
-
-	public JSONObject getMessageObject(String id) {
-		Response response = WeDeploy.data(DATA_URL)
-			.auth(AUTH)
-			.get("messages/" + id)
-			.execute();
-
-		return new JSONObject(response.getBody());
-	}
-
 	private String id;
 
 }

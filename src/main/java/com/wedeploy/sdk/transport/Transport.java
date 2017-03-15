@@ -5,6 +5,6 @@ package com.wedeploy.sdk.transport;
  */
 public interface Transport<T> {
 
-    T send(Request request);
+	T send(Request request);
 
 }

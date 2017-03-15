@@ -1,8 +1,6 @@
 package com.wedeploy.sdk.query.aggregation;
 
-import com.wedeploy.sdk.query.Query;
 import com.wedeploy.sdk.query.filter.Range;
-import org.junit.Assert;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 
@@ -28,9 +26,9 @@ public class AggregationTest {
 			"{\"field\":{\"operator\":\"geoDistance\",\"name\":\"name\"," +
 				"\"value\":{\"location\":\"0,0\",\"unit\":\"km\"," +
 				"\"ranges\":[" +
-					"{\"from\":0},{\"to\":0},{\"to\":0}," +
-					"{\"from\":0,\"to\":1},{\"from\":1}" +
-			"]}}}",
+				"{\"from\":0},{\"to\":0},{\"to\":0}," +
+				"{\"from\":0,\"to\":1},{\"from\":1}" +
+				"]}}}",
 			Aggregation.distance(
 				"name", "field", "0,0", Range.from(0), Range.to(0))
 				.range(Range.to(0))
@@ -81,9 +79,9 @@ public class AggregationTest {
 		JSONAssert.assertEquals(
 			"{\"field\":{\"operator\":\"range\",\"name\":\"name\"," +
 				"\"value\":[" +
-					"{\"from\":0},{\"to\":0},{\"to\":0}," +
-					"{\"from\":0,\"to\":1},{\"from\":1}" +
-			"]}}",
+				"{\"from\":0},{\"to\":0},{\"to\":0}," +
+				"{\"from\":0,\"to\":1},{\"from\":1}" +
+				"]}}",
 			Aggregation.range("name", "field", Range.from(0), Range.to(0))
 				.range(Range.to(0))
 				.range(0, 1)

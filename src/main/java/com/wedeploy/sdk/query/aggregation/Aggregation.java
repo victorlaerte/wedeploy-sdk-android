@@ -2,20 +2,28 @@ package com.wedeploy.sdk.query.aggregation;
 
 import com.wedeploy.sdk.query.BodyConvertible;
 import com.wedeploy.sdk.query.MapWrapper;
-import com.wedeploy.sdk.query.Query;
 import com.wedeploy.sdk.query.filter.Range;
-import com.wedeploy.sdk.query.BodyToJsonStringConverter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Aggregation builder.
  */
 public class Aggregation extends BodyConvertible {
+
+	Aggregation(String name, String field, String operator) {
+		this(name, field, operator, null);
+	}
+
+	Aggregation(
+		String name, String field, String operator, Object value) {
+
+		this.name = name;
+		this.field = field;
+		this.operator = operator;
+		this.value = value;
+	}
 
 	public static Aggregation avg(String name, String field) {
 		return of(name, field, "avg");
@@ -26,7 +34,7 @@ public class Aggregation extends BodyConvertible {
 	}
 
 	public static DistanceAggregation distance(
-		String name, String field, Object location, Range...ranges) {
+		String name, String field, Object location, Range... ranges) {
 
 		return new DistanceAggregation(name, field, location, ranges);
 	}
@@ -58,7 +66,7 @@ public class Aggregation extends BodyConvertible {
 	}
 
 	public static RangeAggregation range(
-		String name, String field, Range...ranges) {
+		String name, String field, Range... ranges) {
 
 		return new RangeAggregation(name, field, ranges);
 	}
@@ -90,20 +98,6 @@ public class Aggregation extends BodyConvertible {
 	}
 
 	protected final Object value;
-
-	Aggregation(String name, String field, String operator) {
-		this(name, field, operator, null);
-	}
-
-	Aggregation(
-		String name, String field, String operator, Object value) {
-
-		this.name = name;
-		this.field = field;
-		this.operator = operator;
-		this.value = value;
-	}
-
 	private final String field;
 	private final String name;
 	private final String operator;

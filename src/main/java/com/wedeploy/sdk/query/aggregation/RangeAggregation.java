@@ -8,6 +8,11 @@ import java.util.List;
 
 public class RangeAggregation extends Aggregation {
 
+	RangeAggregation(String name, String field, Range... ranges) {
+		super(name, field, "range", new ArrayList());
+		((List)this.value).addAll(Arrays.asList(ranges));
+	}
+
 	public RangeAggregation range(Object from, Object to) {
 		return range(Range.range(from, to));
 	}
@@ -15,11 +20,6 @@ public class RangeAggregation extends Aggregation {
 	public RangeAggregation range(Range range) {
 		((List)this.value).add(range);
 		return this;
-	}
-
-	RangeAggregation(String name, String field, Range...ranges) {
-		super(name, field, "range", new ArrayList());
-		((List)this.value).addAll(Arrays.asList(ranges));
 	}
 
 }

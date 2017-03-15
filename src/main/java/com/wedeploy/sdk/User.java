@@ -31,8 +31,8 @@ public class User {
 	}
 
 	private final long createdAt;
-	private final String id;
 	private final String email;
+	private final String id;
 	private final String name;
 
 }

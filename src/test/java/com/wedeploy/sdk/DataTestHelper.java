@@ -1,7 +1,6 @@
 package com.wedeploy.sdk;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.util.Scanner;

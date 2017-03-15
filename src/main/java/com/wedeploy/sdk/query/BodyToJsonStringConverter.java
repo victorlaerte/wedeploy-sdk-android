@@ -1,7 +1,6 @@
 package com.wedeploy.sdk.query;
 
 import java.lang.reflect.Array;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -9,6 +8,9 @@ import java.util.Map;
  * Utility class for Query components parsing.
  */
 public class BodyToJsonStringConverter {
+
+	protected BodyToJsonStringConverter() {
+	}
 
 	public static String toString(Iterable value) {
 		StringBuilder builder = new StringBuilder();
@@ -81,15 +83,12 @@ public class BodyToJsonStringConverter {
 				builder.append(toString(Array.get(value, i))).append(',');
 			}
 
-			builder.setCharAt(builder.length()-1, ']');
+			builder.setCharAt(builder.length() - 1, ']');
 
 			return builder.toString();
 		}
 
 		return value.toString();
-	}
-
-	protected BodyToJsonStringConverter() {
 	}
 
 	private static String toString(String value) {

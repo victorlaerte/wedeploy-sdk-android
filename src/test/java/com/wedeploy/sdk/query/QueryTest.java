@@ -53,16 +53,16 @@ public class QueryTest {
 			true);
 
 		body = new Query.Builder()
-				.filter("field1", 1)
-				.filter("field1", 1)
-				.filter("field2", "regex", "value")
-				.filter(Filter.field("field3", 0.55))
-				.filter(Filter.field("field4", "pre", "str"))
-				.filter(Filter.not("field5", 1))
-				.filter(Filter.not("field7", "!=", 1))
-				.filter(Filter.not(Filter.field("field8", 1)))
-				.build()
-				.bodyAsJson();
+			.filter("field1", 1)
+			.filter("field1", 1)
+			.filter("field2", "regex", "value")
+			.filter(Filter.field("field3", 0.55))
+			.filter(Filter.field("field4", "pre", "str"))
+			.filter(Filter.not("field5", 1))
+			.filter(Filter.not("field7", "!=", 1))
+			.filter(Filter.not(Filter.field("field8", 1)))
+			.build()
+			.bodyAsJson();
 
 		JSONAssert.assertEquals(
 			"{\"filter\":[" +
@@ -74,7 +74,7 @@ public class QueryTest {
 				"{\"not\":{\"field5\":{\"operator\":\"=\",\"value\":1}}}," +
 				"{\"not\":{\"field7\":{\"operator\":\"!=\",\"value\":1}}}," +
 				"{\"not\":{\"field8\":{\"operator\":\"=\",\"value\":1}}}" +
-			"]}", body, true);
+				"]}", body, true);
 	}
 
 	@Test
@@ -93,10 +93,10 @@ public class QueryTest {
 	@Test
 	public void testQuery_withLimitAndOffset() throws Exception {
 		String body = new Query.Builder()
-				.limit(1)
-				.offset(2)
-				.build()
-				.bodyAsJson();
+			.limit(1)
+			.offset(2)
+			.build()
+			.bodyAsJson();
 
 		JSONAssert.assertEquals("{\"limit\":1,\"offset\":2}", body, true);
 	}
@@ -159,25 +159,25 @@ public class QueryTest {
 	@Test
 	public void testQuery_withSort() throws Exception {
 		String body = new Query.Builder()
-				.sort("field")
-				.build()
-				.bodyAsJson();
+			.sort("field")
+			.build()
+			.bodyAsJson();
 
 		JSONAssert.assertEquals("{\"sort\":[{\"field\":\"asc\"}]}", body, true);
 
 		body = new Query.Builder()
-				.sort("field1")
-				.sort("field2", "asc")
-				.sort("field3", "desc")
-				.build()
-				.bodyAsJson();
+			.sort("field1")
+			.sort("field2", "asc")
+			.sort("field3", "desc")
+			.build()
+			.bodyAsJson();
 
 		JSONAssert.assertEquals(
 			"{\"sort\":[" +
 				"{\"field1\":\"asc\"}," +
 				"{\"field2\":\"asc\"}," +
 				"{\"field3\":\"desc\"}" +
-			"]}", body, true);
+				"]}", body, true);
 	}
 
 	@Test

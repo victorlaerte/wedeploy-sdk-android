@@ -7,12 +7,12 @@ public enum RequestMethod {
 
 	GET("GET"), POST("POST"), PUT("PUT"), PATCH("PATCH"), DELETE("DELETE");
 
-	RequestMethod(String value) {
-		this.value = value;
-	}
-
 	public String getValue() {
 		return value;
+	}
+
+	RequestMethod(String value) {
+		this.value = value;
 	}
 
 	private String value;

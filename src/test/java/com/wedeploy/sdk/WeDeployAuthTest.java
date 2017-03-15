@@ -26,6 +26,26 @@ public class WeDeployAuthTest {
 		createUser();
 	}
 
+	private static void createUser() {
+		User user = WeDeploy.auth(AUTH_URL)
+			.createUser(USERNAME, PASSWORD, NAME);
+
+		USER_ID = user.getId();
+	}
+
+	private static void deleteUsers() {
+		Request.Builder builder = new Request.Builder()
+			.url(AUTH_URL)
+			.method(RequestMethod.DELETE)
+			.header("Authorization", "Bearer " + MASTER_TOKEN)
+			.path("users");
+
+		Call<Response> call = new Call<>(
+			builder.build(), new OkHttpTransport(), Response.class);
+
+		call.execute();
+	}
+
 	@Test
 	public void signIn() throws Exception {
 		Auth auth = WeDeploy.auth(AUTH_URL)
@@ -58,26 +78,6 @@ public class WeDeployAuthTest {
 		WeDeploy.auth(AUTH_URL)
 			.auth(auth)
 			.updateUser(USER_ID, fields);
-	}
-
-	private static void createUser() {
-		User user = WeDeploy.auth(AUTH_URL)
-			.createUser(USERNAME, PASSWORD, NAME);
-
-		USER_ID = user.getId();
-	}
-
-	private static void deleteUsers() {
-		Request.Builder builder = new Request.Builder()
-			.url(AUTH_URL)
-			.method(RequestMethod.DELETE)
-			.header("Authorization", "Bearer " + MASTER_TOKEN)
-			.path("users");
-
-		Call<Response> call = new Call<>(
-			builder.build(), new OkHttpTransport(), Response.class);
-
-		call.execute();
 	}
 
 }

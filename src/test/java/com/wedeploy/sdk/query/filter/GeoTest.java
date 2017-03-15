@@ -1,7 +1,5 @@
 package com.wedeploy.sdk.query.filter;
 
-import com.wedeploy.sdk.query.filter.Geo;
-import org.junit.Assert;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 
