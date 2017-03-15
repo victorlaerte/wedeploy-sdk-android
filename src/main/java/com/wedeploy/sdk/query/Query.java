@@ -13,12 +13,56 @@ import java.util.Map;
  */
 public class Query extends BodyConvertible {
 
-	@Override
-	public Object body() {
+	public Query(Builder builder) {
+		this.aggregations = builder.aggregations;
+		this.filters = builder.filters;
+		this.highlights = builder.highlights;
+		this.limit = builder.limit;
+		this.offset = builder.offset;
+		this.queries = builder.queries;
+		this.sort = builder.sort;
+		this.type = builder.type;
+	}
+
+	public Map<String, Object> body() {
+		Map<String, Object> body = new HashMap<>();
+
+		if (type != null) {
+			body.put("type", type);
+		}
+
+		if (!filters.isEmpty()) {
+			body.put("filter", filters);
+		}
+
+		if (!sort.isEmpty()) {
+			body.put("sort", sort);
+		}
+
+		if (limit != null) {
+			body.put("limit", limit);
+		}
+
+		if (offset != null) {
+			body.put("offset", offset);
+		}
+
+		if (!queries.isEmpty()) {
+			body.put("search", queries);
+		}
+
+		if (!highlights.isEmpty()) {
+			body.put("highlight", highlights);
+		}
+
+		if (!aggregations.isEmpty()) {
+			body.put("aggregation", aggregations);
+		}
+
 		return body;
 	}
 
-	public static final class Builder {
+	public static class Builder {
 
 		public Builder aggregate(Aggregation aggregation) {
 			aggregations.add(aggregation);
@@ -27,44 +71,6 @@ public class Query extends BodyConvertible {
 
 		public Builder aggregate(String name, String field, String operator) {
 			return aggregate(Aggregation.of(name, field, operator));
-		}
-
-		public Query build() {
-			Map<String, Object> body = new HashMap();
-
-			if (type != null) {
-				body.put("type", type);
-			}
-
-			if (!filters.isEmpty()) {
-				body.put("filter", filters);
-			}
-
-			if (!sort.isEmpty()) {
-				body.put("sort", sort);
-			}
-
-			if (limit != null) {
-				body.put("limit", limit);
-			}
-
-			if (offset != null) {
-				body.put("offset", offset);
-			}
-
-			if (!queries.isEmpty()) {
-				body.put("search", queries);
-			}
-
-			if (!highlights.isEmpty()) {
-				body.put("highlight", highlights);
-			}
-
-			if (!aggregations.isEmpty()) {
-				body.put("aggregation", aggregations);
-			}
-
-			return new Query(body);
 		}
 
 		public Builder count() {
@@ -134,21 +140,28 @@ public class Query extends BodyConvertible {
 			return this;
 		}
 
-		private final List<Aggregation> aggregations = new ArrayList();
-		private final List<Filter> filters = new ArrayList();
-		private final List<String> highlights = new ArrayList<>();
-		private Integer limit;
-		private Integer offset;
-		private final List<Filter> queries = new ArrayList();
-		private final List<Map> sort = new ArrayList();
-		private String type;
+		public Query build() {
+			return new Query(this);
+		}
+
+		List<Aggregation> aggregations = new ArrayList<>();
+		List<Filter> filters = new ArrayList<>();
+		List<String> highlights = new ArrayList<>();
+		Integer limit;
+		Integer offset;
+		List<Filter> queries = new ArrayList<>();
+		List<Map> sort = new ArrayList<>();
+		String type;
 
 	}
 
-	protected final Map<String, Object> body;
-
-	private Query(Map<String, Object> body) {
-		this.body = body;
-	}
+	private final List<Aggregation> aggregations;
+	private final List<Filter> filters;
+	private final List<String> highlights;
+	private final Integer limit;
+	private final Integer offset;
+	private final List<Filter> queries;
+	private final List<Map> sort;
+	private final String type;
 
 }
