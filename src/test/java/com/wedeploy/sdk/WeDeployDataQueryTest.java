@@ -38,6 +38,14 @@ public class WeDeployDataQueryTest {
 			.getInt("messagesCount"));
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void aggregate_withNullValue_shouldThrowException() {
+		WeDeploy.data(DATA_URL)
+			.aggregate(null)
+			.get("messages")
+			.execute();
+	}
+
 	@Test
 	public void limit() throws Exception {
 		Response response = WeDeploy.data(DATA_URL)
@@ -74,6 +82,22 @@ public class WeDeployDataQueryTest {
 		sort(SortOrder.DESCENDING);
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void sort_withNullField_shouldThrowException() {
+		WeDeploy.data(DATA_URL)
+			.sort(null)
+			.get("messages")
+			.execute();
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void sort_withNullSortOrder_shouldThrowException() {
+		WeDeploy.data(DATA_URL)
+			.sort("field", null)
+			.get("messages")
+			.execute();
+	}
+
 	@Test
 	public void where() {
 		final String filterMessage = "message1";
@@ -90,6 +114,14 @@ public class WeDeployDataQueryTest {
 		JSONObject messageJson = jsonArray.getJSONObject(0);
 
 		assertEquals(filterMessage, messageJson.getString("message"));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void where_withNullFilter_shouldThrowException() {
+		WeDeploy.data(DATA_URL)
+			.where(null)
+			.get("messages")
+			.execute();
 	}
 
 	private void sort(SortOrder order) {

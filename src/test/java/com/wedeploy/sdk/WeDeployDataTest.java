@@ -1,6 +1,7 @@
 package com.wedeploy.sdk;
 
 import com.wedeploy.sdk.transport.Response;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,10 +24,31 @@ public class WeDeployDataTest {
 		deleteData();
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void weDeployData_withNullUrl_shouldThrowException() {
+		new WeDeployData(null);
+	}
+
 	@Test
 	public void create() {
 		Response response = createMessageObject();
 		assertEquals(200, response.getStatusCode());
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void create_withNullData_shouldThrowException() {
+		WeDeploy.data(DATA_URL)
+			.auth(AUTH)
+			.create("resourcePath", (JSONObject)null)
+			.execute();
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void create_withNullCollection_shouldThrowException() {
+		WeDeploy.data(DATA_URL)
+			.auth(AUTH)
+			.create(null, new JSONArray())
+			.execute();
 	}
 
 	@Test
@@ -39,6 +61,49 @@ public class WeDeployDataTest {
 			.execute();
 
 		assertEquals(204, response.getStatusCode());
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void delete_withNullResourcePath_shouldThrowException() {
+		WeDeploy.data(DATA_URL)
+			.auth(AUTH)
+			.delete(null)
+			.execute();
+	}
+
+	@Test
+	public void get() throws Exception {
+		createMessageObject();
+
+		Response response = WeDeploy.data(DATA_URL)
+			.auth(AUTH)
+			.get("messages")
+			.execute();
+
+		assertEquals(200, response.getStatusCode());
+
+		response = WeDeploy.data(DATA_URL)
+			.auth(AUTH)
+			.get("messages/" + id)
+			.execute();
+
+		assertEquals(200, response.getStatusCode());
+
+		response = WeDeploy.data(DATA_URL)
+			.auth(AUTH)
+			.get(String.format("messages/%s/author", id))
+			.execute();
+
+		assertEquals(200, response.getStatusCode());
+		assertEquals("\"" + AUTHOR + "\"", response.getBody());
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void get_withNullResourcePath_shouldThrowException() {
+		WeDeploy.data(DATA_URL)
+			.auth(AUTH)
+			.get(null)
+			.execute();
 	}
 
 	@Test
@@ -62,6 +127,22 @@ public class WeDeployDataTest {
 		assertNull(updatedMessageObject.opt("author"));
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void replace_withNullData_shouldThrowException() {
+		WeDeploy.data(DATA_URL)
+			.auth(AUTH)
+			.replace("resourcePath", null)
+			.execute();
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void replace_withNullResourcePath_shouldThrowException() {
+		WeDeploy.data(DATA_URL)
+			.auth(AUTH)
+			.replace(null, new JSONObject())
+			.execute();
+	}
+
 	@Test
 	public void update() throws Exception {
 		createMessageObject();
@@ -83,6 +164,22 @@ public class WeDeployDataTest {
 		assertEquals(AUTHOR, updatedMessageObject.opt("author"));
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void update_withNullData_shouldThrowException() {
+		WeDeploy.data(DATA_URL)
+			.auth(AUTH)
+			.update("resourcePath", null)
+			.execute();
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void update_withNullResourcePath_shouldThrowException() {
+		WeDeploy.data(DATA_URL)
+			.auth(AUTH)
+			.update(null, new JSONObject())
+			.execute();
+	}
+
 	@Test
 	public void search() throws Exception {
 		DataTestHelper.initDataFromFile("messages.json");
@@ -95,6 +192,14 @@ public class WeDeployDataTest {
 
 		assertEquals(200, response.getStatusCode());
 		assertEquals(1, new JSONObject(response.getBody()).getInt("total"));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void search_withNullResourcePath_shouldThrowException() {
+		WeDeploy.data(DATA_URL)
+			.auth(AUTH)
+			.search(null)
+			.execute();
 	}
 
 	@Test
@@ -161,6 +266,13 @@ public class WeDeployDataTest {
 
 		latch.await(5000, TimeUnit.MILLISECONDS);
 		assertNotNull(changesPayload[0]);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void search_withNullCollection_shouldThrowException() {
+		WeDeploy.data(DATA_URL)
+			.auth(AUTH)
+			.watch(null);
 	}
 
 	public JSONObject getMessageObject(String id) {

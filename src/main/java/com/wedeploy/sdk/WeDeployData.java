@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import static com.wedeploy.sdk.internal.RequestMethod.*;
+import static com.wedeploy.sdk.util.Validator.checkNotNull;
 
 /**
  * @author Silvio Santos
@@ -20,6 +21,8 @@ import static com.wedeploy.sdk.internal.RequestMethod.*;
 public class WeDeployData {
 
 	WeDeployData(String url) {
+		checkNotNull(url, "Data url must be specified");
+
 		this.url = url;
 	}
 
@@ -28,15 +31,21 @@ public class WeDeployData {
 		return this;
 	}
 
-	public Call<Response> create(String collection, JSONArray jsonArray) {
-		return create(collection, jsonArray.toString());
+	public Call<Response> create(String collection, JSONArray data) {
+		checkNotNull(data, "data JSONArray must be specified");
+
+		return create(collection, data.toString());
 	}
 
-	public Call<Response> create(String collection, JSONObject jsonObject) {
-		return create(collection, jsonObject.toString());
+	public Call<Response> create(String collection, JSONObject data) {
+		checkNotNull(data, "data JSONObject must be specified");
+
+		return create(collection, data.toString());
 	}
 
 	public Call<Response> delete(String resourcePath) {
+		checkNotNull(resourcePath, "Document/Field/Collection path must be specified");
+
 		Request request = newAuthenticatedBuilder()
 			.path(resourcePath)
 			.method(DELETE)
@@ -46,6 +55,8 @@ public class WeDeployData {
 	}
 
 	public Call<Response> get(String resourcePath) {
+		checkNotNull(resourcePath, "Document/Field/Collection path must be specified");
+
 		Request.Builder builder = newAuthenticatedBuilder()
 			.path(resourcePath)
 			.query(getOrCreateQueryBuilder().build())
@@ -54,27 +65,35 @@ public class WeDeployData {
 		return newCall(builder.build());
 	}
 
-	public Call<Response> update(String resourcePath, JSONObject jsonObject) {
+	public Call<Response> update(String resourcePath, JSONObject data) {
+		checkNotNull(resourcePath, "Document/Field/Collection path must be specified");
+		checkNotNull(data, "data JSONObject must be specified");
+
 		Request request = newAuthenticatedBuilder()
 			.path(resourcePath)
 			.method(PATCH)
-			.body(jsonObject.toString())
+			.body(data.toString())
 			.build();
 
 		return newCall(request);
 	}
 
-	public Call<Response> replace(String resourcePath, JSONObject jsonObject) {
+	public Call<Response> replace(String resourcePath, JSONObject data) {
+		checkNotNull(resourcePath, "Document/Field/Collection path must be specified");
+		checkNotNull(data, "data JSONObject must be specified");
+
 		Request request = newAuthenticatedBuilder()
 			.path(resourcePath)
 			.method(PUT)
-			.body(jsonObject.toString())
+			.body(data.toString())
 			.build();
 
 		return newCall(request);
 	}
 
 	public Call<Response> search(String resourcePath) {
+		checkNotNull(resourcePath, "Document/Field/Collection path must be specified");
+
 		Query.Builder queryBuilder = getOrCreateQueryBuilder().search();
 
 		Request.Builder builder = newAuthenticatedBuilder()
@@ -86,6 +105,8 @@ public class WeDeployData {
 	}
 
 	public RealTime watch(String collection) {
+		checkNotNull(collection, "Collection must be specified");
+
 		String queryString = getOrCreateQueryBuilder().build().getQueryString();
 
 		SocketIORealTime.Builder builder = new SocketIORealTime.Builder(url)
@@ -101,6 +122,8 @@ public class WeDeployData {
 	}
 
 	public WeDeployData aggregate(Aggregation aggregation) {
+		checkNotNull(aggregation, "Aggregation must be specified");
+
 		getOrCreateQueryBuilder().aggregate(aggregation);
 
 		return this;
@@ -125,6 +148,9 @@ public class WeDeployData {
 	}
 
 	public WeDeployData sort(String field, SortOrder order) {
+		checkNotNull(field, "Field must be specified");
+		checkNotNull(field, "SortOrder must be specified");
+
 		if (order == null) {
 			throw new IllegalArgumentException("SortOrder can't be null");
 		}
@@ -135,16 +161,20 @@ public class WeDeployData {
 	}
 
 	public WeDeployData where(Filter filter) {
+		checkNotNull(filter, "Filter must be specified");
+
 		getOrCreateQueryBuilder().filter(filter);
 
 		return this;
 	}
 
-	private Call<Response> create(String collection, String json) {
+	private Call<Response> create(String collection, String dataJson) {
+		checkNotNull(collection, "Collection must be specified");
+
 		Request request = newAuthenticatedBuilder()
 			.path(collection)
 			.method(POST)
-			.body(json)
+			.body(dataJson)
 			.build();
 
 		return newCall(request);
