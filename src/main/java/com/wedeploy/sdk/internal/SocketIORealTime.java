@@ -1,6 +1,8 @@
 package com.wedeploy.sdk.internal;
 
 import com.wedeploy.sdk.RealTime;
+import com.wedeploy.sdk.exception.WeDeployException;
+import com.wedeploy.sdk.util.URLUtil;
 import io.socket.client.IO;
 import io.socket.client.Manager;
 import io.socket.client.Socket;
@@ -10,17 +12,31 @@ import io.socket.parseqs.ParseQS;
 
 import java.net.URISyntaxException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class SocketIORealTime implements RealTime {
 
-	public SocketIORealTime(String url, Map<String, Object> options) throws URISyntaxException {
-		socket = IO.socket(url, fromMap(options)).connect();
+	@Override
+	public void close() {
+		socket.close();
+	}
 
-		final Map<String, String> headers = (Map<String, String>)options.get("headers");
+	@Override
+	public RealTime on(String event, final OnEventListener listener) {
+		socket.on(event, new Emitter.Listener() {
+			@Override
+			public void call(Object... args) {
+				listener.onEvent(args);
+			}
+		});
 
-		if (headers == null) {
+		return this;
+	}
+
+	private void setHeaders(final Map<String, String> headers) {
+		if (headers.isEmpty()) {
 			return;
 		}
 
@@ -46,36 +62,68 @@ public class SocketIORealTime implements RealTime {
 		});
 	}
 
-	@SuppressWarnings("unchecked")
-	protected static IO.Options fromMap(Map<String, Object> options) {
-		IO.Options opts = new IO.Options();
-		opts.forceNew = (boolean)options.get("forceNew");
-		opts.path = (String)options.get("path");
+	private SocketIORealTime(SocketIORealTime.Builder builder) {
+		IO.Options options = new IO.Options();
+		options.forceNew = builder.forceNew;
+		options.path = builder.path;
 
-		if (options.containsKey("query")) {
-			opts.query = ParseQS.encode((Map)options.get("query"));
+		if (!options.path.startsWith("/")) {
+			options.path = "/" + options.path;
 		}
 
-		return opts;
-	}
+		if (builder.query != null) {
+			String query = URLUtil.joinPathAndQuery(options.path, builder.query);
+			options.query = ParseQS.encode(Collections.singletonMap("url", query));
+		}
 
-	@Override
-	public void close() {
-		socket.close();
-	}
+		try {
+			socket = IO.socket(builder.url, options).connect();
+		}
+		catch (URISyntaxException e) {
+			throw new WeDeployException("Couldn't open realtime socket connection", e);
+		}
 
-	@Override
-	public RealTime on(String event, final OnEventListener listener) {
-		socket.on(event, new Emitter.Listener() {
-			@Override
-			public void call(Object... args) {
-				listener.onEvent(args);
-			}
-		});
-
-		return this;
+		setHeaders(builder.headers);
 	}
 
 	private Socket socket;
+
+	public static class Builder {
+
+		boolean forceNew;
+		Map<String, String> headers = new HashMap<>();
+		String path;
+		String query;
+		String url;
+
+		public Builder(String url) {
+			this.url = url;
+		}
+
+		public Builder forceNew(boolean forceNew) {
+			this.forceNew = forceNew;
+			return this;
+		}
+
+		public Builder header(String name, String value) {
+			this.headers.put(name, value);
+			return this;
+		}
+
+		public Builder path(String path) {
+			this.path = path;
+			return this;
+		}
+
+		public Builder query(String query) {
+			this.query = query;
+			return this;
+		}
+
+		public RealTime build() {
+			return new SocketIORealTime(this);
+		}
+
+	}
 
 }

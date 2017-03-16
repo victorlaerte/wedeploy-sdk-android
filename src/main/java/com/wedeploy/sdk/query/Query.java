@@ -65,7 +65,15 @@ public class Query extends BodyConvertible {
 		return body;
 	}
 
-	public String getEncodedQuery() {
+	public String getQueryString() {
+		return getQueryString(false);
+	}
+
+	public String getEncodedQueryString() {
+		return getQueryString(true);
+	}
+
+	private String getQueryString(boolean encode) {
 		Map<String, Object> body = body();
 
 		if (body.isEmpty()) {
@@ -76,12 +84,15 @@ public class Query extends BodyConvertible {
 
 		for (Map.Entry<String, Object> entry : body.entrySet()) {
 			try {
-				String encodedValue = URLEncoder.encode(
-					BodyToJsonStringConverter.toString(entry.getValue()), "UTF-8");
+				String value = BodyToJsonStringConverter.toString(entry.getValue());
+
+				if (encode) {
+					value = URLEncoder.encode(value, "UTF-8");
+				}
 
 				queryString.append(entry.getKey());
 				queryString.append("=");
-				queryString.append(encodedValue);
+				queryString.append(value);
 				queryString.append("&");
 			}
 			catch (UnsupportedEncodingException e) {

@@ -1,23 +1,16 @@
 package com.wedeploy.sdk;
 
 import com.wedeploy.sdk.auth.Auth;
-import com.wedeploy.sdk.exception.WeDeployException;
 import com.wedeploy.sdk.internal.OkHttpTransport;
 import com.wedeploy.sdk.internal.SocketIORealTime;
-import com.wedeploy.sdk.query.BodyToJsonStringConverter;
 import com.wedeploy.sdk.query.Query;
 import com.wedeploy.sdk.query.SortOrder;
 import com.wedeploy.sdk.query.aggregation.Aggregation;
 import com.wedeploy.sdk.query.filter.Filter;
 import com.wedeploy.sdk.transport.Request;
 import com.wedeploy.sdk.transport.Response;
-import com.wedeploy.sdk.util.URLUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.wedeploy.sdk.internal.RequestMethod.*;
 
@@ -93,33 +86,18 @@ public class WeDeployData {
 	}
 
 	public RealTime watch(String collection) {
-		if (!collection.startsWith("/")) {
-			collection = "/" + collection;
-		}
+		String queryString = getOrCreateQueryBuilder().build().getQueryString();
 
-		String queryString = getOrCreateQueryBuilder().build().getEncodedQuery();
-
-		Map<String, String> query = new HashMap<>();
-		query.put("url", URLUtil.joinPathAndQuery(collection, queryString));
-
-		Map<String, String> headers = new HashMap<>();
+		SocketIORealTime.Builder builder = new SocketIORealTime.Builder(url)
+			.forceNew(true)
+			.path(collection)
+			.query(queryString);
 
 		if (auth != null) {
-			headers.put("Authorization", auth.getAuthorizationHeader());
+			builder.header("Authorization", auth.getAuthorizationHeader());
 		}
 
-		Map<String, Object> options = new HashMap<>();
-		options.put("forceNew", true);
-		options.put("path", collection);
-		options.put("query", query);
-		options.put("headers", headers);
-
-		try {
-			return new SocketIORealTime(url, options);
-		}
-		catch (Exception e) {
-			throw new WeDeployException(e.getMessage());
-		}
+		return builder.build();
 	}
 
 	public WeDeployData aggregate(Aggregation aggregation) {

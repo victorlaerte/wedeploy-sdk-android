@@ -45,7 +45,7 @@ public class Request {
 		this.forms = builder.forms;
 		this.headers = builder.headers;
 		this.method = builder.method;
-		this.query = builder.query.getEncodedQuery();
+		this.query = builder.query.getEncodedQueryString();
 		this.path = builder.path;
 		this.url = builder.url;
 	}
