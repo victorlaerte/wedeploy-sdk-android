@@ -81,14 +81,8 @@ public class OkHttpTransport implements Transport<Response> {
 	private HttpUrl getUrl(Request request) throws UnsupportedEncodingException {
 		HttpUrl.Builder builder = HttpUrl.parse(request.getUrl())
 			.newBuilder()
-			.addPathSegments(request.getPath());
-
-		for (Map.Entry<String, String> entry : request.getParams().entrySet()) {
-			String encodedValue = URLEncoder.encode(
-				entry.getValue(), "UTF-8");
-
-			builder.addEncodedQueryParameter(entry.getKey(), encodedValue);
-		}
+			.addPathSegments(request.getPath())
+			.encodedQuery(request.getEncodedQuery());
 
 		return builder.build();
 	}

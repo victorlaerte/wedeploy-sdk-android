@@ -1,8 +1,11 @@
 package com.wedeploy.sdk.query;
 
+import com.wedeploy.sdk.exception.WeDeployException;
 import com.wedeploy.sdk.query.aggregation.Aggregation;
 import com.wedeploy.sdk.query.filter.Filter;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -60,6 +63,35 @@ public class Query extends BodyConvertible {
 		}
 
 		return body;
+	}
+
+	public String getEncodedQuery() {
+		Map<String, Object> body = body();
+
+		if (body.isEmpty()) {
+			return "";
+		}
+
+		StringBuilder queryString = new StringBuilder();
+
+		for (Map.Entry<String, Object> entry : body.entrySet()) {
+			try {
+				String encodedValue = URLEncoder.encode(
+					BodyToJsonStringConverter.toString(entry.getValue()), "UTF-8");
+
+				queryString.append(entry.getKey());
+				queryString.append("=");
+				queryString.append(encodedValue);
+				queryString.append("&");
+			}
+			catch (UnsupportedEncodingException e) {
+				throw new WeDeployException("Couldn't encode query", e);
+			}
+		}
+
+		queryString.deleteCharAt(queryString.length() - 1);
+
+		return queryString.toString();
 	}
 
 	private final List<Aggregation> aggregations;

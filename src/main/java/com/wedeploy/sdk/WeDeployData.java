@@ -51,13 +51,10 @@ public class WeDeployData {
 	}
 
 	public Call<Response> get(String resourcePath) {
-		Request.Builder builder = newAuthenticatedBuilder();
-		Query query = getOrCreateQueryBuilder().build();
-
-		builder.path(resourcePath)
+		Request.Builder builder = newAuthenticatedBuilder()
+			.path(resourcePath)
+			.query(getOrCreateQueryBuilder().build())
 			.method(GET);
-
-		setQueryParams(builder, query);
 
 		return newCall(builder.build());
 	}
@@ -83,13 +80,12 @@ public class WeDeployData {
 	}
 
 	public Call<Response> search(String resourcePath) {
-		Query query = getOrCreateQueryBuilder().search().build();
+		Query.Builder queryBuilder = getOrCreateQueryBuilder().search();
 
 		Request.Builder builder = newAuthenticatedBuilder()
 			.path(resourcePath)
+			.query(queryBuilder.build())
 			.method(GET);
-
-		setQueryParams(builder, query);
 
 		return newCall(builder.build());
 	}
@@ -190,14 +186,6 @@ public class WeDeployData {
 
 	private Call<Response> newCall(Request request) {
 		return new Call<>(request, new OkHttpTransport(), Response.class);
-	}
-
-	private void setQueryParams(Request.Builder builder, Query query) {
-		for (Map.Entry<String, Object> entry : query.body().entrySet()) {
-			builder.param(
-				entry.getKey(),
-				BodyToJsonStringConverter.toString(entry.getValue()));
-		}
 	}
 
 	private Auth auth;

@@ -1,6 +1,7 @@
 package com.wedeploy.sdk.transport;
 
 import com.wedeploy.sdk.internal.RequestMethod;
+import com.wedeploy.sdk.query.Query;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,8 +28,8 @@ public class Request {
 		return method;
 	}
 
-	public Map<String, String> getParams() {
-		return Collections.unmodifiableMap(params);
+	public String getEncodedQuery() {
+		return query;
 	}
 
 	public String getPath() {
@@ -44,7 +45,7 @@ public class Request {
 		this.forms = builder.forms;
 		this.headers = builder.headers;
 		this.method = builder.method;
-		this.params = builder.params;
+		this.query = builder.query.getEncodedQuery();
 		this.path = builder.path;
 		this.url = builder.url;
 	}
@@ -53,8 +54,8 @@ public class Request {
 	private final Map<String, String> forms;
 	private final Map<String, String> headers;
 	private final RequestMethod method;
-	private final Map<String, String> params;
 	private final String path;
+	private final String query;
 	private final String url;
 
 	public static class Builder {
@@ -62,8 +63,8 @@ public class Request {
 		Map<String, String> forms = new HashMap<>();
 		Map<String, String> headers = new HashMap<>();
 		RequestMethod method;
-		Map<String, String> params = new HashMap<>();
 		String path = "";
+		Query query = new Query.Builder().build();
 		String url;
 
 		public Builder body(String body) {
@@ -86,8 +87,8 @@ public class Request {
 			return this;
 		}
 
-		public Builder param(String name, String value) {
-			this.params.put(name, value);
+		public Builder query(Query query) {
+			this.query = query;
 			return this;
 		}
 
@@ -104,6 +105,7 @@ public class Request {
 		public Request build() {
 			return new Request(this);
 		}
+
 	}
 
 }
