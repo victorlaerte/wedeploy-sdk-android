@@ -98,10 +98,18 @@ public class WeDeployData {
 		Map<String, String> query = new HashMap<>();
 		query.put("url", collection);
 
+
+		Map<String, String> headers = new HashMap<>();
+
+		if (auth != null) {
+			headers.put("Authorization", auth.getAuthorizationHeader());
+		}
+
 		Map<String, Object> options = new HashMap<>();
 		options.put("forceNew", true);
 		options.put("path", collection);
 		options.put("query", query);
+		options.put("headers", headers);
 
 		try {
 			return new SocketIORealTime(url, options);

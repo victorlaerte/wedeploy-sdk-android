@@ -11,10 +11,15 @@ public class TokenAuth implements Auth {
 		this.token = token;
 	}
 
+	public String getAuthorizationHeader() {
+		return  "Bearer " + token;
+	}
+
 	@Override
 	public Request.Builder authenticate(Request.Builder builder) {
-		return builder.header("Authorization", "Bearer " + token);
+		return builder.header("Authorization", getAuthorizationHeader());
 	}
 
 	private String token;
+
 }

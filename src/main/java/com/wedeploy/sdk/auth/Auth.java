@@ -7,6 +7,8 @@ import com.wedeploy.sdk.transport.Request;
  */
 public interface Auth {
 
+	String getAuthorizationHeader();
+
 	Request.Builder authenticate(Request.Builder builder);
 
 }
