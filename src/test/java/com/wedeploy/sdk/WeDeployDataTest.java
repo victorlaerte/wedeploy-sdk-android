@@ -5,10 +5,14 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
 import static com.wedeploy.sdk.Constants.*;
 import static com.wedeploy.sdk.query.filter.Filter.any;
 import static com.wedeploy.sdk.query.filter.Filter.equal;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 /**
@@ -95,6 +99,37 @@ public class WeDeployDataTest {
 		assertEquals(1, new JSONObject(response.getBody()).getInt("total"));
 	}
 
+	@Test
+	public void watch() throws Exception {
+		final CountDownLatch latch = new CountDownLatch(1);
+
+		RealTime realTime = WeDeploy.data(DATA_URL)
+			.watch("/messages");
+
+		realTime
+			.on("connect", new RealTime.OnEventListener() {
+				@Override
+				public void onEvent(Object... args) {
+					try {
+						createMessageObject();
+					}
+					catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			})
+			.on("create", new RealTime.OnEventListener() {
+				@Override
+				public void onEvent(Object... args) {
+					assertNotNull(args[0]);
+
+					latch.countDown();
+				}
+			});
+
+		latch.await(5000, TimeUnit.MILLISECONDS);
+	}
+
 	public JSONObject getMessageObject(String id) {
 		Response response = WeDeploy.data(DATA_URL)
 			.auth(AUTH)
@@ -126,6 +161,7 @@ public class WeDeployDataTest {
 			.delete("")
 			.execute();
 	}
+
 	private String id;
 
 }

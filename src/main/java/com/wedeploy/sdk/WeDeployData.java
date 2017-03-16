@@ -1,8 +1,9 @@
 package com.wedeploy.sdk;
 
 import com.wedeploy.sdk.auth.Auth;
+import com.wedeploy.sdk.exception.WeDeployException;
 import com.wedeploy.sdk.internal.OkHttpTransport;
-import com.wedeploy.sdk.internal.RequestMethod;
+import com.wedeploy.sdk.internal.SocketIORealTime;
 import com.wedeploy.sdk.query.BodyToJsonStringConverter;
 import com.wedeploy.sdk.query.Query;
 import com.wedeploy.sdk.query.SortOrder;
@@ -13,7 +14,10 @@ import com.wedeploy.sdk.transport.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Map;
+
+import static com.wedeploy.sdk.internal.RequestMethod.*;
 
 /**
  * @author Silvio Santos
@@ -40,7 +44,7 @@ public class WeDeployData {
 	public Call<Response> delete(String resourcePath) {
 		Request request = newAuthenticatedBuilder()
 			.path(resourcePath)
-			.method(RequestMethod.DELETE)
+			.method(DELETE)
 			.build();
 
 		return newCall(request);
@@ -51,7 +55,7 @@ public class WeDeployData {
 		Query query = getOrCreateQueryBuilder().build();
 
 		builder.path(resourcePath)
-			.method(RequestMethod.GET);
+			.method(GET);
 
 		setQueryParams(builder, query);
 
@@ -61,7 +65,7 @@ public class WeDeployData {
 	public Call<Response> update(String resourcePath, JSONObject jsonObject) {
 		Request request = newAuthenticatedBuilder()
 			.path(resourcePath)
-			.method(RequestMethod.PATCH)
+			.method(PATCH)
 			.body(jsonObject.toString())
 			.build();
 
@@ -71,7 +75,7 @@ public class WeDeployData {
 	public Call<Response> replace(String resourcePath, JSONObject jsonObject) {
 		Request request = newAuthenticatedBuilder()
 			.path(resourcePath)
-			.method(RequestMethod.PUT)
+			.method(PUT)
 			.body(jsonObject.toString())
 			.build();
 
@@ -83,11 +87,28 @@ public class WeDeployData {
 
 		Request.Builder builder = newAuthenticatedBuilder()
 			.path(resourcePath)
-			.method(RequestMethod.GET);
+			.method(GET);
 
 		setQueryParams(builder, query);
 
 		return newCall(builder.build());
+	}
+
+	public RealTime watch(String collection) {
+		Map<String, String> query = new HashMap<>();
+		query.put("url", collection);
+
+		Map<String, Object> options = new HashMap<>();
+		options.put("forceNew", true);
+		options.put("path", collection);
+		options.put("query", query);
+
+		try {
+			return new SocketIORealTime(url, options);
+		}
+		catch (Exception e) {
+			throw new WeDeployException(e.getMessage());
+		}
 	}
 
 	public WeDeployData aggregate(Aggregation aggregation) {
@@ -133,7 +154,7 @@ public class WeDeployData {
 	private Call<Response> create(String collection, String json) {
 		Request request = newAuthenticatedBuilder()
 			.path(collection)
-			.method(RequestMethod.POST)
+			.method(POST)
 			.body(json)
 			.build();
 
