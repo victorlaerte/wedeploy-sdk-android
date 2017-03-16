@@ -11,9 +11,7 @@ import java.util.concurrent.TimeUnit;
 import static com.wedeploy.sdk.Constants.*;
 import static com.wedeploy.sdk.query.filter.Filter.any;
 import static com.wedeploy.sdk.query.filter.Filter.equal;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 /**
  * @author Silvio Santos
@@ -26,7 +24,7 @@ public class WeDeployDataTest {
 	}
 
 	@Test
-	public void create() throws Exception {
+	public void create() {
 		Response response = createMessageObject();
 		assertEquals(200, response.getStatusCode());
 	}
@@ -101,33 +99,68 @@ public class WeDeployDataTest {
 
 	@Test
 	public void watch() throws Exception {
+		final Object[] createPayload = new Object[1];
 		final CountDownLatch latch = new CountDownLatch(1);
 
 		RealTime realTime = WeDeploy.data(DATA_URL)
-			.watch("/messages");
+			.where(equal("message", MESSAGE))
+			.watch("messages");
 
 		realTime
 			.on("connect", new RealTime.OnEventListener() {
 				@Override
 				public void onEvent(Object... args) {
-					try {
-						createMessageObject();
-					}
-					catch (Exception e) {
-						e.printStackTrace();
-					}
+					createMessageObject();
 				}
 			})
 			.on("create", new RealTime.OnEventListener() {
 				@Override
 				public void onEvent(Object... args) {
-					assertNotNull(args[0]);
+					createPayload[0] = args[0];
 
 					latch.countDown();
 				}
 			});
 
 		latch.await(5000, TimeUnit.MILLISECONDS);
+		assertNotNull(createPayload[0]);
+	}
+
+	@Test
+	public void watch_withFilter() throws Exception {
+		final Object[] changesPayload = new Object[1];
+		final CountDownLatch latch = new CountDownLatch(1);
+
+		RealTime realTime = WeDeploy.data(DATA_URL)
+			.auth(AUTH)
+			.watch("messages");
+
+		realTime
+			.on("connect", new RealTime.OnEventListener() {
+				@Override
+				public void onEvent(Object... args) {
+					createMessageObject();
+					createMessageObject();
+					createMessageObject();
+				}
+			})
+			.on("changes", new RealTime.OnEventListener() {
+				@Override
+				public void onEvent(Object... payload) {
+					changesPayload[0] = payload;
+
+					latch.countDown();
+				}
+			})
+			.on("fail", new RealTime.OnEventListener() {
+				@Override
+				public void onEvent(Object... payload) {
+					fail();
+				}
+			});
+
+		latch.await(5000, TimeUnit.MILLISECONDS);
+		assertNotNull(changesPayload[0]);
 	}
 
 	public JSONObject getMessageObject(String id) {
@@ -139,7 +172,7 @@ public class WeDeployDataTest {
 		return new JSONObject(response.getBody());
 	}
 
-	private Response createMessageObject() throws Exception {
+	private Response createMessageObject() {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("author", AUTHOR);
 		jsonObject.put("message", MESSAGE);

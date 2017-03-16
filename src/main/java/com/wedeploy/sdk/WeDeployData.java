@@ -11,9 +11,11 @@ import com.wedeploy.sdk.query.aggregation.Aggregation;
 import com.wedeploy.sdk.query.filter.Filter;
 import com.wedeploy.sdk.transport.Request;
 import com.wedeploy.sdk.transport.Response;
+import com.wedeploy.sdk.util.URLUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -91,9 +93,14 @@ public class WeDeployData {
 	}
 
 	public RealTime watch(String collection) {
-		Map<String, String> query = new HashMap<>();
-		query.put("url", collection);
+		if (!collection.startsWith("/")) {
+			collection = "/" + collection;
+		}
 
+		String queryString = getOrCreateQueryBuilder().build().getEncodedQuery();
+
+		Map<String, String> query = new HashMap<>();
+		query.put("url", URLUtil.joinPathAndQuery(collection, queryString));
 
 		Map<String, String> headers = new HashMap<>();
 
@@ -190,6 +197,6 @@ public class WeDeployData {
 
 	private Auth auth;
 	private Query.Builder queryBuilder;
-	private String url;
+	private final String url;
 
 }
