@@ -55,6 +55,20 @@ public class WeDeployAuthTest {
 		assertNotNull(auth);
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void signIn_withNullEmail_shouldThrowException() {
+		WeDeploy.auth(AUTH_URL)
+			.auth(AUTH)
+			.signIn(null, PASSWORD);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void signIn_withNullPassword_shouldThrowException() {
+		WeDeploy.auth(AUTH_URL)
+			.auth(AUTH)
+			.signIn(USERNAME, null);
+	}
+
 	@Test
 	public void updateUser() throws Exception {
 		Auth auth = WeDeploy.auth(AUTH_URL)

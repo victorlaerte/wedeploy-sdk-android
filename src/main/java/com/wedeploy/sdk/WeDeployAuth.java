@@ -11,6 +11,8 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
+import static com.wedeploy.sdk.util.Validator.checkNotNull;
+
 /**
  * @author Silvio Santos
  */
@@ -27,6 +29,9 @@ class WeDeployAuth {
 	}
 
 	public Auth signIn(String email, String password) {
+		checkNotNull(email, "Email must be specified");
+		checkNotNull(password, "Password must be specified");
+
 		Request request = new Request.Builder()
 			.url(url)
 			.forms("grant_type", "password")
@@ -50,6 +55,9 @@ class WeDeployAuth {
 	}
 
 	public User createUser(String email, String password, String name) {
+		checkNotNull(email, "Email must be specified");
+		checkNotNull(password, "Password must be specified");
+
 		JSONObject json = new JSONObject()
 			.put("email", email)
 			.put("password", password)
@@ -91,12 +99,10 @@ class WeDeployAuth {
 
 	//TODO Change fields to be a Map<String, Any>
 	public void updateUser(String id, Map<String, String> fields) {
-		if (id == null) {
-			throw new IllegalArgumentException("User id can't be null");
-		}
+		checkNotNull(id, "id must be specified");
 
 		if (fields == null || fields.isEmpty()) {
-			throw new IllegalArgumentException("You must provide fields to be updated");
+			throw new IllegalArgumentException("Fields must be specified");
 		}
 
 		JSONObject body = new JSONObject()
