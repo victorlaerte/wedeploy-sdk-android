@@ -200,7 +200,7 @@ public class WeDeployData {
 	}
 
 	private Call<Response> newCall(Request request) {
-		return new Call<>(request, new OkHttpTransport(), Response.class);
+		return new Call<>(request, new OkHttpTransport(), new OkHttpTransport(), Response.class);
 	}
 
 	private Auth auth;

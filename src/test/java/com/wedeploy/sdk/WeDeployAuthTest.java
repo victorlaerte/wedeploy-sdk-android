@@ -41,7 +41,7 @@ public class WeDeployAuthTest {
 			.path("users");
 
 		Call<Response> call = new Call<>(
-			builder.build(), new OkHttpTransport(), Response.class);
+			builder.build(), new OkHttpTransport(), new OkHttpTransport(), Response.class);
 
 		call.execute();
 	}
