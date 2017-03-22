@@ -1,6 +1,10 @@
 package com.wedeploy.sdk;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import com.wedeploy.sdk.auth.Auth;
+import com.wedeploy.sdk.auth.AuthProvider;
 import com.wedeploy.sdk.auth.TokenAuth;
 import com.wedeploy.sdk.exception.WeDeployException;
 import com.wedeploy.sdk.internal.OkHttpTransport;
@@ -16,7 +20,7 @@ import static com.wedeploy.sdk.util.Validator.checkNotNull;
 /**
  * @author Silvio Santos
  */
-class WeDeployAuth {
+public class WeDeployAuth {
 
 	WeDeployAuth(String url) {
 		this.url = url;
@@ -51,7 +55,13 @@ class WeDeployAuth {
 		String token = jsonBody.getString("access_token");
 
 		return new TokenAuth(token);
+	}
 
+	public void signIn(Activity activity, AuthProvider provider) {
+		Uri oauthUrl = Uri.parse(url + provider.getAuthUrl());
+
+		Intent intent = new Intent(Intent.ACTION_VIEW, oauthUrl);
+		activity.startActivity(intent);
 	}
 
 	public User createUser(String email, String password, String name) {

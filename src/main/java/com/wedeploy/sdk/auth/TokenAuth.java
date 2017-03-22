@@ -1,5 +1,6 @@
 package com.wedeploy.sdk.auth;
 
+import android.content.Intent;
 import com.wedeploy.sdk.transport.Request;
 
 /**
@@ -11,8 +12,18 @@ public class TokenAuth implements Auth {
 		this.token = token;
 	}
 
+	public static Auth getAuthFromIntent(Intent intent) {
+		String[] fragment = intent.getData().getFragment().split("access_token=");
+
+		if (fragment.length > 1) {
+			return new TokenAuth(fragment[1]);
+		}
+
+		return null;
+	}
+
 	public String getAuthorizationHeader() {
-		return  "Bearer " + token;
+		return "Bearer " + token;
 	}
 
 	@Override

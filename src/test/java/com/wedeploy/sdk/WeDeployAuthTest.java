@@ -49,7 +49,6 @@ public class WeDeployAuthTest {
 	@Test
 	public void signIn() throws Exception {
 		Auth auth = WeDeploy.auth(AUTH_URL)
-			.auth(AUTH)
 			.signIn(USERNAME, PASSWORD);
 
 		assertNotNull(auth);
