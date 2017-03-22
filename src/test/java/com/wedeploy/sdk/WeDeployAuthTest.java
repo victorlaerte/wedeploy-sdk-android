@@ -1,10 +1,12 @@
 package com.wedeploy.sdk;
 
 import com.wedeploy.sdk.auth.Auth;
+import com.wedeploy.sdk.auth.TokenAuth;
 import com.wedeploy.sdk.internal.OkHttpTransport;
 import com.wedeploy.sdk.internal.RequestMethod;
 import com.wedeploy.sdk.transport.Request;
 import com.wedeploy.sdk.transport.Response;
+import org.json.JSONObject;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -27,10 +29,14 @@ public class WeDeployAuthTest {
 	}
 
 	private static void createUser() {
-		User user = WeDeploy.auth(AUTH_URL)
-			.createUser(USERNAME, PASSWORD, NAME);
+		Response response = WeDeploy.auth(AUTH_URL)
+			.createUser(USERNAME, PASSWORD, NAME)
+			.execute();
 
-		USER_ID = user.getId();
+		assertEquals(200, response.getStatusCode());
+
+		JSONObject jsonObject = new JSONObject(response.getBody());
+		USER_ID = jsonObject.getString("id");
 	}
 
 	private static void deleteUsers() {
@@ -48,10 +54,14 @@ public class WeDeployAuthTest {
 
 	@Test
 	public void signIn() throws Exception {
-		Auth auth = WeDeploy.auth(AUTH_URL)
-			.signIn(USERNAME, PASSWORD);
+		Response response = WeDeploy.auth(AUTH_URL)
+			.signIn(USERNAME, PASSWORD)
+			.execute();
 
-		assertNotNull(auth);
+		JSONObject jsonBody = new JSONObject(response.getBody());
+		String token = jsonBody.getString("access_token");
+
+		assertNotNull(token);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -70,27 +80,35 @@ public class WeDeployAuthTest {
 
 	@Test
 	public void updateUser() throws Exception {
-		Auth auth = WeDeploy.auth(AUTH_URL)
-			.auth(AUTH)
-			.signIn(USERNAME, PASSWORD);
+		Response response = WeDeploy.auth(AUTH_URL)
+			.signIn(USERNAME, PASSWORD)
+			.execute();
+
+		JSONObject jsonBody = new JSONObject(response.getBody());
+		String token = jsonBody.getString("access_token");
+		Auth auth = new TokenAuth(token);
 
 		Map<String, String> fields = new HashMap<>();
 		fields.put("name", "Silvio Santos 2");
 
 		WeDeploy.auth(AUTH_URL)
 			.auth(auth)
-			.updateUser(USER_ID, fields);
+			.updateUser(USER_ID, fields)
+			.execute();
 
-		User user = WeDeploy.auth(AUTH_URL)
+		response = WeDeploy.auth(AUTH_URL)
 			.auth(auth)
-			.getCurrentUser();
+			.getCurrentUser()
+			.execute();
 
-		assertEquals("Silvio Santos 2", user.getName());
+		jsonBody = new JSONObject(response.getBody());
+		assertEquals("Silvio Santos 2", jsonBody.getString("name"));
 
 		fields.put("name", NAME);
 		WeDeploy.auth(AUTH_URL)
 			.auth(auth)
-			.updateUser(USER_ID, fields);
+			.updateUser(USER_ID, fields)
+			.execute();
 	}
 
 }

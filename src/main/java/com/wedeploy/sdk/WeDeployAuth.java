@@ -32,7 +32,7 @@ public class WeDeployAuth {
 		return this;
 	}
 
-	public Auth signIn(String email, String password) {
+	public Call<Response> signIn(String email, String password) {
 		checkNotNull(email, "Email must be specified");
 		checkNotNull(password, "Password must be specified");
 
@@ -45,16 +45,7 @@ public class WeDeployAuth {
 			.method(RequestMethod.POST)
 			.build();
 
-		Response response = newCall(request).execute();
-
-		if (!response.succeeded()) {
-			throw new WeDeployException(response.getStatusMessage());
-		}
-
-		JSONObject jsonBody = new JSONObject(response.getBody());
-		String token = jsonBody.getString("access_token");
-
-		return new TokenAuth(token);
+		return newCall(request);
 	}
 
 	public void signIn(Activity activity, AuthProvider provider) {
@@ -64,7 +55,7 @@ public class WeDeployAuth {
 		activity.startActivity(intent);
 	}
 
-	public User createUser(String email, String password, String name) {
+	public Call<Response> createUser(String email, String password, String name) {
 		checkNotNull(email, "Email must be specified");
 		checkNotNull(password, "Password must be specified");
 
@@ -78,17 +69,10 @@ public class WeDeployAuth {
 			.body(json.toString())
 			.method(RequestMethod.POST);
 
-		Response response = newCall(builder.build())
-			.execute();
-
-		if (!response.succeeded()) {
-			throw new WeDeployException(response.getStatusMessage());
-		}
-
-		return new User(new JSONObject(response.getBody()));
+		return newCall(builder.build());
 	}
 
-	public User getCurrentUser() {
+	public Call<Response> getCurrentUser() {
 		Request.Builder builder = new Request.Builder()
 			.url(url)
 			.path("user")
@@ -96,19 +80,11 @@ public class WeDeployAuth {
 
 		auth.authenticate(builder);
 
-		Response response = newCall(builder.build()).execute();
-
-		if (!response.succeeded()) {
-			throw new WeDeployException(response.getStatusMessage());
-		}
-
-		JSONObject jsonBody = new JSONObject(response.getBody());
-
-		return new User(jsonBody);
+		return newCall(builder.build());
 	}
 
 	//TODO Change fields to be a Map<String, Any>
-	public void updateUser(String id, Map<String, String> fields) {
+	public Call<Response> updateUser(String id, Map<String, String> fields) {
 		checkNotNull(id, "id must be specified");
 
 		if (fields == null || fields.isEmpty()) {
@@ -128,11 +104,7 @@ public class WeDeployAuth {
 			.method(RequestMethod.PATCH)
 			.build();
 
-		Response response = newCall(request).execute();
-
-		if (!response.succeeded()) {
-			throw new WeDeployException(response.getStatusMessage());
-		}
+		return newCall(request);
 	}
 
 	private Request.Builder newAuthenticatedBuilder() {
