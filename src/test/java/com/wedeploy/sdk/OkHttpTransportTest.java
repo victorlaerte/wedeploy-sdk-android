@@ -58,4 +58,30 @@ public class OkHttpTransportTest {
 
 		latch.await(5000, TimeUnit.MILLISECONDS);
 	}
+
+	@Test
+	public void sendAsync_withInvalidUrl_shouldThrowException() throws InterruptedException {
+		final CountDownLatch latch = new CountDownLatch(1);
+
+		OkHttpTransport transport = new OkHttpTransport();
+
+		Request request = new Request.Builder()
+			.method(RequestMethod.GET)
+			.url("http://wedeploy.io/invalid")
+			.build();
+
+		transport.sendAsync(request, new Callback<Response>() {
+			@Override
+			public void onSuccess(Response response) {
+				fail();
+			}
+
+			@Override
+			public void onFailure(Exception e) {
+				latch.countDown();
+			}
+		});
+
+		latch.await(5000, TimeUnit.MILLISECONDS);
+	}
 }
