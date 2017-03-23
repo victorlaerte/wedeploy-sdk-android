@@ -11,6 +11,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import static com.wedeploy.sdk.Constants.*;
+import static com.wedeploy.sdk.DataTestHelper.deleteData;
 import static com.wedeploy.sdk.query.filter.Filter.any;
 import static com.wedeploy.sdk.query.filter.Filter.equal;
 import static org.junit.Assert.*;
@@ -21,7 +22,7 @@ import static org.junit.Assert.*;
 public class WeDeployDataTest {
 
 	@Before
-	public void setUp() throws WeDeployException {
+	public void setUp() {
 		deleteData();
 	}
 
@@ -312,13 +313,6 @@ public class WeDeployDataTest {
 		this.id = data.getString("id");
 
 		return response;
-	}
-
-	private void deleteData() throws WeDeployException {
-		WeDeploy.data(DATA_URL)
-			.auth(AUTH)
-			.delete("")
-			.execute();
 	}
 
 	private String id;

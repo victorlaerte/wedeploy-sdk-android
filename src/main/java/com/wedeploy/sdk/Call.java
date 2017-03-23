@@ -24,18 +24,25 @@ public class Call<T> {
 	}
 
 	public T execute() throws WeDeployException {
+		Response response = null;
+
 		try {
-			Response response = transport.send(request);
-
-			if (clazz.isInstance(response)) {
-				return clazz.cast(response);
-			}
+			response = transport.send(request);
 		}
-		catch(RuntimeException re) {
-			throw new WeDeployException("Error while executing request", re);
+		catch (RuntimeException re) {
+			throw re;
+		}
+		catch (Exception e) {
+			throw new WeDeployException("Error while executing request", e);
 		}
 
-		throw new WeDeployException("Unable to convert response to " + clazz.getSimpleName());
+		Validator.checkResponseCode(response);
+
+		if (clazz.isInstance(response)) {
+			return clazz.cast(response);
+		}
+
+		throw new IllegalStateException("Unable to convert response to " + clazz.getSimpleName());
 	}
 
 	public void execute(final Callback callback) {

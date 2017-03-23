@@ -14,11 +14,15 @@ import static com.wedeploy.sdk.Constants.DATA_URL;
  */
 public class DataTestHelper {
 
-	public static void deleteData() throws WeDeployException {
-		WeDeploy.data(DATA_URL)
-			.auth(AUTH)
-			.delete("messages")
-			.execute();
+	public static void deleteData() {
+		try {
+			WeDeploy.data(DATA_URL)
+				.auth(AUTH)
+				.delete("messages")
+				.execute();
+		}
+		catch(WeDeployException e) {
+		}
 	}
 
 	public static void initDataFromFile(String path) throws WeDeployException {

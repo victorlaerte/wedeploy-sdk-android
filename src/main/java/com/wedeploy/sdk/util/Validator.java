@@ -13,7 +13,7 @@ public class Validator {
 	}
 
 	public static void checkResponseCode(Response response) throws WeDeployException {
-		if (!response.succeeded()) throw new WeDeployException(response.getStatusMessage());
+		if (!response.succeeded()) throw new WeDeployException(response);
 	}
 
 }
