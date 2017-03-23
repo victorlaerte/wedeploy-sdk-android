@@ -1,5 +1,6 @@
 package com.wedeploy.sdk;
 
+import com.wedeploy.sdk.exception.WeDeployException;
 import com.wedeploy.sdk.query.SortOrder;
 import com.wedeploy.sdk.query.aggregation.Aggregation;
 import com.wedeploy.sdk.query.filter.Filter;
@@ -21,12 +22,12 @@ import static org.junit.Assert.fail;
 public class WeDeployDataQueryTest {
 
 	@BeforeClass
-	public static void setUpBeforeClass() {
+	public static void setUpBeforeClass() throws WeDeployException {
 		initDataFromFile("messages.json");
 	}
 
 	@Test
-	public void aggregate() {
+	public void aggregate() throws WeDeployException {
 		Response response = WeDeploy.data(DATA_URL)
 			.aggregate(Aggregation.count("messagesCount", "message"))
 			.get("messages")
@@ -39,7 +40,7 @@ public class WeDeployDataQueryTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void aggregate_withNullValue_shouldThrowException() {
+	public void aggregate_withNullValue_shouldThrowException() throws WeDeployException {
 		WeDeploy.data(DATA_URL)
 			.aggregate(null)
 			.get("messages")
@@ -47,7 +48,7 @@ public class WeDeployDataQueryTest {
 	}
 
 	@Test
-	public void limit() throws Exception {
+	public void limit() throws WeDeployException {
 		Response response = WeDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.limit(1)
@@ -60,7 +61,7 @@ public class WeDeployDataQueryTest {
 	}
 
 	@Test
-	public void offset() throws Exception {
+	public void offset() throws WeDeployException {
 		Response response = WeDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.offset(10)
@@ -73,17 +74,17 @@ public class WeDeployDataQueryTest {
 	}
 
 	@Test
-	public void sort_ascending() throws Exception {
+	public void sort_ascending() throws WeDeployException {
 		sort(SortOrder.ASCENDING);
 	}
 
 	@Test
-	public void sort_descending() throws Exception {
+	public void sort_descending() throws WeDeployException {
 		sort(SortOrder.DESCENDING);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void sort_withNullField_shouldThrowException() {
+	public void sort_withNullField_shouldThrowException() throws WeDeployException {
 		WeDeploy.data(DATA_URL)
 			.sort(null)
 			.get("messages")
@@ -91,7 +92,7 @@ public class WeDeployDataQueryTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void sort_withNullSortOrder_shouldThrowException() {
+	public void sort_withNullSortOrder_shouldThrowException() throws WeDeployException {
 		WeDeploy.data(DATA_URL)
 			.sort("field", null)
 			.get("messages")
@@ -99,7 +100,7 @@ public class WeDeployDataQueryTest {
 	}
 
 	@Test
-	public void where() {
+	public void where() throws WeDeployException {
 		final String filterMessage = "message1";
 		Filter filter = Filter.prefix("message1");
 
@@ -117,14 +118,14 @@ public class WeDeployDataQueryTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void where_withNullFilter_shouldThrowException() {
+	public void where_withNullFilter_shouldThrowException() throws WeDeployException {
 		WeDeploy.data(DATA_URL)
 			.where(null)
 			.get("messages")
 			.execute();
 	}
 
-	private void sort(SortOrder order) {
+	private void sort(SortOrder order) throws WeDeployException {
 		Response response = WeDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.sort("message", order)

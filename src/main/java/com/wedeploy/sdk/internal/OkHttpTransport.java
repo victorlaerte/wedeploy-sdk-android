@@ -27,7 +27,7 @@ public class OkHttpTransport implements Transport<Response>, AsyncTransport {
 			return toResponse(okHttpResponse);
 		}
 		catch (Exception e) {
-			throw new WeDeployException(e.getMessage(), e);
+			throw new RuntimeException(e.getMessage(), e);
 		}
 	}
 
@@ -42,14 +42,7 @@ public class OkHttpTransport implements Transport<Response>, AsyncTransport {
 
 			@Override
 			public void onResponse(Call call, okhttp3.Response okHttpResponse) throws IOException {
-				Response response = toResponse(okHttpResponse);
-
-				if (response.succeeded()) {
-					callback.onSuccess(response);
-				}
-				else {
-					callback.onFailure(new WeDeployException(response.getStatusMessage()));
-				}
+				callback.onSuccess(toResponse(okHttpResponse));
 			}
 		});
 	}

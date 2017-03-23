@@ -3,7 +3,7 @@ package com.wedeploy.sdk.exception;
 /**
  * @author Silvio Santos
  */
-public class WeDeployException extends RuntimeException {
+public class WeDeployException extends Exception {
 
 	public WeDeployException(String message) {
 		super(message);

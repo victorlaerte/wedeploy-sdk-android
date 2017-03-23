@@ -2,6 +2,7 @@ package com.wedeploy.sdk;
 
 import com.wedeploy.sdk.auth.Auth;
 import com.wedeploy.sdk.auth.TokenAuth;
+import com.wedeploy.sdk.exception.WeDeployException;
 import com.wedeploy.sdk.internal.OkHttpTransport;
 import com.wedeploy.sdk.internal.RequestMethod;
 import com.wedeploy.sdk.transport.Request;
@@ -23,33 +24,9 @@ import static org.junit.Assert.assertNotNull;
 public class WeDeployAuthTest {
 
 	@BeforeClass
-	public static void setUpBeforeClass() {
+	public static void setUpBeforeClass() throws WeDeployException {
 		deleteUsers();
 		createUser();
-	}
-
-	private static void createUser() {
-		Response response = WeDeploy.auth(AUTH_URL)
-			.createUser(USERNAME, PASSWORD, NAME)
-			.execute();
-
-		assertEquals(200, response.getStatusCode());
-
-		JSONObject jsonObject = new JSONObject(response.getBody());
-		USER_ID = jsonObject.getString("id");
-	}
-
-	private static void deleteUsers() {
-		Request.Builder builder = new Request.Builder()
-			.url(AUTH_URL)
-			.method(RequestMethod.DELETE)
-			.header("Authorization", "Bearer " + MASTER_TOKEN)
-			.path("users");
-
-		Call<Response> call = new Call<>(
-			builder.build(), new OkHttpTransport(), new OkHttpTransport(), Response.class);
-
-		call.execute();
 	}
 
 	@Test
@@ -109,6 +86,30 @@ public class WeDeployAuthTest {
 			.auth(auth)
 			.updateUser(USER_ID, fields)
 			.execute();
+	}
+
+	private static void createUser() throws WeDeployException {
+		Response response = WeDeploy.auth(AUTH_URL)
+			.createUser(USERNAME, PASSWORD, NAME)
+			.execute();
+
+		assertEquals(200, response.getStatusCode());
+
+		JSONObject jsonObject = new JSONObject(response.getBody());
+		USER_ID = jsonObject.getString("id");
+	}
+
+	private static void deleteUsers() throws WeDeployException {
+		Request.Builder builder = new Request.Builder()
+			.url(AUTH_URL)
+			.method(RequestMethod.DELETE)
+			.header("Authorization", "Bearer " + MASTER_TOKEN)
+			.path("users");
+
+		Call<Response> call = new Call<>(
+			builder.build(), new OkHttpTransport(), new OkHttpTransport(), Response.class);
+
+		call.execute();
 	}
 
 }

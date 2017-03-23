@@ -1,5 +1,6 @@
 package com.wedeploy.sdk;
 
+import com.wedeploy.sdk.exception.WeDeployException;
 import com.wedeploy.sdk.transport.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,7 +21,7 @@ import static org.junit.Assert.*;
 public class WeDeployDataTest {
 
 	@Before
-	public void setUp() {
+	public void setUp() throws WeDeployException {
 		deleteData();
 	}
 
@@ -36,7 +37,7 @@ public class WeDeployDataTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void create_withNullData_shouldThrowException() {
+	public void create_withNullData_shouldThrowException() throws WeDeployException {
 		WeDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.create("resourcePath", (JSONObject)null)
@@ -44,7 +45,7 @@ public class WeDeployDataTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void create_withNullCollection_shouldThrowException() {
+	public void create_withNullCollection_shouldThrowException() throws WeDeployException {
 		WeDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.create(null, new JSONArray())
@@ -52,7 +53,7 @@ public class WeDeployDataTest {
 	}
 
 	@Test
-	public void delete() throws Exception {
+	public void delete() throws WeDeployException {
 		createMessageObject();
 
 		Response response = WeDeploy.data(DATA_URL)
@@ -64,7 +65,7 @@ public class WeDeployDataTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void delete_withNullResourcePath_shouldThrowException() {
+	public void delete_withNullResourcePath_shouldThrowException() throws WeDeployException {
 		WeDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.delete(null)
@@ -72,7 +73,7 @@ public class WeDeployDataTest {
 	}
 
 	@Test
-	public void get() throws Exception {
+	public void get() throws WeDeployException {
 		createMessageObject();
 
 		Response response = WeDeploy.data(DATA_URL)
@@ -99,7 +100,7 @@ public class WeDeployDataTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void get_withNullResourcePath_shouldThrowException() {
+	public void get_withNullResourcePath_shouldThrowException() throws WeDeployException {
 		WeDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.get(null)
@@ -107,7 +108,7 @@ public class WeDeployDataTest {
 	}
 
 	@Test
-	public void replace() throws Exception {
+	public void replace() throws WeDeployException {
 		createMessageObject();
 
 		final String message = "message21";
@@ -128,7 +129,7 @@ public class WeDeployDataTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void replace_withNullData_shouldThrowException() {
+	public void replace_withNullData_shouldThrowException() throws WeDeployException {
 		WeDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.replace("resourcePath", null)
@@ -136,7 +137,7 @@ public class WeDeployDataTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void replace_withNullResourcePath_shouldThrowException() {
+	public void replace_withNullResourcePath_shouldThrowException() throws WeDeployException {
 		WeDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.replace(null, new JSONObject())
@@ -144,7 +145,7 @@ public class WeDeployDataTest {
 	}
 
 	@Test
-	public void update() throws Exception {
+	public void update() throws WeDeployException {
 		createMessageObject();
 
 		final String message = "message21";
@@ -165,7 +166,7 @@ public class WeDeployDataTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void update_withNullData_shouldThrowException() {
+	public void update_withNullData_shouldThrowException() throws WeDeployException {
 		WeDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.update("resourcePath", null)
@@ -173,7 +174,7 @@ public class WeDeployDataTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void update_withNullResourcePath_shouldThrowException() {
+	public void update_withNullResourcePath_shouldThrowException() throws WeDeployException {
 		WeDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.update(null, new JSONObject())
@@ -181,7 +182,7 @@ public class WeDeployDataTest {
 	}
 
 	@Test
-	public void search() throws Exception {
+	public void search() throws WeDeployException {
 		DataTestHelper.initDataFromFile("messages.json");
 
 		Response response = WeDeploy.data(DATA_URL)
@@ -195,7 +196,7 @@ public class WeDeployDataTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void search_withNullResourcePath_shouldThrowException() {
+	public void search_withNullResourcePath_shouldThrowException() throws WeDeployException {
 		WeDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.search(null)
@@ -276,10 +277,16 @@ public class WeDeployDataTest {
 	}
 
 	public JSONObject getMessageObject(String id) {
-		Response response = WeDeploy.data(DATA_URL)
-			.auth(AUTH)
-			.get("messages/" + id)
-			.execute();
+		Response response = null;
+		try {
+			response = WeDeploy.data(DATA_URL)
+				.auth(AUTH)
+				.get("messages/" + id)
+				.execute();
+		}
+		catch (WeDeployException e) {
+			fail(e.getMessage());
+		}
 
 		return new JSONObject(response.getBody());
 	}
@@ -289,10 +296,17 @@ public class WeDeployDataTest {
 		jsonObject.put("author", AUTHOR);
 		jsonObject.put("message", MESSAGE);
 
-		Response response = WeDeploy.data(DATA_URL)
-			.auth(AUTH)
-			.create("messages", jsonObject)
-			.execute();
+		Response response = null;
+
+		try {
+			response = WeDeploy.data(DATA_URL)
+				.auth(AUTH)
+				.create("messages", jsonObject)
+				.execute();
+		}
+		catch (WeDeployException e) {
+			fail(e.getMessage());
+		}
 
 		JSONObject data = new JSONObject(response.getBody());
 		this.id = data.getString("id");
@@ -300,7 +314,7 @@ public class WeDeployDataTest {
 		return response;
 	}
 
-	private void deleteData() {
+	private void deleteData() throws WeDeployException {
 		WeDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.delete("")

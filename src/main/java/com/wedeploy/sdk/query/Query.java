@@ -96,7 +96,7 @@ public class Query extends BodyConvertible {
 				queryString.append("&");
 			}
 			catch (UnsupportedEncodingException e) {
-				throw new WeDeployException("Couldn't encode query", e);
+				throw new RuntimeException("Couldn't encode query", e);
 			}
 		}
 

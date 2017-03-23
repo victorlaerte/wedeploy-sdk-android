@@ -1,5 +1,6 @@
 package com.wedeploy.sdk;
 
+import com.wedeploy.sdk.exception.WeDeployException;
 import org.json.JSONArray;
 
 import java.io.InputStream;
@@ -13,14 +14,14 @@ import static com.wedeploy.sdk.Constants.DATA_URL;
  */
 public class DataTestHelper {
 
-	public static void deleteData() {
+	public static void deleteData() throws WeDeployException {
 		WeDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.delete("messages")
 			.execute();
 	}
 
-	public static void initDataFromFile(String path) {
+	public static void initDataFromFile(String path) throws WeDeployException {
 		deleteData();
 
 		InputStream is = WeDeployDataTest.class.getClassLoader()

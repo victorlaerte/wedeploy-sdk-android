@@ -19,6 +19,7 @@
           <option name="CATCH_ON_NEW_LINE" value="true" />
           <option name="FINALLY_ON_NEW_LINE" value="true" />
           <option name="SPACE_AFTER_TYPE_CAST" value="false" />
+          <option name="THROWS_KEYWORD_WRAP" value="1" />
           <option name="WRAP_LONG_LINES" value="true" />
           <indentOptions>
             <option name="CONTINUATION_INDENT_SIZE" value="4" />

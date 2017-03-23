@@ -80,7 +80,7 @@ public class SocketIORealTime implements RealTime {
 			socket = IO.socket(builder.url, options).connect();
 		}
 		catch (URISyntaxException e) {
-			throw new WeDeployException("Couldn't open realtime socket connection", e);
+			throw new RuntimeException("Couldn't open realtime socket connection", e);
 		}
 
 		setHeaders(builder.headers);
