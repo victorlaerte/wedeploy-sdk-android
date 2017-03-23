@@ -13,4 +13,7 @@ public class WeDeploy {
 		return new WeDeployData(url);
 	}
 
+	public static WeDeployEmail email(String url) {
+		return new WeDeployEmail(url);
+	}
 }
