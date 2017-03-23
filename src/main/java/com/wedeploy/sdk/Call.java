@@ -6,6 +6,9 @@ import com.wedeploy.sdk.transport.Request;
 import com.wedeploy.sdk.transport.Response;
 import com.wedeploy.sdk.transport.Transport;
 import com.wedeploy.sdk.util.Platform;
+import io.reactivex.Single;
+
+import java.util.concurrent.Callable;
 
 /**
  * @author Silvio Santos
@@ -49,6 +52,15 @@ public class Call<T> {
 						callback.onFailure(e);
 					}
 				});
+			}
+		});
+	}
+
+	public Single<T> asSingle() {
+		return Single.fromCallable(new Callable<T>() {
+			@Override
+			public T call() throws Exception {
+				return execute();
 			}
 		});
 	}
