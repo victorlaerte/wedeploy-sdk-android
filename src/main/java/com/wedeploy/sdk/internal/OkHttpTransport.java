@@ -1,8 +1,8 @@
 package com.wedeploy.sdk.internal;
 
 import com.wedeploy.sdk.Callback;
-import com.wedeploy.sdk.exception.WeDeployException;
 import com.wedeploy.sdk.transport.AsyncTransport;
+import com.wedeploy.sdk.transport.MultiMap;
 import com.wedeploy.sdk.transport.Request;
 import com.wedeploy.sdk.transport.Response;
 import com.wedeploy.sdk.transport.Transport;
@@ -15,6 +15,7 @@ import okhttp3.RequestBody;
 import okhttp3.internal.http.HttpMethod;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 public class OkHttpTransport implements Transport<Response>, AsyncTransport {
@@ -56,8 +57,10 @@ public class OkHttpTransport implements Transport<Response>, AsyncTransport {
 			.url(url)
 			.method(method, body);
 
-		for (Map.Entry<String, String> entry : request.getHeaders().entrySet()) {
-			builder.addHeader(entry.getKey(), entry.getValue());
+		for (Map.Entry<String, List<String>> entry : request.getHeaders().entrySet()) {
+			for (String value : entry.getValue()) {
+				builder.addHeader(entry.getKey(), value);
+			}
 		}
 
 		return builder.build();
@@ -71,13 +74,15 @@ public class OkHttpTransport implements Transport<Response>, AsyncTransport {
 			return null;
 		}
 
-		Map<String, String> forms = request.getForms();
+		MultiMap<String> forms = request.getForms();
 
 		if (!forms.isEmpty()) {
 			FormBody.Builder builder = new FormBody.Builder();
 
-			for (Map.Entry<String, String> entry : forms.entrySet()) {
-				builder.add(entry.getKey(), entry.getValue());
+			for (Map.Entry<String, List<String>> entry : forms.entrySet()) {
+				for (String value : entry.getValue()) {
+					builder.add(entry.getKey(), value);
+				}
 			}
 
 			return builder.build();

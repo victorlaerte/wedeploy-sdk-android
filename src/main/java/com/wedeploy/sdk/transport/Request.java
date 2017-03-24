@@ -5,6 +5,7 @@ import com.wedeploy.sdk.query.Query;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,12 +17,12 @@ public class Request {
 		return body;
 	}
 
-	public Map<String, String> getForms() {
-		return Collections.unmodifiableMap(forms);
+	public MultiMap<String> getForms() {
+		return forms;
 	}
 
-	public Map<String, String> getHeaders() {
-		return Collections.unmodifiableMap(headers);
+	public MultiMap<String> getHeaders() {
+		return headers;
 	}
 
 	public RequestMethod getMethod() {
@@ -51,8 +52,8 @@ public class Request {
 	}
 
 	private final String body;
-	private final Map<String, String> forms;
-	private final Map<String, String> headers;
+	private final MultiMap<String> forms;
+	private final MultiMap<String> headers;
 	private final RequestMethod method;
 	private final String path;
 	private final String query;
@@ -60,8 +61,8 @@ public class Request {
 
 	public static class Builder {
 		String body;
-		Map<String, String> forms = new HashMap<>();
-		Map<String, String> headers = new HashMap<>();
+		MultiMap<String> forms = new SimpleMultiMap<>();
+		MultiMap<String> headers = new SimpleMultiMap<>();
 		RequestMethod method;
 		String path = "";
 		Query query = new Query.Builder().build();

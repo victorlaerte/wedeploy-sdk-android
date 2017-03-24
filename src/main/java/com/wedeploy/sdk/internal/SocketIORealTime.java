@@ -1,7 +1,6 @@
 package com.wedeploy.sdk.internal;
 
 import com.wedeploy.sdk.RealTime;
-import com.wedeploy.sdk.exception.WeDeployException;
 import com.wedeploy.sdk.util.URLUtil;
 import io.socket.client.IO;
 import io.socket.client.Manager;
