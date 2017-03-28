@@ -205,6 +205,16 @@ public class WeDeployDataTest {
 	}
 
 	@Test
+	public void request_shouldNotReusePreviousQuery() {
+		WeDeployData data = weDeploy.data(DATA_URL);
+
+		data.limit(1)
+			.get("messages");
+
+		assertTrue(data.getOrCreateQueryBuilder().build().body().isEmpty());
+	}
+
+	@Test
 	public void watch() throws Exception {
 		final Object[] createPayload = new Object[1];
 		final CountDownLatch latch = new CountDownLatch(1);
@@ -277,21 +287,6 @@ public class WeDeployDataTest {
 			.watch(null);
 	}
 
-	public JSONObject getMessageObject(String id) {
-		Response response = null;
-		try {
-			response = weDeploy.data(DATA_URL)
-				.auth(AUTH)
-				.get("messages/" + id)
-				.execute();
-		}
-		catch (WeDeployException e) {
-			fail(e.getMessage());
-		}
-
-		return new JSONObject(response.getBody());
-	}
-
 	private Response createMessageObject() {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("author", AUTHOR);
@@ -313,6 +308,21 @@ public class WeDeployDataTest {
 		this.id = data.getString("id");
 
 		return response;
+	}
+
+	private JSONObject getMessageObject(String id) {
+		Response response = null;
+		try {
+			response = weDeploy.data(DATA_URL)
+				.auth(AUTH)
+				.get("messages/" + id)
+				.execute();
+		}
+		catch (WeDeployException e) {
+			fail(e.getMessage());
+		}
+
+		return new JSONObject(response.getBody());
 	}
 
 	private String id;

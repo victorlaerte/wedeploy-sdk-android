@@ -52,6 +52,8 @@ public class WeDeployData extends WeDeployService<WeDeployData> {
 			.method(DELETE)
 			.build();
 
+		resetQueryBuilder();
+
 		return newCall(request);
 	}
 
@@ -62,6 +64,8 @@ public class WeDeployData extends WeDeployService<WeDeployData> {
 			.path(resourcePath)
 			.query(getOrCreateQueryBuilder().build())
 			.method(GET);
+
+		resetQueryBuilder();
 
 		return newCall(builder.build());
 	}
@@ -76,6 +80,8 @@ public class WeDeployData extends WeDeployService<WeDeployData> {
 			.body(data.toString())
 			.build();
 
+		resetQueryBuilder();
+
 		return newCall(request);
 	}
 
@@ -89,6 +95,8 @@ public class WeDeployData extends WeDeployService<WeDeployData> {
 			.body(data.toString())
 			.build();
 
+		resetQueryBuilder();
+
 		return newCall(request);
 	}
 
@@ -101,6 +109,8 @@ public class WeDeployData extends WeDeployService<WeDeployData> {
 			.path(resourcePath)
 			.query(queryBuilder.build())
 			.method(GET);
+
+		resetQueryBuilder();
 
 		return newCall(builder.build());
 	}
@@ -118,6 +128,8 @@ public class WeDeployData extends WeDeployService<WeDeployData> {
 		if (auth != null) {
 			builder.header("Authorization", auth.getAuthorizationHeader());
 		}
+
+		resetQueryBuilder();
 
 		return builder.build();
 	}
@@ -169,6 +181,14 @@ public class WeDeployData extends WeDeployService<WeDeployData> {
 		return this;
 	}
 
+	protected Query.Builder getOrCreateQueryBuilder() {
+		if (queryBuilder == null) {
+			queryBuilder = new Query.Builder();
+		}
+
+		return queryBuilder;
+	}
+
 	private Call<Response> create(String collection, String dataJson) {
 		checkNotNull(collection, "Collection must be specified");
 
@@ -178,15 +198,9 @@ public class WeDeployData extends WeDeployService<WeDeployData> {
 			.body(dataJson)
 			.build();
 
+		resetQueryBuilder();
+
 		return newCall(request);
-	}
-
-	private Query.Builder getOrCreateQueryBuilder() {
-		if (queryBuilder == null) {
-			queryBuilder = new Query.Builder();
-		}
-
-		return queryBuilder;
 	}
 
 	private Request.Builder newAuthenticatedBuilder() {
@@ -198,6 +212,10 @@ public class WeDeployData extends WeDeployService<WeDeployData> {
 		}
 
 		return auth.authenticate(builder);
+	}
+
+	private void resetQueryBuilder() {
+		queryBuilder = null;
 	}
 
 	private Auth auth;

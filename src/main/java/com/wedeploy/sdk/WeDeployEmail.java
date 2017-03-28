@@ -79,6 +79,8 @@ public class WeDeployEmail extends WeDeployService<WeDeployEmail> {
 			.method(RequestMethod.POST)
 			.build();
 
+		resetRequestBuilder();
+
 		return newCall(request);
 	}
 
@@ -91,15 +93,21 @@ public class WeDeployEmail extends WeDeployService<WeDeployEmail> {
 			.method(RequestMethod.GET)
 			.build();
 
+		resetRequestBuilder();
+
 		return newCall(request);
 	}
 
-	private Request.Builder getOrCreateRequestBuilder() {
+	protected Request.Builder getOrCreateRequestBuilder() {
 		if (requestBuilder == null) {
 			requestBuilder = newAuthenticatedRequestBuilder(url);
 		}
 
 		return requestBuilder;
+	}
+
+	private void resetRequestBuilder() {
+		requestBuilder = null;
 	}
 
 	private Request.Builder requestBuilder;
