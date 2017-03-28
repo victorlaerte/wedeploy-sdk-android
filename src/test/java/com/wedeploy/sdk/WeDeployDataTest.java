@@ -30,7 +30,7 @@ public class WeDeployDataTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void weDeployData_withNullUrl_shouldThrowException() {
-		new WeDeployData(null);
+		new WeDeployData(weDeploy, null);
 	}
 
 	@Test

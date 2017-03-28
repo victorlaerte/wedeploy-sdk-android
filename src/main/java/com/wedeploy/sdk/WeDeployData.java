@@ -18,9 +18,11 @@ import static com.wedeploy.sdk.util.Validator.checkNotNull;
 /**
  * @author Silvio Santos
  */
-public class WeDeployData {
+public class WeDeployData extends WeDeployService<WeDeployData> {
 
-	WeDeployData(String url) {
+	WeDeployData(WeDeploy weDeploy, String url) {
+		super(weDeploy);
+
 		checkNotNull(url, "Data url must be specified");
 
 		this.url = url;
@@ -197,10 +199,6 @@ public class WeDeployData {
 		}
 
 		return auth.authenticate(builder);
-	}
-
-	private Call<Response> newCall(Request request) {
-		return new Call<>(request, new OkHttpTransport(), new OkHttpTransport(), Response.class);
 	}
 
 	private Auth auth;

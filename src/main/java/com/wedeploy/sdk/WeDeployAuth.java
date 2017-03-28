@@ -5,9 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import com.wedeploy.sdk.auth.Auth;
 import com.wedeploy.sdk.auth.AuthProvider;
-import com.wedeploy.sdk.auth.TokenAuth;
-import com.wedeploy.sdk.exception.WeDeployException;
-import com.wedeploy.sdk.internal.OkHttpTransport;
 import com.wedeploy.sdk.internal.RequestMethod;
 import com.wedeploy.sdk.transport.Request;
 import com.wedeploy.sdk.transport.Response;
@@ -20,16 +17,12 @@ import static com.wedeploy.sdk.util.Validator.checkNotNull;
 /**
  * @author Silvio Santos
  */
-public class WeDeployAuth {
+public class WeDeployAuth extends WeDeployService<WeDeployAuth> {
 
-	WeDeployAuth(String url) {
+	WeDeployAuth(WeDeploy weDeploy, String url) {
+		super(weDeploy);
+
 		this.url = url;
-	}
-
-	public WeDeployAuth auth(Auth auth) {
-		this.auth = auth;
-
-		return this;
 	}
 
 	public Call<Response> signIn(String email, String password) {
@@ -64,7 +57,7 @@ public class WeDeployAuth {
 			.put("password", password)
 			.put("name", name);
 
-		Request.Builder builder = newAuthenticatedBuilder()
+		Request.Builder builder = newAuthenticatedRequestBuilder(url)
 			.path("users")
 			.body(json.toString())
 			.method(RequestMethod.POST);
@@ -73,12 +66,9 @@ public class WeDeployAuth {
 	}
 
 	public Call<Response> getCurrentUser() {
-		Request.Builder builder = new Request.Builder()
-			.url(url)
+		Request.Builder builder = newAuthenticatedRequestBuilder(url)
 			.path("user")
 			.method(RequestMethod.GET);
-
-		auth.authenticate(builder);
 
 		return newCall(builder.build());
 	}
@@ -98,7 +88,7 @@ public class WeDeployAuth {
 			body.put(entry.getKey(), entry.getValue());
 		}
 
-		Request request = newAuthenticatedBuilder()
+		Request request = newAuthenticatedRequestBuilder(url)
 			.path("users/" + id)
 			.body(body.toString())
 			.method(RequestMethod.PATCH)
@@ -107,22 +97,6 @@ public class WeDeployAuth {
 		return newCall(request);
 	}
 
-	private Request.Builder newAuthenticatedBuilder() {
-		Request.Builder builder = new Request.Builder()
-			.url(url);
-
-		if (auth == null) {
-			return builder;
-		}
-
-		return auth.authenticate(builder);
-	}
-
-	private Call<Response> newCall(Request request) {
-		return new Call<>(request, new OkHttpTransport(), new OkHttpTransport(), Response.class);
-	}
-
-	private Auth auth;
 	private String url;
 
 }

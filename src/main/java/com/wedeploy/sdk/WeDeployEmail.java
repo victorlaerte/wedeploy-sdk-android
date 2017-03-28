@@ -1,7 +1,5 @@
 package com.wedeploy.sdk;
 
-import com.wedeploy.sdk.auth.Auth;
-import com.wedeploy.sdk.internal.OkHttpTransport;
 import com.wedeploy.sdk.internal.RequestMethod;
 import com.wedeploy.sdk.transport.Request;
 import com.wedeploy.sdk.transport.Response;
@@ -11,16 +9,12 @@ import static com.wedeploy.sdk.util.Validator.checkNotNull;
 /**
  * @author Silvio Santos
  */
-public class WeDeployEmail {
+public class WeDeployEmail extends WeDeployService<WeDeployEmail> {
 
-	WeDeployEmail(String url) {
+	WeDeployEmail(WeDeploy weDeploy, String url) {
+		super(weDeploy);
+
 		this.url = url;
-	}
-
-	public WeDeployEmail auth(Auth auth) {
-		this.auth = auth;
-
-		return this;
 	}
 
 	public WeDeployEmail from(String from) {
@@ -102,28 +96,12 @@ public class WeDeployEmail {
 
 	private Request.Builder getOrCreateRequestBuilder() {
 		if (requestBuilder == null) {
-			requestBuilder = newAuthenticatedBuilder();
+			requestBuilder = newAuthenticatedRequestBuilder(url);
 		}
 
 		return requestBuilder;
 	}
 
-	private Request.Builder newAuthenticatedBuilder() {
-		Request.Builder builder = new Request.Builder()
-			.url(url);
-
-		if (auth == null) {
-			return builder;
-		}
-
-		return auth.authenticate(builder);
-	}
-
-	private Call<Response> newCall(Request request) {
-		return new Call<>(request, new OkHttpTransport(), new OkHttpTransport(), Response.class);
-	}
-
-	private Auth auth;
 	private Request.Builder requestBuilder;
 	private final String url;
 

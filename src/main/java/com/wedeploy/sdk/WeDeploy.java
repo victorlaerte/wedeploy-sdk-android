@@ -16,16 +16,28 @@ public class WeDeploy {
 		transport = builder.transport;
 	}
 
+	public Auth getAuth() {
+		return auth;
+	}
+
+	public AsyncTransport getAsyncTransport() {
+		return asyncTransport;
+	}
+
+	public Transport getTransport() {
+		return transport;
+	}
+
 	public WeDeployAuth auth(String url) {
-		return new WeDeployAuth(url);
+		return new WeDeployAuth(this, url);
 	}
 
 	public WeDeployData data(String url) {
-		return new WeDeployData(url);
+		return new WeDeployData(this, url);
 	}
 
 	public WeDeployEmail email(String url) {
-		return new WeDeployEmail(url);
+		return new WeDeployEmail(this, url);
 	}
 
 	private final AsyncTransport asyncTransport;
