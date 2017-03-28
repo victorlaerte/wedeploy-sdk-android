@@ -19,56 +19,56 @@ public class WeDeployEmail extends WeDeployService<WeDeployEmail> {
 
 	public WeDeployEmail from(String from) {
 		checkNotNull(from, "From email must not be null");
-		getOrCreateRequestBuilder().forms("from", from);
+		getOrCreateRequestBuilder().form("from", from);
 
 		return this;
 	}
 
 	public WeDeployEmail cc(String cc) {
 		checkNotNull(cc, "CC email must not be null");
-		getOrCreateRequestBuilder().forms("cc", cc);
+		getOrCreateRequestBuilder().form("cc", cc);
 
 		return this;
 	}
 
 	public WeDeployEmail bcc(String bcc) {
 		checkNotNull(bcc, "BCC email must not be null");
-		getOrCreateRequestBuilder().forms("bcc", bcc);
+		getOrCreateRequestBuilder().form("bcc", bcc);
 
 		return this;
 	}
 
 	public WeDeployEmail message(String message) {
 		checkNotNull(message, "Message must not be null");
-		getOrCreateRequestBuilder().forms("message", message);
+		getOrCreateRequestBuilder().form("message", message);
 
 		return this;
 	}
 
 	public WeDeployEmail priority(String priority) {
 		checkNotNull(priority, "Priority must not be null");
-		getOrCreateRequestBuilder().forms("priority", priority);
+		getOrCreateRequestBuilder().form("priority", priority);
 
 		return this;
 	}
 
 	public WeDeployEmail replyTo(String replyTo) {
 		checkNotNull(replyTo, "ReplyTo must not be null");
-		getOrCreateRequestBuilder().forms("replyTo", replyTo);
+		getOrCreateRequestBuilder().form("replyTo", replyTo);
 
 		return this;
 	}
 
 	public WeDeployEmail to(String to) {
 		checkNotNull(to, "'To' must not be null");
-		getOrCreateRequestBuilder().forms("to", to);
+		getOrCreateRequestBuilder().form("to", to);
 
 		return this;
 	}
 
 	public WeDeployEmail subject(String subject) {
 		checkNotNull(subject, "Subject must not be null");
-		getOrCreateRequestBuilder().forms("subject", subject);
+		getOrCreateRequestBuilder().form("subject", subject);
 
 		return this;
 	}

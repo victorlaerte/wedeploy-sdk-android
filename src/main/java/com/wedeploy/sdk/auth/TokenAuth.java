@@ -27,6 +27,11 @@ public class TokenAuth implements Auth {
 	}
 
 	@Override
+	public String getToken() {
+		return token;
+	}
+
+	@Override
 	public Request.Builder authenticate(Request.Builder builder) {
 		return builder.header("Authorization", getAuthorizationHeader());
 	}

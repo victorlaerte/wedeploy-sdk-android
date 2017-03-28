@@ -3,6 +3,10 @@ package com.wedeploy.sdk.transport;
 import com.wedeploy.sdk.internal.RequestMethod;
 import com.wedeploy.sdk.query.Query;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author Silvio Santos
  */
@@ -24,6 +28,10 @@ public class Request {
 		return method;
 	}
 
+	public Map<String, String> params() {
+		return Collections.unmodifiableMap(params);
+	}
+
 	public String getEncodedQuery() {
 		return query;
 	}
@@ -42,6 +50,7 @@ public class Request {
 		this.headers = builder.headers;
 		this.method = builder.method;
 		this.query = builder.query.getEncodedQueryString();
+		this.params = builder.params;
 		this.path = builder.path;
 		this.url = builder.url;
 	}
@@ -50,6 +59,7 @@ public class Request {
 	private final MultiMap<String> forms;
 	private final MultiMap<String> headers;
 	private final RequestMethod method;
+	private final Map<String, String> params;
 	private final String path;
 	private final String query;
 	private final String url;
@@ -59,6 +69,7 @@ public class Request {
 		MultiMap<String> forms = new SimpleMultiMap<>();
 		MultiMap<String> headers = new SimpleMultiMap<>();
 		RequestMethod method;
+		Map<String, String> params = new HashMap<>();
 		String path = "";
 		Query query = new Query.Builder().build();
 		String url;
@@ -68,7 +79,7 @@ public class Request {
 			return this;
 		}
 
-		public Builder forms(String name, String value) {
+		public Builder form(String name, String value) {
 			this.forms.put(name, value);
 			return this;
 		}
@@ -85,6 +96,11 @@ public class Request {
 
 		public Builder query(Query query) {
 			this.query = query;
+			return this;
+		}
+
+		public Builder param(String name, String value) {
+			this.params.put(name, value);
 			return this;
 		}
 

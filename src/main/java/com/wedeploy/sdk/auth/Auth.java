@@ -9,6 +9,8 @@ public interface Auth {
 
 	String getAuthorizationHeader();
 
+	String getToken();
+
 	Request.Builder authenticate(Request.Builder builder);
 
 }

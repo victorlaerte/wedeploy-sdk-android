@@ -15,8 +15,9 @@ public class Constants {
 	public static final String EMAIL_URL = "http://email.test.wedeploy.me";
 
 	public static final String NAME = "Silvio Santos";
+	public static final String EMAIL = "silvio.santos@liferay.com";
 	public static final String PASSWORD = "test";
-	public static final String USERNAME = "silvio.santos@liferay.com";
+
 	public static final String AUTHOR = NAME;
 	public static final String MESSAGE = "message";
 	public static String USER_ID;

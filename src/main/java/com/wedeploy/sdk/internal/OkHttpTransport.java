@@ -48,7 +48,7 @@ public class OkHttpTransport implements Transport<Response>, AsyncTransport {
 		});
 	}
 
-	private okhttp3.Request geOkHttpRequest(Request request) {
+	private okhttp3.Request getOkHttpRequest(Request request) {
 		HttpUrl url = getUrl(request);
 		RequestBody body = getRequestBody(request);
 		String method = request.getMethod().getValue();
@@ -98,11 +98,15 @@ public class OkHttpTransport implements Transport<Response>, AsyncTransport {
 			.addPathSegments(request.getPath())
 			.encodedQuery(request.getEncodedQuery());
 
+		for (Map.Entry<String, String> param : request.params().entrySet()) {
+			builder.addQueryParameter(param.getKey(), param.getValue());
+		}
+
 		return builder.build();
 	}
 
 	private okhttp3.Call newOkHttpCall(Request request) {
-		okhttp3.Request okHttpRequest = geOkHttpRequest(request);
+		okhttp3.Request okHttpRequest = getOkHttpRequest(request);
 
 		return client.newCall(okHttpRequest);
 	}

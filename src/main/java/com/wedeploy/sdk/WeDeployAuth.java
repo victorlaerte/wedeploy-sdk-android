@@ -3,6 +3,7 @@ package com.wedeploy.sdk;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import com.wedeploy.sdk.auth.Auth;
 import com.wedeploy.sdk.auth.AuthProvider;
 import com.wedeploy.sdk.internal.RequestMethod;
 import com.wedeploy.sdk.transport.Request;
@@ -30,9 +31,9 @@ public class WeDeployAuth extends WeDeployService<WeDeployAuth> {
 
 		Request request = new Request.Builder()
 			.url(url)
-			.forms("grant_type", "password")
-			.forms("username", email)
-			.forms("password", password)
+			.form("grant_type", "password")
+			.form("username", email)
+			.form("password", password)
 			.path("oauth/token")
 			.method(RequestMethod.POST)
 			.build();
@@ -45,6 +46,20 @@ public class WeDeployAuth extends WeDeployService<WeDeployAuth> {
 
 		Intent intent = new Intent(Intent.ACTION_VIEW, oauthUrl);
 		activity.startActivity(intent);
+	}
+
+	public Call<Response> signOut() {
+		Auth auth = getAuth();
+
+		checkNotNull(auth, "You must be signed in");
+
+		Request request = newAuthenticatedRequestBuilder(url)
+			.path("oauth/revoke")
+			.param("token", auth.getToken())
+			.method(RequestMethod.GET)
+			.build();
+
+		return newCall(request);
 	}
 
 	public Call<Response> createUser(String email, String password, String name) {
@@ -65,11 +80,24 @@ public class WeDeployAuth extends WeDeployService<WeDeployAuth> {
 	}
 
 	public Call<Response> getCurrentUser() {
+		checkNotNull(getAuth(), "You must be signed in");
+
 		Request.Builder builder = newAuthenticatedRequestBuilder(url)
 			.path("user")
 			.method(RequestMethod.GET);
 
 		return newCall(builder.build());
+	}
+
+	public Call<Response> getUser(String userId) {
+		checkNotNull(getAuth(), "userId must be specified");
+
+		Request request = newAuthenticatedRequestBuilder(url)
+			.path("users/" + userId)
+			.method(RequestMethod.GET)
+			.build();
+
+		return newCall(request);
 	}
 
 	//TODO Change fields to be a Map<String, Any>
@@ -91,6 +119,16 @@ public class WeDeployAuth extends WeDeployService<WeDeployAuth> {
 			.path("users/" + id)
 			.body(body.toString())
 			.method(RequestMethod.PATCH)
+			.build();
+
+		return newCall(request);
+	}
+
+	public Call<Response> sendResetPasswordEmail(String email) {
+		Request request = newAuthenticatedRequestBuilder(url)
+			.path("user/recover")
+			.form("email", email)
+			.method(RequestMethod.POST)
 			.build();
 
 		return newCall(request);

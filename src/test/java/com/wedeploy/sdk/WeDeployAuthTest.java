@@ -32,7 +32,7 @@ public class WeDeployAuthTest {
 	@Test
 	public void signIn() throws Exception {
 		Response response = weDeploy.auth(AUTH_URL)
-			.signIn(USERNAME, PASSWORD)
+			.signIn(EMAIL, PASSWORD)
 			.execute();
 
 		JSONObject jsonBody = new JSONObject(response.getBody());
@@ -52,13 +52,28 @@ public class WeDeployAuthTest {
 	public void signIn_withNullPassword_shouldThrowException() {
 		weDeploy.auth(AUTH_URL)
 			.auth(AUTH)
-			.signIn(USERNAME, null);
+			.signIn(EMAIL, null);
+	}
+
+	@Test
+	public void signOut() throws WeDeployException {
+		Response response = weDeploy.auth(AUTH_URL)
+			.signIn(EMAIL, PASSWORD)
+			.execute();
+
+		JSONObject jsonBody = new JSONObject(response.getBody());
+		String token = jsonBody.getString("access_token");
+
+		weDeploy.auth(AUTH_URL)
+			.auth(new TokenAuth(token))
+			.signOut()
+			.execute();
 	}
 
 	@Test
 	public void updateUser() throws Exception {
 		Response response = weDeploy.auth(AUTH_URL)
-			.signIn(USERNAME, PASSWORD)
+			.signIn(EMAIL, PASSWORD)
 			.execute();
 
 		JSONObject jsonBody = new JSONObject(response.getBody());
@@ -88,9 +103,16 @@ public class WeDeployAuthTest {
 			.execute();
 	}
 
+	@Test
+	public void sendResetPasswordEmail() throws WeDeployException {
+		weDeploy.auth(AUTH_URL)
+			.sendResetPasswordEmail(EMAIL)
+			.execute();
+	}
+
 	private static void createUser() throws WeDeployException {
 		Response response = weDeploy.auth(AUTH_URL)
-			.createUser(USERNAME, PASSWORD, NAME)
+			.createUser(EMAIL, PASSWORD, NAME)
 			.execute();
 
 		assertEquals(200, response.getStatusCode());
