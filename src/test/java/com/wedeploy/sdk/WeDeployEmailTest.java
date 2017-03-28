@@ -12,9 +12,11 @@ import static com.wedeploy.sdk.Constants.EMAIL_URL;
  */
 public class WeDeployEmailTest {
 
+	private WeDeploy weDeploy = new WeDeploy.Builder().build();
+
 	@Test
 	public void sendAndCheckStatus() throws WeDeployException {
-		Response response = WeDeploy.email(EMAIL_URL)
+		Response response = weDeploy.email(EMAIL_URL)
 			.auth(AUTH)
 			.from("test@wedeploy.me")
 			.cc("test@wedeploy.me")
@@ -27,7 +29,7 @@ public class WeDeployEmailTest {
 
 		String id = response.getBody();
 
-		WeDeploy.email(EMAIL_URL)
+		weDeploy.email(EMAIL_URL)
 			.auth(AUTH)
 			.checkEmailStatus(id)
 			.execute();

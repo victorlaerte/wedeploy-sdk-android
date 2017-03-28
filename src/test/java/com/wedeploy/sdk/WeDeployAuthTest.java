@@ -23,6 +23,8 @@ import static org.junit.Assert.assertNotNull;
  */
 public class WeDeployAuthTest {
 
+	private static WeDeploy weDeploy = new WeDeploy.Builder().build();
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws WeDeployException {
 		deleteUsers();
@@ -31,7 +33,7 @@ public class WeDeployAuthTest {
 
 	@Test
 	public void signIn() throws Exception {
-		Response response = WeDeploy.auth(AUTH_URL)
+		Response response = weDeploy.auth(AUTH_URL)
 			.signIn(USERNAME, PASSWORD)
 			.execute();
 
@@ -43,21 +45,21 @@ public class WeDeployAuthTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void signIn_withNullEmail_shouldThrowException() {
-		WeDeploy.auth(AUTH_URL)
+		weDeploy.auth(AUTH_URL)
 			.auth(AUTH)
 			.signIn(null, PASSWORD);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void signIn_withNullPassword_shouldThrowException() {
-		WeDeploy.auth(AUTH_URL)
+		weDeploy.auth(AUTH_URL)
 			.auth(AUTH)
 			.signIn(USERNAME, null);
 	}
 
 	@Test
 	public void updateUser() throws Exception {
-		Response response = WeDeploy.auth(AUTH_URL)
+		Response response = weDeploy.auth(AUTH_URL)
 			.signIn(USERNAME, PASSWORD)
 			.execute();
 
@@ -68,12 +70,12 @@ public class WeDeployAuthTest {
 		Map<String, String> fields = new HashMap<>();
 		fields.put("name", "Silvio Santos 2");
 
-		WeDeploy.auth(AUTH_URL)
+		weDeploy.auth(AUTH_URL)
 			.auth(auth)
 			.updateUser(USER_ID, fields)
 			.execute();
 
-		response = WeDeploy.auth(AUTH_URL)
+		response = weDeploy.auth(AUTH_URL)
 			.auth(auth)
 			.getCurrentUser()
 			.execute();
@@ -82,14 +84,14 @@ public class WeDeployAuthTest {
 		assertEquals("Silvio Santos 2", jsonBody.getString("name"));
 
 		fields.put("name", NAME);
-		WeDeploy.auth(AUTH_URL)
+		weDeploy.auth(AUTH_URL)
 			.auth(auth)
 			.updateUser(USER_ID, fields)
 			.execute();
 	}
 
 	private static void createUser() throws WeDeployException {
-		Response response = WeDeploy.auth(AUTH_URL)
+		Response response = weDeploy.auth(AUTH_URL)
 			.createUser(USERNAME, PASSWORD, NAME)
 			.execute();
 
@@ -99,17 +101,21 @@ public class WeDeployAuthTest {
 		USER_ID = jsonObject.getString("id");
 	}
 
-	private static void deleteUsers() throws WeDeployException {
-		Request.Builder builder = new Request.Builder()
-			.url(AUTH_URL)
-			.method(RequestMethod.DELETE)
-			.header("Authorization", "Bearer " + MASTER_TOKEN)
-			.path("users");
+	private static void deleteUsers() {
+		try {
+			Request.Builder builder = new Request.Builder()
+				.url(AUTH_URL)
+				.method(RequestMethod.DELETE)
+				.header("Authorization", "Bearer " + MASTER_TOKEN)
+				.path("users");
 
-		Call<Response> call = new Call<>(
-			builder.build(), new OkHttpTransport(), new OkHttpTransport(), Response.class);
+			Call<Response> call = new Call<>(
+				builder.build(), new OkHttpTransport(), new OkHttpTransport(), Response.class);
 
-		call.execute();
+			call.execute();
+		}
+		catch(Exception e) {
+		}
 	}
 
 }

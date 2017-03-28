@@ -14,9 +14,11 @@ import static com.wedeploy.sdk.Constants.DATA_URL;
  */
 public class DataTestHelper {
 
+	private static WeDeploy weDeploy = new WeDeploy.Builder().build();
+
 	public static void deleteData() {
 		try {
-			WeDeploy.data(DATA_URL)
+			weDeploy.data(DATA_URL)
 				.auth(AUTH)
 				.delete("messages")
 				.execute();
@@ -35,7 +37,7 @@ public class DataTestHelper {
 			.useDelimiter("\\A")
 			.next();
 
-		WeDeploy.data(DATA_URL)
+		weDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.create("messages", new JSONArray(json))
 			.execute();

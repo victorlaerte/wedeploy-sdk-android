@@ -21,6 +21,8 @@ import static org.junit.Assert.*;
  */
 public class WeDeployDataTest {
 
+	private WeDeploy weDeploy = new WeDeploy.Builder().build();
+
 	@Before
 	public void setUp() {
 		deleteData();
@@ -39,7 +41,7 @@ public class WeDeployDataTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void create_withNullData_shouldThrowException() throws WeDeployException {
-		WeDeploy.data(DATA_URL)
+		weDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.create("resourcePath", (JSONObject)null)
 			.execute();
@@ -47,7 +49,7 @@ public class WeDeployDataTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void create_withNullCollection_shouldThrowException() throws WeDeployException {
-		WeDeploy.data(DATA_URL)
+		weDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.create(null, new JSONArray())
 			.execute();
@@ -57,7 +59,7 @@ public class WeDeployDataTest {
 	public void delete() throws WeDeployException {
 		createMessageObject();
 
-		Response response = WeDeploy.data(DATA_URL)
+		Response response = weDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.delete("messages/" + id)
 			.execute();
@@ -67,7 +69,7 @@ public class WeDeployDataTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void delete_withNullResourcePath_shouldThrowException() throws WeDeployException {
-		WeDeploy.data(DATA_URL)
+		weDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.delete(null)
 			.execute();
@@ -77,21 +79,21 @@ public class WeDeployDataTest {
 	public void get() throws WeDeployException {
 		createMessageObject();
 
-		Response response = WeDeploy.data(DATA_URL)
+		Response response = weDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.get("messages")
 			.execute();
 
 		assertEquals(200, response.getStatusCode());
 
-		response = WeDeploy.data(DATA_URL)
+		response = weDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.get("messages/" + id)
 			.execute();
 
 		assertEquals(200, response.getStatusCode());
 
-		response = WeDeploy.data(DATA_URL)
+		response = weDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.get(String.format("messages/%s/author", id))
 			.execute();
@@ -102,7 +104,7 @@ public class WeDeployDataTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void get_withNullResourcePath_shouldThrowException() throws WeDeployException {
-		WeDeploy.data(DATA_URL)
+		weDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.get(null)
 			.execute();
@@ -117,7 +119,7 @@ public class WeDeployDataTest {
 		JSONObject data = new JSONObject();
 		data.put("message", message);
 
-		Response response = WeDeploy.data(DATA_URL)
+		Response response = weDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.replace("messages/" + id, data)
 			.execute();
@@ -131,7 +133,7 @@ public class WeDeployDataTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void replace_withNullData_shouldThrowException() throws WeDeployException {
-		WeDeploy.data(DATA_URL)
+		weDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.replace("resourcePath", null)
 			.execute();
@@ -139,7 +141,7 @@ public class WeDeployDataTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void replace_withNullResourcePath_shouldThrowException() throws WeDeployException {
-		WeDeploy.data(DATA_URL)
+		weDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.replace(null, new JSONObject())
 			.execute();
@@ -154,7 +156,7 @@ public class WeDeployDataTest {
 		JSONObject data = new JSONObject();
 		data.put("message", message);
 
-		Response response = WeDeploy.data(DATA_URL)
+		Response response = weDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.update("messages/" + id, data)
 			.execute();
@@ -168,7 +170,7 @@ public class WeDeployDataTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void update_withNullData_shouldThrowException() throws WeDeployException {
-		WeDeploy.data(DATA_URL)
+		weDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.update("resourcePath", null)
 			.execute();
@@ -176,7 +178,7 @@ public class WeDeployDataTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void update_withNullResourcePath_shouldThrowException() throws WeDeployException {
-		WeDeploy.data(DATA_URL)
+		weDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.update(null, new JSONObject())
 			.execute();
@@ -186,7 +188,7 @@ public class WeDeployDataTest {
 	public void search() throws WeDeployException {
 		DataTestHelper.initDataFromFile("messages.json");
 
-		Response response = WeDeploy.data(DATA_URL)
+		Response response = weDeploy.data(DATA_URL)
 			.where(any("message", "message1", "message5")
 				.and(equal("author", "Silvio Santos")))
 			.search("messages")
@@ -198,7 +200,7 @@ public class WeDeployDataTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void search_withNullResourcePath_shouldThrowException() throws WeDeployException {
-		WeDeploy.data(DATA_URL)
+		weDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.search(null)
 			.execute();
@@ -209,7 +211,7 @@ public class WeDeployDataTest {
 		final Object[] createPayload = new Object[1];
 		final CountDownLatch latch = new CountDownLatch(1);
 
-		RealTime realTime = WeDeploy.data(DATA_URL)
+		RealTime realTime = weDeploy.data(DATA_URL)
 			.where(equal("message", MESSAGE))
 			.watch("messages");
 
@@ -238,7 +240,7 @@ public class WeDeployDataTest {
 		final Object[] changesPayload = new Object[1];
 		final CountDownLatch latch = new CountDownLatch(1);
 
-		RealTime realTime = WeDeploy.data(DATA_URL)
+		RealTime realTime = weDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.watch("messages");
 
@@ -272,7 +274,7 @@ public class WeDeployDataTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void search_withNullCollection_shouldThrowException() {
-		WeDeploy.data(DATA_URL)
+		weDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.watch(null);
 	}
@@ -280,7 +282,7 @@ public class WeDeployDataTest {
 	public JSONObject getMessageObject(String id) {
 		Response response = null;
 		try {
-			response = WeDeploy.data(DATA_URL)
+			response = weDeploy.data(DATA_URL)
 				.auth(AUTH)
 				.get("messages/" + id)
 				.execute();
@@ -300,7 +302,7 @@ public class WeDeployDataTest {
 		Response response = null;
 
 		try {
-			response = WeDeploy.data(DATA_URL)
+			response = weDeploy.data(DATA_URL)
 				.auth(AUTH)
 				.create("messages", jsonObject)
 				.execute();

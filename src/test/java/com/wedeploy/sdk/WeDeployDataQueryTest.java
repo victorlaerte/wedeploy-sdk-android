@@ -21,6 +21,8 @@ import static org.junit.Assert.fail;
  */
 public class WeDeployDataQueryTest {
 
+	private WeDeploy weDeploy = new WeDeploy.Builder().build();
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws WeDeployException {
 		initDataFromFile("messages.json");
@@ -28,7 +30,7 @@ public class WeDeployDataQueryTest {
 
 	@Test
 	public void aggregate() throws WeDeployException {
-		Response response = WeDeploy.data(DATA_URL)
+		Response response = weDeploy.data(DATA_URL)
 			.aggregate(Aggregation.count("messagesCount", "message"))
 			.get("messages")
 			.execute();
@@ -41,7 +43,7 @@ public class WeDeployDataQueryTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void aggregate_withNullValue_shouldThrowException() throws WeDeployException {
-		WeDeploy.data(DATA_URL)
+		weDeploy.data(DATA_URL)
 			.aggregate(null)
 			.get("messages")
 			.execute();
@@ -49,7 +51,7 @@ public class WeDeployDataQueryTest {
 
 	@Test
 	public void limit() throws WeDeployException {
-		Response response = WeDeploy.data(DATA_URL)
+		Response response = weDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.limit(1)
 			.get("messages")
@@ -62,7 +64,7 @@ public class WeDeployDataQueryTest {
 
 	@Test
 	public void offset() throws WeDeployException {
-		Response response = WeDeploy.data(DATA_URL)
+		Response response = weDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.offset(10)
 			.get("messages")
@@ -85,7 +87,7 @@ public class WeDeployDataQueryTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void sort_withNullField_shouldThrowException() throws WeDeployException {
-		WeDeploy.data(DATA_URL)
+		weDeploy.data(DATA_URL)
 			.sort(null)
 			.get("messages")
 			.execute();
@@ -93,7 +95,7 @@ public class WeDeployDataQueryTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void sort_withNullSortOrder_shouldThrowException() throws WeDeployException {
-		WeDeploy.data(DATA_URL)
+		weDeploy.data(DATA_URL)
 			.sort("field", null)
 			.get("messages")
 			.execute();
@@ -104,7 +106,7 @@ public class WeDeployDataQueryTest {
 		final String filterMessage = "message1";
 		Filter filter = Filter.prefix("message1");
 
-		Response response = WeDeploy.data(DATA_URL)
+		Response response = weDeploy.data(DATA_URL)
 			.where(filter)
 			.get("messages")
 			.execute();
@@ -119,14 +121,14 @@ public class WeDeployDataQueryTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void where_withNullFilter_shouldThrowException() throws WeDeployException {
-		WeDeploy.data(DATA_URL)
+		weDeploy.data(DATA_URL)
 			.where(null)
 			.get("messages")
 			.execute();
 	}
 
 	private void sort(SortOrder order) throws WeDeployException {
-		Response response = WeDeploy.data(DATA_URL)
+		Response response = weDeploy.data(DATA_URL)
 			.auth(AUTH)
 			.sort("message", order)
 			.get("messages")
