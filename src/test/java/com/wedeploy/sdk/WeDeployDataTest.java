@@ -21,8 +21,6 @@ import static org.junit.Assert.*;
  */
 public class WeDeployDataTest {
 
-	private WeDeploy weDeploy = new WeDeploy.Builder().build();
-
 	@Before
 	public void setUp() {
 		deleteData();
@@ -318,5 +316,6 @@ public class WeDeployDataTest {
 	}
 
 	private String id;
+	private WeDeploy weDeploy = new WeDeploy.Builder().build();
 
 }

@@ -3,11 +3,6 @@ package com.wedeploy.sdk.transport;
 import com.wedeploy.sdk.internal.RequestMethod;
 import com.wedeploy.sdk.query.Query;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * @author Silvio Santos
  */

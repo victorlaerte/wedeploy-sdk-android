@@ -23,8 +23,6 @@ import static org.junit.Assert.assertNotNull;
  */
 public class WeDeployAuthTest {
 
-	private static WeDeploy weDeploy = new WeDeploy.Builder().build();
-
 	@BeforeClass
 	public static void setUpBeforeClass() throws WeDeployException {
 		deleteUsers();
@@ -114,8 +112,10 @@ public class WeDeployAuthTest {
 
 			call.execute();
 		}
-		catch(Exception e) {
+		catch (Exception e) {
 		}
 	}
+
+	private static WeDeploy weDeploy = new WeDeploy.Builder().build();
 
 }

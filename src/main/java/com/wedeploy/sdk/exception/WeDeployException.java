@@ -22,7 +22,7 @@ public class WeDeployException extends Exception {
 		ErrorBody errorBody;
 
 		try {
-			 errorBody = new ErrorBody(response.getBody());
+			errorBody = new ErrorBody(response.getBody());
 		}
 		catch (Exception e) {
 			return "Error while executing request";

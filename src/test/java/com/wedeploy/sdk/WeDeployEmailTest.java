@@ -12,8 +12,6 @@ import static com.wedeploy.sdk.Constants.EMAIL_URL;
  */
 public class WeDeployEmailTest {
 
-	private WeDeploy weDeploy = new WeDeploy.Builder().build();
-
 	@Test
 	public void sendAndCheckStatus() throws WeDeployException {
 		Response response = weDeploy.email(EMAIL_URL)
@@ -34,5 +32,7 @@ public class WeDeployEmailTest {
 			.checkEmailStatus(id)
 			.execute();
 	}
+
+	private WeDeploy weDeploy = new WeDeploy.Builder().build();
 
 }

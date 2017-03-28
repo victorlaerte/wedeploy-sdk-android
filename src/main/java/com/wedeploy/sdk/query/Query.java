@@ -1,6 +1,5 @@
 package com.wedeploy.sdk.query;
 
-import com.wedeploy.sdk.exception.WeDeployException;
 import com.wedeploy.sdk.query.aggregation.Aggregation;
 import com.wedeploy.sdk.query.filter.Filter;
 

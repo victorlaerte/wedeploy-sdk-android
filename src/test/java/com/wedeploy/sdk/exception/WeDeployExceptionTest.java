@@ -29,7 +29,8 @@ public class WeDeployExceptionTest {
 			.build();
 
 		WeDeployException exception = new WeDeployException(response);
-		Assert.assertEquals("HTTP 404 - Not Found. Reason: notFound. Message: The requested operation failed" +
+		Assert.assertEquals("HTTP 404 - Not Found. Reason: notFound." +
+				" Message: The requested operation failed" +
 				" because a resource associated with the request could not be found.",
 			exception.getMessage());
 	}

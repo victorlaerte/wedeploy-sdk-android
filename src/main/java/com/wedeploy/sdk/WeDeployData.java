@@ -1,7 +1,6 @@
 package com.wedeploy.sdk;
 
 import com.wedeploy.sdk.auth.Auth;
-import com.wedeploy.sdk.internal.OkHttpTransport;
 import com.wedeploy.sdk.internal.SocketIORealTime;
 import com.wedeploy.sdk.query.Query;
 import com.wedeploy.sdk.query.SortOrder;

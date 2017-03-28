@@ -21,8 +21,6 @@ import static org.junit.Assert.fail;
  */
 public class WeDeployDataQueryTest {
 
-	private WeDeploy weDeploy = new WeDeploy.Builder().build();
-
 	@BeforeClass
 	public static void setUpBeforeClass() throws WeDeployException {
 		initDataFromFile("messages.json");
@@ -149,5 +147,7 @@ public class WeDeployDataQueryTest {
 			}
 		}
 	}
+
+	private WeDeploy weDeploy = new WeDeploy.Builder().build();
 
 }

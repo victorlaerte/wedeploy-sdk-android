@@ -3,7 +3,6 @@ package com.wedeploy.sdk;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import com.wedeploy.sdk.auth.Auth;
 import com.wedeploy.sdk.auth.AuthProvider;
 import com.wedeploy.sdk.internal.RequestMethod;
 import com.wedeploy.sdk.transport.Request;

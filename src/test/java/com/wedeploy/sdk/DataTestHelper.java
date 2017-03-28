@@ -14,8 +14,6 @@ import static com.wedeploy.sdk.Constants.DATA_URL;
  */
 public class DataTestHelper {
 
-	private static WeDeploy weDeploy = new WeDeploy.Builder().build();
-
 	public static void deleteData() {
 		try {
 			weDeploy.data(DATA_URL)
@@ -23,7 +21,7 @@ public class DataTestHelper {
 				.delete("messages")
 				.execute();
 		}
-		catch(WeDeployException e) {
+		catch (WeDeployException e) {
 		}
 	}
 
@@ -42,4 +40,7 @@ public class DataTestHelper {
 			.create("messages", new JSONArray(json))
 			.execute();
 	}
+
+	private static WeDeploy weDeploy = new WeDeploy.Builder().build();
+
 }
