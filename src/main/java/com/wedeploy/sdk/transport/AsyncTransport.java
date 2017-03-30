@@ -7,6 +7,6 @@ import com.wedeploy.sdk.Callback;
  */
 public interface AsyncTransport<T> {
 
-	void sendAsync(Request request, Callback<T> callback);
+	void sendAsync(Request request, Callback callback);
 
 }

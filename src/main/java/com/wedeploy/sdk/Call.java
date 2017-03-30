@@ -46,7 +46,7 @@ public class Call<T> {
 	}
 
 	public void execute(final Callback callback) {
-		asyncTransport.sendAsync(request, new Callback<Response>() {
+		asyncTransport.sendAsync(request, new Callback() {
 			@Override
 			public void onSuccess(final Response response) {
 				try {

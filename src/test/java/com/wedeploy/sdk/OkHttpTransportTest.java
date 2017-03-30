@@ -42,7 +42,7 @@ public class OkHttpTransportTest {
 			.url("http://www.google.com")
 			.build();
 
-		transport.sendAsync(request, new Callback<Response>() {
+		transport.sendAsync(request, new Callback() {
 			@Override
 			public void onSuccess(Response response) {
 				assertTrue(response.succeeded());
