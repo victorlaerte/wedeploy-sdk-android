@@ -154,13 +154,13 @@ public class WeDeployData extends WeDeployService<WeDeployData> {
 		return this;
 	}
 
-	public WeDeployData sort(String field) {
-		sort(field, SortOrder.ASCENDING);
+	public WeDeployData orderBy(String field) {
+		orderBy(field, SortOrder.ASCENDING);
 
 		return this;
 	}
 
-	public WeDeployData sort(String field, SortOrder order) {
+	public WeDeployData orderBy(String field, SortOrder order) {
 		checkNotNull(field, "Field must be specified");
 		checkNotNull(field, "SortOrder must be specified");
 

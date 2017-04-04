@@ -74,27 +74,27 @@ public class WeDeployDataQueryTest {
 	}
 
 	@Test
-	public void sort_ascending() throws WeDeployException {
-		sort(SortOrder.ASCENDING);
+	public void orderBy_ascending() throws WeDeployException {
+		orderBy(SortOrder.ASCENDING);
 	}
 
 	@Test
-	public void sort_descending() throws WeDeployException {
-		sort(SortOrder.DESCENDING);
+	public void orderBy_descending() throws WeDeployException {
+		orderBy(SortOrder.DESCENDING);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void sort_withNullField_shouldThrowException() throws WeDeployException {
+	public void orderBy_withNullField_shouldThrowException() throws WeDeployException {
 		weDeploy.data(DATA_URL)
-			.sort(null)
+			.orderBy(null)
 			.get("messages")
 			.execute();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void sort_withNullSortOrder_shouldThrowException() throws WeDeployException {
+	public void orderBy_withNullSortOrder_shouldThrowException() throws WeDeployException {
 		weDeploy.data(DATA_URL)
-			.sort("field", null)
+			.orderBy("field", null)
 			.get("messages")
 			.execute();
 	}
@@ -125,10 +125,10 @@ public class WeDeployDataQueryTest {
 			.execute();
 	}
 
-	private void sort(SortOrder order) throws WeDeployException {
+	private void orderBy(SortOrder order) throws WeDeployException {
 		Response response = weDeploy.data(DATA_URL)
 			.auth(AUTH)
-			.sort("message", order)
+			.orderBy("message", order)
 			.get("messages")
 			.execute();
 
