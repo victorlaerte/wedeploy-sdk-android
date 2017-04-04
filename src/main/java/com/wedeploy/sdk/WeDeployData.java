@@ -142,6 +142,18 @@ public class WeDeployData extends WeDeployService<WeDeployData> {
 		return this;
 	}
 
+	public WeDeployData count() {
+		getOrCreateQueryBuilder().type("count");
+
+		return this;
+	}
+
+	public WeDeployData highlight(String field) {
+		getOrCreateQueryBuilder().highlight(field);
+
+		return this;
+	}
+
 	public WeDeployData limit(int limit) {
 		getOrCreateQueryBuilder().limit(limit);
 

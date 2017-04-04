@@ -13,6 +13,7 @@ import org.junit.Test;
 import static com.wedeploy.sdk.Constants.AUTH;
 import static com.wedeploy.sdk.Constants.DATA_URL;
 import static com.wedeploy.sdk.DataTestHelper.initDataFromFile;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -45,6 +46,28 @@ public class WeDeployDataQueryTest {
 			.aggregate(null)
 			.get("messages")
 			.execute();
+	}
+
+	@Test
+	public void count() throws WeDeployException {
+		Response response = weDeploy.data(DATA_URL)
+			.count()
+			.get("messages")
+			.execute();
+
+		assertEquals("15", response.getBody());
+	}
+
+	@Test
+	public void highlight() throws WeDeployException {
+		Response response = weDeploy.data(DATA_URL)
+			.highlight("message")
+			.search("messages")
+			.execute();
+
+		JSONObject jsonObject = new JSONObject(response.getBody());
+
+		assertTrue(jsonObject.has("highlights"));
 	}
 
 	@Test
