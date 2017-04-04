@@ -12,47 +12,39 @@ public class WeDeployExceptionTest {
 
 	@Test
 	public void message_withNotFoundError() {
+		String errorJson = "{\n" +
+			"code: 404,\n" +
+			"message: \"Not Found\",\n" +
+			"errors: [\n" +
+			"{\n" +
+			"reason: \"notFound\",\n" +
+			"message: \"The requested operation failed because a resource associated with " +
+			"the" +
+			" " +
+			"request could not be found.\"\n" +
+			"}\n" +
+			"]\n" +
+			"}";
+
 		Response response = new Response.Builder()
-			.body("{\n" +
-				"code: 404,\n" +
-				"message: \"Not Found\",\n" +
-				"errors: [\n" +
-				"{\n" +
-				"reason: \"notFound\",\n" +
-				"message: \"The requested operation failed because a resource associated with " +
-				"the" +
-				" " +
-				"request could not be found.\"\n" +
-				"}\n" +
-				"]\n" +
-				"}")
+			.body(errorJson)
 			.build();
 
 		WeDeployException exception = new WeDeployException(response);
-		Assert.assertEquals("HTTP 404 - Not Found. Reason: notFound." +
-				" Message: The requested operation failed" +
-				" because a resource associated with the request could not be found.",
-			exception.getMessage());
+		Assert.assertEquals(errorJson, exception.getMessage());
 	}
 
 	@Test
 	public void message_withRequiredFieldError() {
+		String errorJson = "<head>somehtml<head>";
+
 		Response response = new Response.Builder()
-			.body("{\n" +
-				"\t\"code\": 400,\n" +
-				"\t\"message\": \"Bad Request\",\n" +
-				"\t\"errors\": [\n" +
-				"\t\t{\n" +
-				"\t\t\t\"reason\": \"required\",\n" +
-				"\t\t\t\"message\": \"name\"\n" +
-				"\t\t}\n" +
-				"\t]\n" +
-				"}")
+			.body(errorJson)
+			.statusMessage("Not Found")
 			.build();
 
 		WeDeployException exception = new WeDeployException(response);
-		Assert.assertEquals("HTTP 400 - Bad Request. Reason: required. Message: name",
-			exception.getMessage());
+		Assert.assertEquals("Not Found", exception.getMessage());
 	}
 
 }
