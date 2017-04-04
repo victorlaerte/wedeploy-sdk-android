@@ -26,7 +26,7 @@ public class WeDeployAuthTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws WeDeployException {
 		deleteUsers();
-		createUser();
+		USER_ID = createUser(EMAIL, PASSWORD, NAME);
 	}
 
 	@Test
@@ -71,6 +71,16 @@ public class WeDeployAuthTest {
 	}
 
 	@Test
+	public void deleteUser() throws WeDeployException {
+		String id = createUser("test@wedeploy.me", "123456", "Test Test");
+
+		weDeploy.auth(AUTH_URL)
+			.auth(AUTH)
+			.deleteUser(id)
+			.execute();
+	}
+
+	@Test
 	public void updateUser() throws Exception {
 		Response response = weDeploy.auth(AUTH_URL)
 			.signIn(EMAIL, PASSWORD)
@@ -110,15 +120,18 @@ public class WeDeployAuthTest {
 			.execute();
 	}
 
-	private static void createUser() throws WeDeployException {
+	private static String createUser(String email, String password, String name)
+		throws WeDeployException {
+
 		Response response = weDeploy.auth(AUTH_URL)
-			.createUser(EMAIL, PASSWORD, NAME)
+			.createUser(email, password, name)
 			.execute();
 
 		assertEquals(200, response.getStatusCode());
 
 		JSONObject jsonObject = new JSONObject(response.getBody());
-		USER_ID = jsonObject.getString("id");
+
+		return jsonObject.getString("id");
 	}
 
 	private static void deleteUsers() {

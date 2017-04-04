@@ -79,6 +79,17 @@ public class WeDeployAuth extends WeDeployService<WeDeployAuth> {
 		return newCall(builder.build());
 	}
 
+	public Call<Response> deleteUser(String userId) {
+		checkNotNull(userId, "userId must be specified");
+
+		Request request = newAuthenticatedRequestBuilder(url)
+			.path("/users/" + userId)
+			.method(RequestMethod.DELETE)
+			.build();
+
+		return newCall(request);
+	}
+
 	public Call<Response> getCurrentUser() {
 		checkNotNull(getAuth(), "You must be signed in");
 
