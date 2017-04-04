@@ -29,9 +29,6 @@ public class Call<T> {
 		try {
 			response = transport.send(request);
 		}
-		catch (RuntimeException re) {
-			throw re;
-		}
 		catch (Exception e) {
 			throw new WeDeployException("Error while executing request", e);
 		}
