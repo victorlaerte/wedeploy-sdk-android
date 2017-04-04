@@ -11,9 +11,6 @@ import org.json.JSONObject;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static com.wedeploy.sdk.Constants.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -90,7 +87,7 @@ public class WeDeployAuthTest {
 		String token = jsonBody.getString("access_token");
 		Auth auth = new TokenAuth(token);
 
-		Map<String, String> fields = new HashMap<>();
+		JSONObject fields = new JSONObject();
 		fields.put("name", "Silvio Santos 2");
 
 		weDeploy.auth(AUTH_URL)

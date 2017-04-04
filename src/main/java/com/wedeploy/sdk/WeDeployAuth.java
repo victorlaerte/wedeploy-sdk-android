@@ -10,8 +10,6 @@ import com.wedeploy.sdk.transport.Request;
 import com.wedeploy.sdk.transport.Response;
 import org.json.JSONObject;
 
-import java.util.Map;
-
 import static com.wedeploy.sdk.util.Validator.checkNotNull;
 
 /**
@@ -111,24 +109,18 @@ public class WeDeployAuth extends WeDeployService<WeDeployAuth> {
 		return newCall(request);
 	}
 
-	//TODO Change fields to be a Map<String, Any>
-	public Call<Response> updateUser(String id, Map<String, String> fields) {
+	public Call<Response> updateUser(String id, JSONObject fields) {
 		checkNotNull(id, "id must be specified");
 
-		if (fields == null || fields.isEmpty()) {
+		if (fields == null || fields.length() == 0) {
 			throw new IllegalArgumentException("Fields must be specified");
 		}
 
-		JSONObject body = new JSONObject()
-			.put("id", id);
-
-		for (Map.Entry<String, String> entry : fields.entrySet()) {
-			body.put(entry.getKey(), entry.getValue());
-		}
+		fields.put("id", id);
 
 		Request request = newAuthenticatedRequestBuilder(url)
 			.path("users/" + id)
-			.body(body.toString())
+			.body(fields.toString())
 			.method(RequestMethod.PATCH)
 			.build();
 
