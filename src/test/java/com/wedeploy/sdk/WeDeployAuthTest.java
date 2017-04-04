@@ -111,9 +111,9 @@ public class WeDeployAuthTest {
 	}
 
 	@Test
-	public void sendResetPasswordEmail() throws WeDeployException {
+	public void sendPasswordResetEmail() throws WeDeployException {
 		weDeploy.auth(AUTH_URL)
-			.sendResetPasswordEmail(EMAIL)
+			.sendPasswordResetEmail(EMAIL)
 			.execute();
 	}
 

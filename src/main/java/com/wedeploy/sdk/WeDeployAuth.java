@@ -127,7 +127,7 @@ public class WeDeployAuth extends WeDeployService<WeDeployAuth> {
 		return newCall(request);
 	}
 
-	public Call<Response> sendResetPasswordEmail(String email) {
+	public Call<Response> sendPasswordResetEmail(String email) {
 		Request request = newAuthenticatedRequestBuilder(url)
 			.path("user/recover")
 			.form("email", email)
