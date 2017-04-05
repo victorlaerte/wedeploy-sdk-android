@@ -19,7 +19,7 @@ public class OkHttpTransportTest {
 
 	@Test
 	public void send() throws InterruptedException {
-		OkHttpTransport transport = new OkHttpTransport();
+		OkHttpTransport transport = new OkHttpTransport.Builder().build();
 
 		Request request = new Request.Builder()
 			.method(RequestMethod.GET)
@@ -35,7 +35,7 @@ public class OkHttpTransportTest {
 	public void sendAsync() throws InterruptedException {
 		final CountDownLatch latch = new CountDownLatch(1);
 
-		OkHttpTransport transport = new OkHttpTransport();
+		OkHttpTransport transport = new OkHttpTransport.Builder().build();
 
 		Request request = new Request.Builder()
 			.method(RequestMethod.GET)

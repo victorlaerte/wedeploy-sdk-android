@@ -20,6 +20,11 @@ import java.util.Map;
 
 public class OkHttpTransport implements Transport<Response>, AsyncTransport {
 
+	public OkHttpClient getClient() {
+		return client;
+	}
+
+	@Override
 	public Response send(Request request) {
 		try {
 			okhttp3.Response okHttpResponse = newOkHttpCall(request)
@@ -121,7 +126,31 @@ public class OkHttpTransport implements Transport<Response>, AsyncTransport {
 			.build();
 	}
 
-	private MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-	private static OkHttpClient client = new OkHttpClient();
+	private OkHttpTransport(Builder builder) {
+		this.client = builder.client;
+	}
+
+	private final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+	private final OkHttpClient client;
+
+	public static class Builder {
+
+		public Builder client(OkHttpClient client) {
+			this.client = client;
+
+			return this;
+		}
+
+		public OkHttpTransport build() {
+			if (client == null) {
+				client = new OkHttpClient();
+			}
+
+			return new OkHttpTransport(this);
+		}
+
+		private OkHttpClient client;
+
+	}
 
 }

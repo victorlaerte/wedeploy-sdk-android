@@ -13,9 +13,7 @@ import org.junit.Test;
 import static com.wedeploy.sdk.Constants.AUTH;
 import static com.wedeploy.sdk.Constants.DATA_URL;
 import static com.wedeploy.sdk.DataTestHelper.initDataFromFile;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 /**
  * @author Silvio Santos

@@ -46,25 +46,36 @@ public class WeDeploy {
 
 	public static class Builder {
 
-		public void asyncTransport(AsyncTransport transport) {
+		public Builder asyncTransport(AsyncTransport transport) {
 			this.asyncTransport = transport;
+
+			return this;
 		}
 
-		public void auth(Auth auth) {
+		public Builder auth(Auth auth) {
 			this.auth = auth;
+
+			return this;
 		}
 
-		public void transport(Transport transport) {
+		public Builder transport(Transport transport) {
 			this.transport = transport;
+
+			return this;
 		}
 
 		public WeDeploy build() {
 			if (transport == null) {
-				transport = new OkHttpTransport();
+				transport = new OkHttpTransport.Builder().build();
 			}
 
 			if (asyncTransport == null) {
-				asyncTransport = new OkHttpTransport();
+				if (transport instanceof OkHttpTransport) {
+					asyncTransport = (OkHttpTransport)transport;
+				}
+				else {
+					asyncTransport = new OkHttpTransport.Builder().build();
+				}
 			}
 
 			return new WeDeploy(this);

@@ -139,8 +139,10 @@ public class WeDeployAuthTest {
 				.header("Authorization", "Bearer " + MASTER_TOKEN)
 				.path("users");
 
+			OkHttpTransport transport = new OkHttpTransport.Builder().build();
+
 			Call<Response> call = new Call<>(
-				builder.build(), new OkHttpTransport(), new OkHttpTransport(), Response.class);
+				builder.build(), transport, transport, Response.class);
 
 			call.execute();
 		}
