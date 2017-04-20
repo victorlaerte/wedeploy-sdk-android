@@ -1,7 +1,7 @@
 package com.wedeploy.sdk;
 
 import com.wedeploy.sdk.auth.Authorization;
-import com.wedeploy.sdk.internal.OkHttpTransport;
+import com.wedeploy.sdk.transport.OkHttpTransport;
 import com.wedeploy.sdk.transport.AsyncTransport;
 import com.wedeploy.sdk.transport.Transport;
 

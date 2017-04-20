@@ -1,6 +1,6 @@
 package com.wedeploy.sdk;
 
-import com.wedeploy.sdk.internal.RequestMethod;
+import com.wedeploy.sdk.transport.RequestMethod;
 import com.wedeploy.sdk.transport.Request;
 import com.wedeploy.sdk.transport.Response;
 

@@ -1,7 +1,7 @@
 package com.wedeploy.sdk;
 
-import com.wedeploy.sdk.internal.OkHttpTransport;
-import com.wedeploy.sdk.internal.RequestMethod;
+import com.wedeploy.sdk.transport.OkHttpTransport;
+import com.wedeploy.sdk.transport.RequestMethod;
 import com.wedeploy.sdk.transport.Request;
 import com.wedeploy.sdk.transport.Response;
 import org.junit.Test;

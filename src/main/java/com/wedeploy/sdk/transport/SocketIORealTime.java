@@ -1,4 +1,4 @@
-package com.wedeploy.sdk.internal;
+package com.wedeploy.sdk.transport;
 
 import com.wedeploy.sdk.RealTime;
 import com.wedeploy.sdk.util.URLUtil;

@@ -1,4 +1,4 @@
-package com.wedeploy.sdk.internal;
+package com.wedeploy.sdk.transport;
 
 /**
  * @author Silvio Santos

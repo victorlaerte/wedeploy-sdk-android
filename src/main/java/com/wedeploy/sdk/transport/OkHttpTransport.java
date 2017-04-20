@@ -1,11 +1,6 @@
-package com.wedeploy.sdk.internal;
+package com.wedeploy.sdk.transport;
 
 import com.wedeploy.sdk.Callback;
-import com.wedeploy.sdk.transport.AsyncTransport;
-import com.wedeploy.sdk.transport.MultiMap;
-import com.wedeploy.sdk.transport.Request;
-import com.wedeploy.sdk.transport.Response;
-import com.wedeploy.sdk.transport.Transport;
 import okhttp3.Call;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;

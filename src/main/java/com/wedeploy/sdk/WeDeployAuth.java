@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import com.wedeploy.sdk.auth.Authorization;
 import com.wedeploy.sdk.auth.ProviderAuthorization;
-import com.wedeploy.sdk.internal.RequestMethod;
+import com.wedeploy.sdk.transport.RequestMethod;
 import com.wedeploy.sdk.transport.Request;
 import com.wedeploy.sdk.transport.Response;
 import org.json.JSONObject;

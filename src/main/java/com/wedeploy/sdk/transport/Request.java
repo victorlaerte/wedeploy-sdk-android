@@ -1,6 +1,5 @@
 package com.wedeploy.sdk.transport;
 
-import com.wedeploy.sdk.internal.RequestMethod;
 import com.wedeploy.sdk.query.Query;
 
 import java.util.Collections;
