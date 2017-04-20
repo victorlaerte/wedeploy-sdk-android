@@ -27,11 +27,6 @@ public class WeDeployData extends WeDeployService<WeDeployData> {
 		this.url = url;
 	}
 
-	public WeDeployData auth(Auth auth) {
-		this.auth = auth;
-		return this;
-	}
-
 	public Call<Response> create(String collection, JSONArray data) {
 		checkNotNull(data, "data JSONArray must be specified");
 
@@ -47,7 +42,7 @@ public class WeDeployData extends WeDeployService<WeDeployData> {
 	public Call<Response> delete(String resourcePath) {
 		checkNotNull(resourcePath, "Document/Field/Collection path must be specified");
 
-		Request request = newAuthenticatedBuilder()
+		Request request = newAuthenticatedRequestBuilder(url)
 			.path(resourcePath)
 			.method(DELETE)
 			.build();
@@ -60,7 +55,7 @@ public class WeDeployData extends WeDeployService<WeDeployData> {
 	public Call<Response> get(String resourcePath) {
 		checkNotNull(resourcePath, "Document/Field/Collection path must be specified");
 
-		Request.Builder builder = newAuthenticatedBuilder()
+		Request.Builder builder = newAuthenticatedRequestBuilder(url)
 			.path(resourcePath)
 			.query(getOrCreateQueryBuilder().build())
 			.method(GET);
@@ -74,7 +69,7 @@ public class WeDeployData extends WeDeployService<WeDeployData> {
 		checkNotNull(resourcePath, "Document/Field/Collection path must be specified");
 		checkNotNull(data, "data JSONObject must be specified");
 
-		Request request = newAuthenticatedBuilder()
+		Request request = newAuthenticatedRequestBuilder(url)
 			.path(resourcePath)
 			.method(PATCH)
 			.body(data.toString())
@@ -89,7 +84,7 @@ public class WeDeployData extends WeDeployService<WeDeployData> {
 		checkNotNull(resourcePath, "Document/Field/Collection path must be specified");
 		checkNotNull(data, "data JSONObject must be specified");
 
-		Request request = newAuthenticatedBuilder()
+		Request request = newAuthenticatedRequestBuilder(url)
 			.path(resourcePath)
 			.method(PUT)
 			.body(data.toString())
@@ -105,7 +100,7 @@ public class WeDeployData extends WeDeployService<WeDeployData> {
 
 		Query.Builder queryBuilder = getOrCreateQueryBuilder().search();
 
-		Request.Builder builder = newAuthenticatedBuilder()
+		Request.Builder builder = newAuthenticatedRequestBuilder(url)
 			.path(resourcePath)
 			.query(queryBuilder.build())
 			.method(GET);
@@ -124,6 +119,8 @@ public class WeDeployData extends WeDeployService<WeDeployData> {
 			.forceNew(true)
 			.path(collection)
 			.query(queryString);
+
+		Auth auth = getAuth();
 
 		if (auth != null) {
 			builder.header("Authorization", auth.getAuthorizationHeader());
@@ -204,7 +201,7 @@ public class WeDeployData extends WeDeployService<WeDeployData> {
 	private Call<Response> create(String collection, String dataJson) {
 		checkNotNull(collection, "Collection must be specified");
 
-		Request request = newAuthenticatedBuilder()
+		Request request = newAuthenticatedRequestBuilder(url)
 			.path(collection)
 			.method(POST)
 			.body(dataJson)
@@ -215,22 +212,10 @@ public class WeDeployData extends WeDeployService<WeDeployData> {
 		return newCall(request);
 	}
 
-	private Request.Builder newAuthenticatedBuilder() {
-		Request.Builder builder = new Request.Builder()
-			.url(url);
-
-		if (auth == null) {
-			return builder;
-		}
-
-		return auth.authenticate(builder);
-	}
-
 	private void resetQueryBuilder() {
 		queryBuilder = null;
 	}
 
-	private Auth auth;
 	private Query.Builder queryBuilder;
 	private final String url;
 

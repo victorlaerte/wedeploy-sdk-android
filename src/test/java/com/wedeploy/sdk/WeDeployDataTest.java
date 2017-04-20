@@ -1,5 +1,7 @@
 package com.wedeploy.sdk;
 
+import com.wedeploy.sdk.auth.Auth;
+import com.wedeploy.sdk.auth.TokenAuth;
 import com.wedeploy.sdk.exception.WeDeployException;
 import com.wedeploy.sdk.transport.Response;
 import org.json.JSONArray;
@@ -29,6 +31,32 @@ public class WeDeployDataTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void weDeployData_withNullUrl_shouldThrowException() {
 		new WeDeployData(weDeploy, null);
+	}
+
+	@Test
+	public void data_withGlobalAuth() throws WeDeployException {
+		WeDeploy weDeploy = new WeDeploy.Builder()
+			.auth(AUTH)
+			.build();
+
+		Auth auth = weDeploy.data(DATA_URL).getAuth();
+
+		assertTrue(auth == AUTH);
+	}
+
+	@Test
+	public void data_withScopedAuth() throws WeDeployException {
+		WeDeploy weDeploy = new WeDeploy.Builder()
+			.auth(AUTH)
+			.build();
+
+		Auth scopedAuth = new TokenAuth("1");
+
+		Auth auth = weDeploy.data(DATA_URL)
+			.auth(scopedAuth)
+			.getAuth();
+
+		assertTrue(scopedAuth == auth);
 	}
 
 	@Test
