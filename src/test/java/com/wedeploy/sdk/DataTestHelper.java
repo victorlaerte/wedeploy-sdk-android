@@ -6,7 +6,7 @@ import org.json.JSONArray;
 import java.io.InputStream;
 import java.util.Scanner;
 
-import static com.wedeploy.sdk.Constants.AUTH;
+import static com.wedeploy.sdk.Constants.AUTHORIZATION;
 import static com.wedeploy.sdk.Constants.DATA_URL;
 
 /**
@@ -17,7 +17,7 @@ public class DataTestHelper {
 	public static void deleteData() {
 		try {
 			weDeploy.data(DATA_URL)
-				.auth(AUTH)
+				.authorization(AUTHORIZATION)
 				.delete("messages")
 				.execute();
 		}
@@ -36,7 +36,7 @@ public class DataTestHelper {
 			.next();
 
 		weDeploy.data(DATA_URL)
-			.auth(AUTH)
+			.authorization(AUTHORIZATION)
 			.create("messages", new JSONArray(json))
 			.execute();
 	}

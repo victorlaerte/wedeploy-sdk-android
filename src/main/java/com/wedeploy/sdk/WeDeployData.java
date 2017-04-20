@@ -1,6 +1,6 @@
 package com.wedeploy.sdk;
 
-import com.wedeploy.sdk.auth.Auth;
+import com.wedeploy.sdk.auth.Authorization;
 import com.wedeploy.sdk.internal.SocketIORealTime;
 import com.wedeploy.sdk.query.Query;
 import com.wedeploy.sdk.query.SortOrder;
@@ -120,10 +120,10 @@ public class WeDeployData extends WeDeployService<WeDeployData> {
 			.path(collection)
 			.query(queryString);
 
-		Auth auth = getAuth();
+		Authorization authorization = getAuthorization();
 
-		if (auth != null) {
-			builder.header("Authorization", auth.getAuthorizationHeader());
+		if (authorization != null) {
+			builder.header("Authorization", authorization.getAuthorizationHeader());
 		}
 
 		resetQueryBuilder();

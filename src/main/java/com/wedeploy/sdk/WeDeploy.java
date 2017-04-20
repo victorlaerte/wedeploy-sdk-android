@@ -1,6 +1,6 @@
 package com.wedeploy.sdk;
 
-import com.wedeploy.sdk.auth.Auth;
+import com.wedeploy.sdk.auth.Authorization;
 import com.wedeploy.sdk.internal.OkHttpTransport;
 import com.wedeploy.sdk.transport.AsyncTransport;
 import com.wedeploy.sdk.transport.Transport;
@@ -11,13 +11,13 @@ import com.wedeploy.sdk.transport.Transport;
 public class WeDeploy {
 
 	WeDeploy(Builder builder) {
-		auth = builder.auth;
+		authorization = builder.authorization;
 		asyncTransport = builder.asyncTransport;
 		transport = builder.transport;
 	}
 
-	public Auth getAuth() {
-		return auth;
+	public Authorization getAuthorization() {
+		return authorization;
 	}
 
 	public AsyncTransport getAsyncTransport() {
@@ -41,7 +41,7 @@ public class WeDeploy {
 	}
 
 	private final AsyncTransport asyncTransport;
-	private final Auth auth;
+	private final Authorization authorization;
 	private final Transport transport;
 
 	public static class Builder {
@@ -52,8 +52,8 @@ public class WeDeploy {
 			return this;
 		}
 
-		public Builder auth(Auth auth) {
-			this.auth = auth;
+		public Builder authorization(Authorization authorization) {
+			this.authorization = authorization;
 
 			return this;
 		}
@@ -82,7 +82,7 @@ public class WeDeploy {
 		}
 
 		private AsyncTransport asyncTransport;
-		private Auth auth;
+		private Authorization authorization;
 		private Transport transport;
 	}
 

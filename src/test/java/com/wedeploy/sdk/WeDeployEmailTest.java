@@ -1,14 +1,13 @@
 package com.wedeploy.sdk;
 
-import com.wedeploy.sdk.auth.Auth;
-import com.wedeploy.sdk.auth.TokenAuth;
+import com.wedeploy.sdk.auth.Authorization;
+import com.wedeploy.sdk.auth.TokenAuthorization;
 import com.wedeploy.sdk.exception.WeDeployException;
 import com.wedeploy.sdk.transport.Response;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.wedeploy.sdk.Constants.AUTH;
-import static com.wedeploy.sdk.Constants.DATA_URL;
+import static com.wedeploy.sdk.Constants.AUTHORIZATION;
 import static com.wedeploy.sdk.Constants.EMAIL_URL;
 import static junit.framework.TestCase.assertTrue;
 
@@ -18,36 +17,36 @@ import static junit.framework.TestCase.assertTrue;
 public class WeDeployEmailTest {
 
 	@Test
-	public void email_withGlobalAuth() throws WeDeployException {
+	public void email_withGlobalAuthorization() throws WeDeployException {
 		WeDeploy weDeploy = new WeDeploy.Builder()
-			.auth(AUTH)
+			.authorization(AUTHORIZATION)
 			.build();
 
-		Auth auth = weDeploy.email(EMAIL_URL).getAuth();
+		Authorization authorization = weDeploy.email(EMAIL_URL).getAuthorization();
 
-		Assert.assertTrue(auth == AUTH);
+		Assert.assertTrue(authorization == AUTHORIZATION);
 	}
 
 	@Test
-	public void email_withScopedAuth() throws WeDeployException {
+	public void email_withScopedAuthorization() throws WeDeployException {
 		WeDeploy weDeploy = new WeDeploy.Builder()
-			.auth(AUTH)
+			.authorization(AUTHORIZATION)
 			.build();
 
-		Auth scopedAuth = new TokenAuth("1");
+		Authorization scopedAuthorization = new TokenAuthorization("1");
 
-		Auth auth = weDeploy.email(EMAIL_URL)
-			.auth(scopedAuth)
-			.getAuth();
+		Authorization authorization = weDeploy.email(EMAIL_URL)
+			.authorization(scopedAuthorization)
+			.getAuthorization();
 
-		Assert.assertTrue(scopedAuth == auth);
+		Assert.assertTrue(scopedAuthorization == authorization);
 	}
 
 	@Test
 	public void sendAndCheckStatus() throws WeDeployException {
 		WeDeployEmail email = weDeploy.email(EMAIL_URL);
 
-		Response response = email.auth(AUTH)
+		Response response = email.authorization(AUTHORIZATION)
 			.from("test@wedeploy.me")
 			.cc("test@wedeploy.me")
 			.to("test@wedeploy.me")
@@ -61,7 +60,7 @@ public class WeDeployEmailTest {
 
 		String id = response.getBody();
 
-		email.auth(AUTH)
+		email.authorization(AUTHORIZATION)
 			.checkEmailStatus(id)
 			.execute();
 

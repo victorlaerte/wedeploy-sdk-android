@@ -5,7 +5,7 @@ import com.wedeploy.sdk.transport.Request;
 /**
  * @author Silvio Santos
  */
-public interface Auth {
+public interface Authorization {
 
 	String getAuthorizationHeader();
 

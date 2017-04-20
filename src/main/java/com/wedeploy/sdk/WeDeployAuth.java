@@ -3,8 +3,8 @@ package com.wedeploy.sdk;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import com.wedeploy.sdk.auth.Auth;
-import com.wedeploy.sdk.auth.AuthProvider;
+import com.wedeploy.sdk.auth.Authorization;
+import com.wedeploy.sdk.auth.ProviderAuthorization;
 import com.wedeploy.sdk.internal.RequestMethod;
 import com.wedeploy.sdk.transport.Request;
 import com.wedeploy.sdk.transport.Response;
@@ -39,7 +39,7 @@ public class WeDeployAuth extends WeDeployService<WeDeployAuth> {
 		return newCall(request);
 	}
 
-	public void signIn(Activity activity, AuthProvider provider) {
+	public void signIn(Activity activity, ProviderAuthorization provider) {
 		Uri oauthUrl = Uri.parse(url + provider.getAuthUrl());
 
 		Intent intent = new Intent(Intent.ACTION_VIEW, oauthUrl);
@@ -47,13 +47,13 @@ public class WeDeployAuth extends WeDeployService<WeDeployAuth> {
 	}
 
 	public Call<Response> signOut() {
-		Auth auth = getAuth();
+		Authorization authorization = getAuthorization();
 
-		checkNotNull(auth, "You must be signed in");
+		checkNotNull(authorization, "You must be signed in");
 
 		Request request = newAuthenticatedRequestBuilder(url)
 			.path("oauth/revoke")
-			.param("token", auth.getToken())
+			.param("token", authorization.getToken())
 			.method(RequestMethod.GET)
 			.build();
 
@@ -89,7 +89,7 @@ public class WeDeployAuth extends WeDeployService<WeDeployAuth> {
 	}
 
 	public Call<Response> getCurrentUser() {
-		checkNotNull(getAuth(), "You must be signed in");
+		checkNotNull(getAuthorization(), "You must be signed in");
 
 		Request.Builder builder = newAuthenticatedRequestBuilder(url)
 			.path("user")
@@ -99,7 +99,7 @@ public class WeDeployAuth extends WeDeployService<WeDeployAuth> {
 	}
 
 	public Call<Response> getUser(String userId) {
-		checkNotNull(getAuth(), "userId must be specified");
+		checkNotNull(getAuthorization(), "userId must be specified");
 
 		Request request = newAuthenticatedRequestBuilder(url)
 			.path("users/" + userId)

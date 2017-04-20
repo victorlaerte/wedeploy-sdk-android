@@ -1,6 +1,6 @@
 package com.wedeploy.sdk;
 
-import com.wedeploy.sdk.auth.Auth;
+import com.wedeploy.sdk.auth.Authorization;
 import com.wedeploy.sdk.transport.Request;
 import com.wedeploy.sdk.transport.Response;
 
@@ -13,16 +13,16 @@ public class WeDeployService<T> {
 		this.weDeploy = weDeploy;
 	}
 
-	public Auth getAuth() {
-		if (auth != null) {
-			return auth;
+	public Authorization getAuthorization() {
+		if (authorization != null) {
+			return authorization;
 		}
 
-		return weDeploy.getAuth();
+		return weDeploy.getAuthorization();
 	}
 
-	public T auth(Auth auth) {
-		this.auth = auth;
+	public T authorization(Authorization authorization) {
+		this.authorization = authorization;
 
 		return (T)this;
 	}
@@ -31,13 +31,13 @@ public class WeDeployService<T> {
 		Request.Builder builder = new Request.Builder()
 			.url(url);
 
-		Auth auth = getAuth();
+		Authorization authorization = getAuthorization();
 
-		if (auth == null) {
+		if (authorization == null) {
 			return builder;
 		}
 
-		return auth.authenticate(builder);
+		return authorization.authenticate(builder);
 	}
 
 	protected Call<Response> newCall(Request request) {
@@ -45,7 +45,7 @@ public class WeDeployService<T> {
 			Response.class);
 	}
 
-	private Auth auth;
+	private Authorization authorization;
 	private final WeDeploy weDeploy;
 
 }

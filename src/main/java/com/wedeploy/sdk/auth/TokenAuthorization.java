@@ -6,17 +6,17 @@ import com.wedeploy.sdk.transport.Request;
 /**
  * @author Silvio Santos
  */
-public class TokenAuth implements Auth {
+public class TokenAuthorization implements Authorization {
 
-	public TokenAuth(String token) {
+	public TokenAuthorization(String token) {
 		this.token = token;
 	}
 
-	public static Auth getAuthFromIntent(Intent intent) {
+	public static Authorization getAuthorizationFromIntent(Intent intent) {
 		String[] fragment = intent.getData().getFragment().split("access_token=");
 
 		if (fragment.length > 1) {
-			return new TokenAuth(fragment[1]);
+			return new TokenAuthorization(fragment[1]);
 		}
 
 		return null;

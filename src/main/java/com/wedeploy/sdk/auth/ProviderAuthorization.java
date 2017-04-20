@@ -5,7 +5,7 @@ import static com.wedeploy.sdk.util.Validator.checkNotNull;
 /**
  * @author Silvio Santos
  */
-public class AuthProvider {
+public class ProviderAuthorization {
 
 	public String getAuthUrl() {
 		StringBuilder sb = new StringBuilder()
@@ -44,7 +44,7 @@ public class AuthProvider {
 		return scope;
 	}
 
-	private AuthProvider(AuthProvider.Builder builder) {
+	private ProviderAuthorization(ProviderAuthorization.Builder builder) {
 		this.provider = builder.provider;
 		this.providerScope = builder.providerScope;
 		this.redirectUri = builder.redirectUri;
@@ -58,11 +58,11 @@ public class AuthProvider {
 
 	public static class Builder {
 
-		public AuthProvider build() {
+		public ProviderAuthorization build() {
 			checkNotNull(provider, "Provider must be specified");
 			checkNotNull(redirectUri, "Redirect URI must be specified");
 
-			return new AuthProvider(this);
+			return new ProviderAuthorization(this);
 		}
 
 		public Builder provider(Provider provider) {

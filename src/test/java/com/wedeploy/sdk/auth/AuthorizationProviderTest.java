@@ -2,17 +2,17 @@ package com.wedeploy.sdk.auth;
 
 import org.junit.Test;
 
-import static com.wedeploy.sdk.auth.AuthProvider.Provider.GITHUB;
+import static com.wedeploy.sdk.auth.ProviderAuthorization.Provider.GITHUB;
 import static junit.framework.TestCase.assertEquals;
 
 /**
  * @author Silvio Santos
  */
-public class AuthProviderTest {
+public class AuthorizationProviderTest {
 
 	@Test
 	public void getAuthUrl() {
-		AuthProvider authProvider = new AuthProvider.Builder()
+		ProviderAuthorization authProvider = new ProviderAuthorization.Builder()
 			.provider(GITHUB)
 			.scope("admin")
 			.providerScope("email")

@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static com.wedeploy.sdk.Constants.AUTH;
+import static com.wedeploy.sdk.Constants.AUTHORIZATION;
 import static com.wedeploy.sdk.Constants.DATA_URL;
 import static com.wedeploy.sdk.DataTestHelper.initDataFromFile;
 import static org.junit.Assert.*;
@@ -71,7 +71,7 @@ public class WeDeployDataQueryTest {
 	@Test
 	public void limit() throws WeDeployException {
 		Response response = weDeploy.data(DATA_URL)
-			.auth(AUTH)
+			.authorization(AUTHORIZATION)
 			.limit(1)
 			.get("messages")
 			.execute();
@@ -84,7 +84,7 @@ public class WeDeployDataQueryTest {
 	@Test
 	public void offset() throws WeDeployException {
 		Response response = weDeploy.data(DATA_URL)
-			.auth(AUTH)
+			.authorization(AUTHORIZATION)
 			.offset(10)
 			.get("messages")
 			.execute();
@@ -148,7 +148,7 @@ public class WeDeployDataQueryTest {
 
 	private void orderBy(SortOrder order) throws WeDeployException {
 		Response response = weDeploy.data(DATA_URL)
-			.auth(AUTH)
+			.authorization(AUTHORIZATION)
 			.orderBy("message", order)
 			.get("messages")
 			.execute();

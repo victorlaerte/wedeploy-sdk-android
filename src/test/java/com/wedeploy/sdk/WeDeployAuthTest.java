@@ -1,7 +1,7 @@
 package com.wedeploy.sdk;
 
-import com.wedeploy.sdk.auth.Auth;
-import com.wedeploy.sdk.auth.TokenAuth;
+import com.wedeploy.sdk.auth.Authorization;
+import com.wedeploy.sdk.auth.TokenAuthorization;
 import com.wedeploy.sdk.exception.WeDeployException;
 import com.wedeploy.sdk.internal.OkHttpTransport;
 import com.wedeploy.sdk.internal.RequestMethod;
@@ -41,14 +41,14 @@ public class WeDeployAuthTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void signIn_withNullEmail_shouldThrowException() {
 		weDeploy.auth(AUTH_URL)
-			.auth(AUTH)
+			.authorization(AUTHORIZATION)
 			.signIn(null, PASSWORD);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void signIn_withNullPassword_shouldThrowException() {
 		weDeploy.auth(AUTH_URL)
-			.auth(AUTH)
+			.authorization(AUTHORIZATION)
 			.signIn(EMAIL, null);
 	}
 
@@ -62,7 +62,7 @@ public class WeDeployAuthTest {
 		String token = jsonBody.getString("access_token");
 
 		weDeploy.auth(AUTH_URL)
-			.auth(new TokenAuth(token))
+			.authorization(new TokenAuthorization(token))
 			.signOut()
 			.execute();
 	}
@@ -72,7 +72,7 @@ public class WeDeployAuthTest {
 		String id = createUser("test@wedeploy.me", "123456", "Test Test");
 
 		weDeploy.auth(AUTH_URL)
-			.auth(AUTH)
+			.authorization(AUTHORIZATION)
 			.deleteUser(id)
 			.execute();
 	}
@@ -85,18 +85,18 @@ public class WeDeployAuthTest {
 
 		JSONObject jsonBody = new JSONObject(response.getBody());
 		String token = jsonBody.getString("access_token");
-		Auth auth = new TokenAuth(token);
+		Authorization authorization = new TokenAuthorization(token);
 
 		JSONObject fields = new JSONObject();
 		fields.put("name", "Silvio Santos 2");
 
 		weDeploy.auth(AUTH_URL)
-			.auth(auth)
+			.authorization(authorization)
 			.updateUser(USER_ID, fields)
 			.execute();
 
 		response = weDeploy.auth(AUTH_URL)
-			.auth(auth)
+			.authorization(authorization)
 			.getCurrentUser()
 			.execute();
 
@@ -105,7 +105,7 @@ public class WeDeployAuthTest {
 
 		fields.put("name", NAME);
 		weDeploy.auth(AUTH_URL)
-			.auth(auth)
+			.authorization(authorization)
 			.updateUser(USER_ID, fields)
 			.execute();
 	}

@@ -11,7 +11,7 @@ import static org.mockito.Mockito.when;
 /**
  * @author Silvio Santos
  */
-public class TokenAuthTest {
+public class TokenAuthorizationTest {
 
 	@Test
 	public void getAuthFromIntent() {
@@ -21,10 +21,10 @@ public class TokenAuthTest {
 		when(uri.getFragment()).thenReturn("access_token=123456");
 		when(intent.getData()).thenReturn(uri);
 
-		Auth auth = TokenAuth.getAuthFromIntent(intent);
+		Authorization authorization = TokenAuthorization.getAuthorizationFromIntent(intent);
 
-		assertNotNull(auth);
-		assertEquals("Bearer 123456", auth.getAuthorizationHeader());
+		assertNotNull(authorization);
+		assertEquals("Bearer 123456", authorization.getAuthorizationHeader());
 	}
 
 	@Test
@@ -35,8 +35,8 @@ public class TokenAuthTest {
 		when(uri.getFragment()).thenReturn("somefragment=123456");
 		when(intent.getData()).thenReturn(uri);
 
-		Auth auth = TokenAuth.getAuthFromIntent(intent);
+		Authorization authorization = TokenAuthorization.getAuthorizationFromIntent(intent);
 
-		assertNull(auth);
+		assertNull(authorization);
 	}
 }
