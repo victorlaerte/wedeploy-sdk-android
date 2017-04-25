@@ -1,6 +1,7 @@
 package com.wedeploy.sdk.transport;
 
 import com.wedeploy.sdk.RealTime;
+import com.wedeploy.sdk.util.Platform;
 import com.wedeploy.sdk.util.URLUtil;
 import io.socket.client.IO;
 import io.socket.client.Manager;
@@ -26,8 +27,13 @@ public class SocketIORealTime implements RealTime {
 	public RealTime on(String event, final OnEventListener listener) {
 		socket.on(event, new Emitter.Listener() {
 			@Override
-			public void call(Object... args) {
-				listener.onEvent(args);
+			public void call(final Object... args) {
+				Platform.get().run(new Runnable() {
+					@Override
+					public void run() {
+						listener.onEvent(args);
+					}
+				});
 			}
 		});
 
