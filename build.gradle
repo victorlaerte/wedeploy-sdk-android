@@ -1,7 +1,20 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+plugins {
+    id "com.jfrog.bintray" version "1.7.3"
+}
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
 apply plugin: 'maven'
+apply plugin: 'com.jfrog.bintray'
 
 group 'com.wedeploy'
-version '1.0-SNAPSHOT'
 
 def release = true
 if (release)
@@ -15,17 +28,6 @@ apply plugin: 'signing'
 
 targetCompatibility = 1.7
 sourceCompatibility = 1.7
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-}
-
-repositories {
-    mavenLocal()
-    mavenCentral()
-}
 
 dependencies {
     compile group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.6.0'
@@ -151,7 +153,7 @@ def customizePom(pom, gradleProject) {
 
             name 'WeDeploy Android API Client'
             description 'Android API Client for WeDeploy'
-            url 'https://github.com/wedeploy/common'
+            url 'https://github.com/wedeploy/api-android'
             organization {
                 name 'WeDeploy'
                 url 'http://wedeploy.com'
@@ -172,6 +174,24 @@ def customizePom(pom, gradleProject) {
                 }
             }
         }
+    }
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+
+    configurations = ['archives']
+
+    dryRun = false
+    publish = true
+
+    pkg {
+        repo = 'wedeploy'
+        name = 'api-android'
+        userOrg = 'liferay'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/wedeploy/api-android.git'
     }
 }
 
