@@ -168,9 +168,9 @@ def customizePom(pom, gradleProject) {
             }
             developers {
                 developer {
-                    id 'eduardo'
-                    name 'Eduardo Lundgren'
-                    email 'eduardo.lundgren@liferay.com'
+                    id 'silvio'
+                    name 'Silvio Santos'
+                    email 'silvio.santos@liferay.com'
                 }
             }
         }
