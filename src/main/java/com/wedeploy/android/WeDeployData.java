@@ -17,7 +17,7 @@ import static com.wedeploy.android.util.Validator.checkNotNull;
 /**
  * @author Silvio Santos
  */
-public class WeDeployData extends WeDeployService<WeDeployData> {
+public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 
 	WeDeployData(WeDeploy weDeploy, String url) {
 		super(weDeploy);

@@ -9,7 +9,7 @@ import static com.wedeploy.android.util.Validator.checkNotNull;
 /**
  * @author Silvio Santos
  */
-public class WeDeployEmail extends WeDeployService<WeDeployEmail> {
+public class WeDeployEmail extends BaseWeDeployService<WeDeployEmail> {
 
 	WeDeployEmail(WeDeploy weDeploy, String url) {
 		super(weDeploy);

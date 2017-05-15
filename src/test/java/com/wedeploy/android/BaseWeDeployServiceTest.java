@@ -9,11 +9,11 @@ import static junit.framework.TestCase.assertEquals;
 /**
  * @author Silvio Santos
  */
-public class WeDeployServiceTest {
+public class BaseWeDeployServiceTest {
 
 	@Test
 	public void header_withSomeValues() {
-		WeDeployService service = new WeDeployService(new WeDeploy.Builder().build());
+		BaseWeDeployService service = new BaseWeDeployService(new WeDeploy.Builder().build());
 		service.header("name1", "value1");
 		service.header("name2", "value2");
 		service.header("name3", "value3");

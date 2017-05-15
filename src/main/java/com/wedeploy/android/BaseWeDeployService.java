@@ -12,9 +12,9 @@ import java.util.Map;
 /**
  * @author Silvio Santos
  */
-public class WeDeployService<T> {
+public class BaseWeDeployService<T> {
 
-	WeDeployService(WeDeploy weDeploy) {
+	BaseWeDeployService(WeDeploy weDeploy) {
 		this.weDeploy = weDeploy;
 	}
 

@@ -15,7 +15,7 @@ import static com.wedeploy.android.util.Validator.checkNotNull;
 /**
  * @author Silvio Santos
  */
-public class WeDeployAuth extends WeDeployService<WeDeployAuth> {
+public class WeDeployAuth extends BaseWeDeployService<WeDeployAuth> {
 
 	WeDeployAuth(WeDeploy weDeploy, String url) {
 		super(weDeploy);
