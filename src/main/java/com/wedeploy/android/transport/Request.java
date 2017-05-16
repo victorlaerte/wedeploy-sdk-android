@@ -114,6 +114,10 @@ public class Request {
 		}
 
 		public Request build() {
+			if ((body != null) && !body.isEmpty() && !forms.isEmpty()) {
+				throw new IllegalArgumentException("You can't set both request body and forms");
+			}
+
 			return new Request(this);
 		}
 
