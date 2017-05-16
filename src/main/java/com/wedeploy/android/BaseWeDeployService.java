@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * @author Silvio Santos
  */
-public class BaseWeDeployService<T> {
+public abstract class BaseWeDeployService<T> {
 
 	BaseWeDeployService(WeDeploy weDeploy) {
 		this.weDeploy = weDeploy;

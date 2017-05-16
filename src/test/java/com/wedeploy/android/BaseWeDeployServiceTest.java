@@ -2,6 +2,7 @@ package com.wedeploy.android;
 
 import com.wedeploy.android.transport.MultiMap;
 import com.wedeploy.android.transport.Request;
+import org.junit.Before;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
@@ -11,9 +12,13 @@ import static junit.framework.TestCase.assertEquals;
  */
 public class BaseWeDeployServiceTest {
 
+	@Before
+	public void setUp() {
+		service = new BaseWeDeployService(new WeDeploy.Builder().build()) {};
+	}
+
 	@Test
 	public void header_withSomeValues() {
-		BaseWeDeployService service = new BaseWeDeployService(new WeDeploy.Builder().build());
 		service.header("name1", "value1");
 		service.header("name2", "value2");
 		service.header("name3", "value3");
@@ -28,5 +33,7 @@ public class BaseWeDeployServiceTest {
 		assertEquals("value3", headers.get("name3").get(0));
 		assertEquals("value4", headers.get("name3").get(1));
 	}
+
+	private BaseWeDeployService service;
 
 }
