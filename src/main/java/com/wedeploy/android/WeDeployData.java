@@ -20,11 +20,7 @@ import static com.wedeploy.android.util.Validator.checkNotNull;
 public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 
 	WeDeployData(WeDeploy weDeploy, String url) {
-		super(weDeploy);
-
-		checkNotNull(url, "Data url must be specified");
-
-		this.url = url;
+		super(weDeploy, url);
 	}
 
 	public Call<Response> create(String collection, JSONArray data) {
@@ -42,7 +38,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 	public Call<Response> delete(String resourcePath) {
 		checkNotNull(resourcePath, "Document/Field/Collection path must be specified");
 
-		Request request = newAuthenticatedRequestBuilder(url)
+		Request request = newAuthenticatedRequestBuilder()
 			.path(resourcePath)
 			.method(DELETE)
 			.build();
@@ -55,7 +51,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 	public Call<Response> get(String resourcePath) {
 		checkNotNull(resourcePath, "Document/Field/Collection path must be specified");
 
-		Request.Builder builder = newAuthenticatedRequestBuilder(url)
+		Request.Builder builder = newAuthenticatedRequestBuilder()
 			.path(resourcePath)
 			.query(getOrCreateQueryBuilder().build())
 			.method(GET);
@@ -69,7 +65,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 		checkNotNull(resourcePath, "Document/Field/Collection path must be specified");
 		checkNotNull(data, "data JSONObject must be specified");
 
-		Request request = newAuthenticatedRequestBuilder(url)
+		Request request = newAuthenticatedRequestBuilder()
 			.path(resourcePath)
 			.method(PATCH)
 			.body(data.toString())
@@ -84,7 +80,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 		checkNotNull(resourcePath, "Document/Field/Collection path must be specified");
 		checkNotNull(data, "data JSONObject must be specified");
 
-		Request request = newAuthenticatedRequestBuilder(url)
+		Request request = newAuthenticatedRequestBuilder()
 			.path(resourcePath)
 			.method(PUT)
 			.body(data.toString())
@@ -100,7 +96,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 
 		Query.Builder queryBuilder = getOrCreateQueryBuilder().search();
 
-		Request.Builder builder = newAuthenticatedRequestBuilder(url)
+		Request.Builder builder = newAuthenticatedRequestBuilder()
 			.path(resourcePath)
 			.query(queryBuilder.build())
 			.method(GET);
@@ -201,7 +197,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 	private Call<Response> create(String collection, String dataJson) {
 		checkNotNull(collection, "Collection must be specified");
 
-		Request request = newAuthenticatedRequestBuilder(url)
+		Request request = newAuthenticatedRequestBuilder()
 			.path(collection)
 			.method(POST)
 			.body(dataJson)
@@ -217,6 +213,5 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 	}
 
 	private Query.Builder queryBuilder;
-	private final String url;
 
 }

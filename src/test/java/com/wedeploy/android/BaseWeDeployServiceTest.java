@@ -14,7 +14,8 @@ public class BaseWeDeployServiceTest {
 
 	@Before
 	public void setUp() {
-		service = new BaseWeDeployService(new WeDeploy.Builder().build()) {};
+		WeDeploy weDeploy = new WeDeploy.Builder().build();
+		service = new BaseWeDeployService(weDeploy, "http://someurl.com") {};
 	}
 
 	@Test
@@ -24,7 +25,7 @@ public class BaseWeDeployServiceTest {
 		service.header("name3", "value3");
 		service.header("name3", "value4");
 
-		Request.Builder builder = service.newAuthenticatedRequestBuilder("http://someurl.com");
+		Request.Builder builder = service.newAuthenticatedRequestBuilder();
 		Request request = builder.build();
 
 		MultiMap<String> headers = request.getHeaders();

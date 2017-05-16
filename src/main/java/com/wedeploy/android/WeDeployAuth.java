@@ -18,9 +18,7 @@ import static com.wedeploy.android.util.Validator.checkNotNull;
 public class WeDeployAuth extends BaseWeDeployService<WeDeployAuth> {
 
 	WeDeployAuth(WeDeploy weDeploy, String url) {
-		super(weDeploy);
-
-		this.url = url;
+		super(weDeploy, url);
 	}
 
 	public Call<Response> signIn(String email, String password) {
@@ -51,7 +49,7 @@ public class WeDeployAuth extends BaseWeDeployService<WeDeployAuth> {
 
 		checkNotNull(authorization, "You must be signed in");
 
-		Request request = newAuthenticatedRequestBuilder(url)
+		Request request = newAuthenticatedRequestBuilder()
 			.path("oauth/revoke")
 			.param("token", authorization.getToken())
 			.method(RequestMethod.GET)
@@ -69,7 +67,7 @@ public class WeDeployAuth extends BaseWeDeployService<WeDeployAuth> {
 			.put("password", password)
 			.put("name", name);
 
-		Request.Builder builder = newAuthenticatedRequestBuilder(url)
+		Request.Builder builder = newAuthenticatedRequestBuilder()
 			.path("users")
 			.body(json.toString())
 			.method(RequestMethod.POST);
@@ -80,7 +78,7 @@ public class WeDeployAuth extends BaseWeDeployService<WeDeployAuth> {
 	public Call<Response> deleteUser(String userId) {
 		checkNotNull(userId, "userId must be specified");
 
-		Request request = newAuthenticatedRequestBuilder(url)
+		Request request = newAuthenticatedRequestBuilder()
 			.path("/users/" + userId)
 			.method(RequestMethod.DELETE)
 			.build();
@@ -91,7 +89,7 @@ public class WeDeployAuth extends BaseWeDeployService<WeDeployAuth> {
 	public Call<Response> getCurrentUser() {
 		checkNotNull(getAuthorization(), "You must be signed in");
 
-		Request.Builder builder = newAuthenticatedRequestBuilder(url)
+		Request.Builder builder = newAuthenticatedRequestBuilder()
 			.path("user")
 			.method(RequestMethod.GET);
 
@@ -101,7 +99,7 @@ public class WeDeployAuth extends BaseWeDeployService<WeDeployAuth> {
 	public Call<Response> getUser(String userId) {
 		checkNotNull(getAuthorization(), "userId must be specified");
 
-		Request request = newAuthenticatedRequestBuilder(url)
+		Request request = newAuthenticatedRequestBuilder()
 			.path("users/" + userId)
 			.method(RequestMethod.GET)
 			.build();
@@ -118,7 +116,7 @@ public class WeDeployAuth extends BaseWeDeployService<WeDeployAuth> {
 
 		fields.put("id", id);
 
-		Request request = newAuthenticatedRequestBuilder(url)
+		Request request = newAuthenticatedRequestBuilder()
 			.path("users/" + id)
 			.body(fields.toString())
 			.method(RequestMethod.PATCH)
@@ -128,7 +126,7 @@ public class WeDeployAuth extends BaseWeDeployService<WeDeployAuth> {
 	}
 
 	public Call<Response> sendPasswordResetEmail(String email) {
-		Request request = newAuthenticatedRequestBuilder(url)
+		Request request = newAuthenticatedRequestBuilder()
 			.path("user/recover")
 			.form("email", email)
 			.method(RequestMethod.POST)
@@ -136,8 +134,6 @@ public class WeDeployAuth extends BaseWeDeployService<WeDeployAuth> {
 
 		return newCall(request);
 	}
-
-	private String url;
 
 }
 

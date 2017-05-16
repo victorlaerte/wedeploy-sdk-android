@@ -9,13 +9,18 @@ import com.wedeploy.android.transport.SimpleMultiMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.wedeploy.android.util.Validator.checkNotNull;
+
 /**
  * @author Silvio Santos
  */
 public abstract class BaseWeDeployService<T> {
 
-	BaseWeDeployService(WeDeploy weDeploy) {
+	BaseWeDeployService(WeDeploy weDeploy, String url) {
+		checkNotNull(url, "Service url must be specified");
+
 		this.weDeploy = weDeploy;
+		this.url = url;
 	}
 
 	public Authorization getAuthorization() {
@@ -38,7 +43,7 @@ public abstract class BaseWeDeployService<T> {
 		return (T)this;
 	}
 
-	protected Request.Builder newAuthenticatedRequestBuilder(String url) {
+	protected Request.Builder newAuthenticatedRequestBuilder() {
 		Request.Builder builder = new Request.Builder()
 			.url(url);
 
@@ -61,6 +66,8 @@ public abstract class BaseWeDeployService<T> {
 		return new Call<>(
 			request, weDeploy.getTransport(), weDeploy.getAsyncTransport(), Response.class);
 	}
+
+	protected final String url;
 
 	private Authorization authorization;
 	private MultiMap<String> headers = new SimpleMultiMap<>();

@@ -17,9 +17,7 @@ import static com.wedeploy.android.transport.RequestMethod.*;
 public class WeDeployService extends BaseWeDeployService<WeDeployService> {
 
 	WeDeployService(WeDeploy weDeploy, String url) {
-		super(weDeploy);
-
-		this.url = url;
+		super(weDeploy, url);
 	}
 
 	public WeDeployService body(String body) {
@@ -67,7 +65,7 @@ public class WeDeployService extends BaseWeDeployService<WeDeployService> {
 	}
 
 	private Request newRequest(RequestMethod method) {
-		Request.Builder builder = newAuthenticatedRequestBuilder(url)
+		Request.Builder builder = newAuthenticatedRequestBuilder()
 			.body(body)
 			.path(path)
 			.method(method);
@@ -91,6 +89,5 @@ public class WeDeployService extends BaseWeDeployService<WeDeployService> {
 	private MultiMap<String> forms = new SimpleMultiMap<>();
 	private MultiMap<String> params = new SimpleMultiMap<>();
 	private String path;
-	private final String url;
 
 }

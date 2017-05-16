@@ -12,9 +12,7 @@ import static com.wedeploy.android.util.Validator.checkNotNull;
 public class WeDeployEmail extends BaseWeDeployService<WeDeployEmail> {
 
 	WeDeployEmail(WeDeploy weDeploy, String url) {
-		super(weDeploy);
-
-		this.url = url;
+		super(weDeploy, url);
 	}
 
 	public WeDeployEmail from(String from) {
@@ -100,7 +98,7 @@ public class WeDeployEmail extends BaseWeDeployService<WeDeployEmail> {
 
 	protected Request.Builder getOrCreateRequestBuilder() {
 		if (requestBuilder == null) {
-			requestBuilder = newAuthenticatedRequestBuilder(url);
+			requestBuilder = newAuthenticatedRequestBuilder();
 		}
 
 		return requestBuilder;
@@ -111,6 +109,5 @@ public class WeDeployEmail extends BaseWeDeployService<WeDeployEmail> {
 	}
 
 	private Request.Builder requestBuilder;
-	private final String url;
 
 }
