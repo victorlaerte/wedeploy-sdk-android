@@ -98,7 +98,7 @@ public class OkHttpTransport implements Transport<Response>, AsyncTransport {
 			.addPathSegments(request.getPath())
 			.encodedQuery(request.getEncodedQuery());
 
-		for (Map.Entry<String, String> param : request.params().entrySet()) {
+		for (Map.Entry<String, String> param : request.getParams().entrySet()) {
 			builder.addQueryParameter(param.getKey(), param.getValue());
 		}
 

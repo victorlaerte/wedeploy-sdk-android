@@ -27,12 +27,12 @@ public class Request {
 		return method;
 	}
 
-	public Map<String, String> params() {
-		return Collections.unmodifiableMap(params);
-	}
-
 	public String getEncodedQuery() {
 		return query;
+	}
+
+	public Map<String, String> getParams() {
+		return Collections.unmodifiableMap(params);
 	}
 
 	public String getPath() {

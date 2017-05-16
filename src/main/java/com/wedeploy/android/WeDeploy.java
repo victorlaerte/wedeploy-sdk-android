@@ -40,6 +40,10 @@ public class WeDeploy {
 		return new WeDeployEmail(this, url);
 	}
 
+	public WeDeployService url(String url) {
+		return new WeDeployService(this, url);
+	}
+
 	private final AsyncTransport asyncTransport;
 	private final Authorization authorization;
 	private final Transport transport;
