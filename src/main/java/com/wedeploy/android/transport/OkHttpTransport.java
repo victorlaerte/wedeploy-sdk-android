@@ -95,8 +95,13 @@ public class OkHttpTransport implements Transport<Response>, AsyncTransport {
 	private HttpUrl getUrl(Request request) {
 		HttpUrl.Builder builder = HttpUrl.parse(request.getUrl())
 			.newBuilder()
-			.addPathSegments(request.getPath())
-			.encodedQuery(request.getEncodedQuery());
+			.addPathSegments(request.getPath());
+
+		String encodedQuery = request.getEncodedQuery();
+
+		if ((encodedQuery != null) && !encodedQuery.isEmpty()) {
+			builder.encodedQuery(encodedQuery);
+		}
 
 		for (Map.Entry<String, String> param : request.getParams().entrySet()) {
 			builder.addQueryParameter(param.getKey(), param.getValue());
