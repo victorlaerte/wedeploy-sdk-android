@@ -97,7 +97,7 @@ public class WeDeployAuth extends BaseWeDeployService<WeDeployAuth> {
 	}
 
 	public Call<Response> getUser(String userId) {
-		checkNotNull(getAuthorization(), "userId must be specified");
+		checkNotNull(userId, "userId must be specified");
 
 		Request request = newAuthenticatedRequestBuilder()
 			.path("users/" + userId)
@@ -126,6 +126,8 @@ public class WeDeployAuth extends BaseWeDeployService<WeDeployAuth> {
 	}
 
 	public Call<Response> sendPasswordResetEmail(String email) {
+		checkNotNull(email, "email must be specified");
+
 		Request request = newAuthenticatedRequestBuilder()
 			.path("user/recover")
 			.form("email", email)
