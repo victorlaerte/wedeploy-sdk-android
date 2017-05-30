@@ -15,31 +15,97 @@ import static com.wedeploy.android.transport.RequestMethod.*;
 import static com.wedeploy.android.util.Validator.checkNotNull;
 
 /**
+ * The WeDeployData service enables you to store data securely to a NoSQL cloud database, make
+ * complex queries instantly, and consume information in real-time.
+ *
+ * This class is not thread safe. In order to avoid concurrency issues, you must create a new instance
+ * by calling {@link WeDeploy#data(String)} for every request you want to do on {@link WeDeployData}.
+ *
  * @author Silvio Santos
  */
 public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 
+	/**
+	 * Constructs a {@link WeDeployData} instance.
+	 *
+	 * @param weDeploy A WeDeploy instance.
+	 * @param url The WeDeploy Data service url.
+	 */
 	WeDeployData(WeDeploy weDeploy, String url) {
 		super(weDeploy, url);
 	}
 
+	/**
+	 * Creates multiple objects and saves them to WeDeploy data. If
+	 * there's a validation registered in the collection and the request is
+	 * successful, the array of objects is returned.
+	 * The data {@link JSONArray} describes the attributes on the objects that are to be created.
+	 *
+	 * <pre><code>
+	 * WeDeployData data = weDeploy.data("http://demodata.wedeploy.io");
+	 *
+	 * JSONObject movie1JsonObject = new JSONObject()
+	 *      .put("title", "Star Wars: Episode II - Attack of the Clones");
+	 *
+	 * JSONObject movie2JsonObject = new JSONObject()
+	 *      .put("title", "Star Wars: Episode III - Revenge of the Sith");
+	 *
+	 * JSONArray dataJsonArray = new JSONArray()
+	 *      .put(movie1JsonObject)
+	 *      .put(movie2JsonObject);
+	 *
+	 * response = weDeploy.data(DATA_URL)
+	 *      .create("movies", moviesJsonArray)
+	 *      .execute();
+	 *
+	 * </code></pre>
+	 * @param collection Collection (key) used to create the new data.
+	 * @param data Attributes on the object that is to be created.
+	 * @return {@link Call}
+	 */
 	public Call<Response> create(String collection, JSONArray data) {
 		checkNotNull(data, "data JSONArray must be specified");
 
 		return create(collection, data.toString());
 	}
 
+	/**
+	 * Creates an object and saves it to WeDeploy data. If
+	 * there's a validation registered in the collection and the request is
+	 * successful, the object is returned.
+	 * The data {@link JSONObject} describes the attributes on the objects that are to be created.
+	 *
+	 * <pre><code>
+	 * WeDeployData data = weDeploy.data("http://demodata.wedeploy.io");
+	 *
+	 * JSONObject movieJsonObject = new JSONObject()
+	 *      .put("title", "Star Wars: Episode II - Attack of the Clones");
+	 *
+	 * response = weDeploy.data(DATA_URL)
+	 *      .create("movies", movieJsonObject)
+	 *      .execute();
+	 *
+	 * </code></pre>
+	 * @param collection Collection (key) used to create the new data.
+	 * @param data Attributes on the object that is to be created.
+	 * @return {@link Call}
+	 */
 	public Call<Response> create(String collection, JSONObject data) {
 		checkNotNull(data, "data JSONObject must be specified");
 
 		return create(collection, data.toString());
 	}
 
-	public Call<Response> delete(String resourcePath) {
-		checkNotNull(resourcePath, "Document/Field/Collection path must be specified");
+	/**
+	 * Deletes a [document/field/collection].
+	 * @param key used to delete the document/field/collection.
+	 * @return {@link Call}
+	 */
+	public Call<Response> delete(String key) {
+		checkNotNull(key, "Document/Field/Collection key must be specified");
 
 		Request request = newAuthenticatedRequestBuilder()
-			.path(resourcePath)
+			.path(key)
 			.method(DELETE)
 			.build();
 
@@ -48,11 +114,16 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 		return newCall(request);
 	}
 
-	public Call<Response> get(String resourcePath) {
-		checkNotNull(resourcePath, "Document/Field/Collection path must be specified");
+	/**
+	 * Retrieves data from a [document/field/collection].
+	 * @param key used to get the document/field/collection.
+	 * @return {@link Call}
+	 */
+	public Call<Response> get(String key) {
+		checkNotNull(key, "Document/Field/Collection key must be specified");
 
 		Request.Builder builder = newAuthenticatedRequestBuilder()
-			.path(resourcePath)
+			.path(key)
 			.query(getOrCreateQueryBuilder().build())
 			.method(GET);
 
@@ -61,12 +132,30 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 		return newCall(builder.build());
 	}
 
-	public Call<Response> update(String resourcePath, JSONObject data) {
-		checkNotNull(resourcePath, "Document/Field/Collection path must be specified");
+	/**
+	 * Updates the attributes of a document based on the passed-in {@link JSONObject} and saves
+	 * the record.
+	 *
+	 * <pre><code>
+	 * WeDeployData data = weDeploy.data("http://demodata.wedeploy.io");
+	 *
+	 * JSONObject movieJsonObject = new JSONObject()
+	 *      .put("title", "Star Wars: Episode I");
+	 *
+	 * data.update("movies/1019112353", movieJsonObject)
+	 *      .execute();
+	 * </code></pre>
+	 *
+	 * @param key used to update the document.
+	 * @param data Attributes on the object that is to be updated.
+	 * @return {@link Call}
+	 */
+	public Call<Response> update(String key, JSONObject data) {
+		checkNotNull(key, "Document/Field/Collection key must be specified");
 		checkNotNull(data, "data JSONObject must be specified");
 
 		Request request = newAuthenticatedRequestBuilder()
-			.path(resourcePath)
+			.path(key)
 			.method(PATCH)
 			.body(data.toString())
 			.build();
@@ -76,12 +165,30 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 		return newCall(request);
 	}
 
-	public Call<Response> replace(String resourcePath, JSONObject data) {
-		checkNotNull(resourcePath, "Document/Field/Collection path must be specified");
+	/**
+	 * Replaces the attributes of a document based on the passed-in {@link JSONObject} and saves
+	 * the record.
+	 *
+	 * <pre><code>
+	 * WeDeployData data = weDeploy.data("http://demodata.wedeploy.io");
+	 *
+	 * JSONObject movieJsonObject = new JSONObject()
+	 *      .put("title", "Star Wars: Episode I");
+	 *
+	 * data.replace("movies/1019112353", movieJsonObject)
+	 *      .execute();
+	 * </code></pre>
+	 *
+	 * @param key used to update the document.
+	 * @param data Attributes on the object that is to be replaced.
+	 * @return {@link Call}
+	 */
+	public Call<Response> replace(String key, JSONObject data) {
+		checkNotNull(key, "Document/Field/Collection path must be specified");
 		checkNotNull(data, "data JSONObject must be specified");
 
 		Request request = newAuthenticatedRequestBuilder()
-			.path(resourcePath)
+			.path(key)
 			.method(PUT)
 			.body(data.toString())
 			.build();
@@ -91,13 +198,18 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 		return newCall(request);
 	}
 
-	public Call<Response> search(String resourcePath) {
-		checkNotNull(resourcePath, "Document/Field/Collection path must be specified");
+	/**
+	 * Retrieve data from a [document/field/collection] and put it in a search format.
+	 * @param key used to search the document/field/collection.
+	 * @return {@link Call}
+	 */
+	public Call<Response> search(String key) {
+		checkNotNull(key, "Document/Field/Collection key must be specified");
 
 		Query.Builder queryBuilder = getOrCreateQueryBuilder().search();
 
 		Request.Builder builder = newAuthenticatedRequestBuilder()
-			.path(resourcePath)
+			.path(key)
 			.query(queryBuilder.build())
 			.method(GET);
 
@@ -106,6 +218,11 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 		return newCall(builder.build());
 	}
 
+	/**
+	 * Creates new RealTime instance to continuously receive updated query results in real-time.
+	 * @param collection key/collection used to find organized data.
+	 * @return {@link RealTime} RealTime instance. Server events can be listened on it.
+	 */
 	public RealTime watch(String collection) {
 		checkNotNull(collection, "Collection must be specified");
 
@@ -127,6 +244,11 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 		return builder.build();
 	}
 
+	/**
+	 * Adds an aggregation to this request {@link Query} instance.
+	 * @param aggregation The {@link Aggregation} instance.
+	 * @return {@link WeDeployData} Returns the object itself, so calls can be chained.
+	 */
 	public WeDeployData aggregate(Aggregation aggregation) {
 		checkNotNull(aggregation, "Aggregation must be specified");
 
@@ -135,36 +257,66 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 		return this;
 	}
 
+	/**
+	 * Makes this request return the count of objects instead of returning the objects themselves.
+	 * @return {@link WeDeployData} Returns the object itself, so calls can be chained.
+	 */
 	public WeDeployData count() {
 		getOrCreateQueryBuilder().type("count");
 
 		return this;
 	}
 
+	/**
+	 * Adds a highlight entry to this request instance.
+	 * @param field The field's name.
+	 * @return {@link WeDeployData} Returns the object itself, so calls can be chained.
+	 */
 	public WeDeployData highlight(String field) {
 		getOrCreateQueryBuilder().highlight(field);
 
 		return this;
 	}
 
+	/**
+	 * Sets the limit for this request's {@link Query}.
+	 * @param limit The max amount of entries that this request should return.
+	 * @return {@link WeDeployData} Returns the object itself, so calls can be chained.
+	 */
 	public WeDeployData limit(int limit) {
 		getOrCreateQueryBuilder().limit(limit);
 
 		return this;
 	}
 
+	/**
+	 * Sets the offset for this request's {@link Query}.
+	 * @param offset The index of the first entry that should be returned by this query.
+	 * @return {@link WeDeployData} Returns the object itself, so calls can be chained.
+	 */
 	public WeDeployData offset(int offset) {
 		getOrCreateQueryBuilder().offset(offset);
 
 		return this;
 	}
 
+	/**
+	 * Adds an ascending sort query to this request's body.
+	 * @param field The field that the query should be sorted by.
+	 * @return {@link WeDeployData} Returns the object itself, so calls can be chained.
+	 */
 	public WeDeployData orderBy(String field) {
 		orderBy(field, SortOrder.ASCENDING);
 
 		return this;
 	}
 
+	/**
+	 * Adds a sort query to this request's body.
+	 * @param field The field that the query should be sorted by.
+	 * @param order The direction the sort operation should use.
+	 * @return {@link WeDeployData} Returns the object itself, so calls can be chained.
+	 */
 	public WeDeployData orderBy(String field, SortOrder order) {
 		checkNotNull(field, "Field must be specified");
 		checkNotNull(field, "SortOrder must be specified");
@@ -178,6 +330,11 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 		return this;
 	}
 
+	/**
+	 * Adds a filter to this request's {@link Query}.
+	 * @param filter a {@link Filter} instance
+	 * @return {@link WeDeployData} Returns the object itself, so calls can be chained.
+	 */
 	public WeDeployData where(Filter filter) {
 		checkNotNull(filter, "Filter must be specified");
 

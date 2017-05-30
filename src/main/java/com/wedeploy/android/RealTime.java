@@ -1,7 +1,10 @@
 package com.wedeploy.android;
 
 /**
- * Real-time.
+ * The RealTime class let's you register for real-time events on WeDeploy.
+ *
+ * @see WeDeployData#watch(String)
+ * @author Silvio Santos
  */
 public interface RealTime {
 
@@ -12,12 +15,16 @@ public interface RealTime {
 	}
 
 	/**
-	 * Closes real-time connection.
+	 * Closes the real-time connection.
 	 */
 	void close();
 
 	/**
-	 * Registers a callback of type `event` with `listener`.
+	 * Registers a listener to be notified when the supplied event occurs.
+	 *
+	 * @param event The event to listen to.
+	 * @param listener The event to listen to.
+	 * @return A RealTime object.
 	 */
 	RealTime on(String event, OnEventListener listener);
 

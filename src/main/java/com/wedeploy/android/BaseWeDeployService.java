@@ -16,6 +16,12 @@ import static com.wedeploy.android.util.Validator.checkNotNull;
  */
 public abstract class BaseWeDeployService<T> {
 
+	/**
+	 * Constructs a {@link BaseWeDeployService<T>} instance.
+	 *
+	 * @param weDeploy A WeDeploy instance.
+	 * @param url The WeDeploy service url.
+	 */
 	BaseWeDeployService(WeDeploy weDeploy, String url) {
 		checkNotNull(url, "Service url must be specified");
 
@@ -23,6 +29,13 @@ public abstract class BaseWeDeployService<T> {
 		this.url = url;
 	}
 
+	/**
+	 * Gets the current used {@link Authorization}. If an authorization was configured for this service
+	 * using {@link #authorization}, that one will be returned. Otherwise, the authorization provided
+	 * while building the WeDeploy instance with {@link WeDeploy.Builder#authorization(Authorization)} will be returned
+	 *
+	 * @return The {@link Authorization} used by this Service to authenticate requests with WeDeploy.
+	 */
 	public Authorization getAuthorization() {
 		if (authorization != null) {
 			return authorization;
@@ -31,12 +44,27 @@ public abstract class BaseWeDeployService<T> {
 		return weDeploy.getAuthorization();
 	}
 
+	/**
+	 * Sets the {@link Authorization} used to authenticate requests with WeDeploy. The authorization
+	 * provided by this method has a higher priority then the one provided while building the WeDeploy
+	 * instance with {@link WeDeploy.Builder#authorization(Authorization)}.
+	 *
+	 * @param authorization
+	 * @return {@link this} Returns the object itself, so calls can be chained.
+	 */
 	public T authorization(Authorization authorization) {
 		this.authorization = authorization;
 
 		return (T)this;
 	}
 
+	/**
+	 * Sets a request header for this request.
+	 *
+	 * @param name The header name.
+	 * @param value The header value.
+	 * @return {@link this} Returns the object itself, so calls can be chained.
+	 */
 	public T header(String name, String value) {
 		headers.put(name, value);
 
