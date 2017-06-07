@@ -269,6 +269,8 @@ public class WeDeployDataTest {
 
 		latch.await(5000, TimeUnit.MILLISECONDS);
 		assertNotNull(createPayload[0]);
+
+		realTime.close();
 	}
 
 	@Test
@@ -306,6 +308,8 @@ public class WeDeployDataTest {
 
 		latch.await(5000, TimeUnit.MILLISECONDS);
 		assertNotNull(changesPayload[0]);
+
+		realTime.close();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
