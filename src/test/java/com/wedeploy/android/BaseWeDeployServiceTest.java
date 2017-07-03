@@ -35,6 +35,39 @@ public class BaseWeDeployServiceTest {
 		assertEquals("value4", headers.get("name3").get(1));
 	}
 
+	@Test
+	public void url_withoutScheme() {
+		WeDeploy weDeploy = new WeDeploy.Builder().build();
+		BaseWeDeployService service = new BaseWeDeployService(weDeploy, "someurl.com") {};
+
+		Request.Builder builder = service.newAuthenticatedRequestBuilder();
+		Request request = builder.build();
+
+		assertEquals("http://someurl.com", request.getUrl());
+	}
+
+	@Test
+	public void url_withoutHttpScheme() {
+		WeDeploy weDeploy = new WeDeploy.Builder().build();
+		BaseWeDeployService service = new BaseWeDeployService(weDeploy, "http://someurl.com") {};
+
+		Request.Builder builder = service.newAuthenticatedRequestBuilder();
+		Request request = builder.build();
+
+		assertEquals("http://someurl.com", request.getUrl());
+	}
+
+	@Test
+	public void url_withoutHttpsScheme() {
+		WeDeploy weDeploy = new WeDeploy.Builder().build();
+		BaseWeDeployService service = new BaseWeDeployService(weDeploy, "https://someurl.com") {};
+
+		Request.Builder builder = service.newAuthenticatedRequestBuilder();
+		Request request = builder.build();
+
+		assertEquals("https://someurl.com", request.getUrl());
+	}
+
 	private BaseWeDeployService service;
 
 }
