@@ -26,7 +26,7 @@ public abstract class BaseWeDeployService<T> {
 		checkNotNull(url, "Service url must be specified");
 
 		this.weDeploy = weDeploy;
-		this.url = url;
+		this.url = addSchemeIfNeeded(url);
 	}
 
 	/**
@@ -93,6 +93,15 @@ public abstract class BaseWeDeployService<T> {
 	protected Call<Response> newCall(Request request) {
 		return new Call<>(
 			request, weDeploy.getTransport(), weDeploy.getAsyncTransport(), Response.class);
+	}
+
+	private String addSchemeIfNeeded(String url) {
+		if (url.startsWith("http://") || url.startsWith("https://")) {
+			return url;
+		}
+		else {
+			return "http://" +  url;
+		}
 	}
 
 	protected final String url;
