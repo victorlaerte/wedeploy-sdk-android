@@ -47,7 +47,7 @@ public class BaseWeDeployServiceTest {
 	}
 
 	@Test
-	public void url_withoutHttpScheme() {
+	public void url_withHttpScheme() {
 		WeDeploy weDeploy = new WeDeploy.Builder().build();
 		BaseWeDeployService service = new BaseWeDeployService(weDeploy, "http://someurl.com") {};
 
@@ -58,7 +58,7 @@ public class BaseWeDeployServiceTest {
 	}
 
 	@Test
-	public void url_withoutHttpsScheme() {
+	public void url_withHttpsScheme() {
 		WeDeploy weDeploy = new WeDeploy.Builder().build();
 		BaseWeDeployService service = new BaseWeDeployService(weDeploy, "https://someurl.com") {};
 
