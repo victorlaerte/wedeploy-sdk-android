@@ -43,7 +43,7 @@ public class BaseWeDeployServiceTest {
 		Request.Builder builder = service.newAuthenticatedRequestBuilder();
 		Request request = builder.build();
 
-		assertEquals("http://someurl.com", request.getUrl());
+		assertEquals("https://someurl.com", request.getUrl());
 	}
 
 	@Test
