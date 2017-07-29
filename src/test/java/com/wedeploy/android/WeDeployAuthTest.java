@@ -78,6 +78,30 @@ public class WeDeployAuthTest {
 	}
 
 	@Test
+	public void getAllUsers() throws WeDeployException {
+		List<String> ids = new ArrayList<>();
+		ids.add(USER_ID);
+		ids.add(createUser("testgetall@wedeploy.me", "123456", "Test Test"));
+		ids.add(createUser("testgetall2@wedeploy.me", "123456", "Test Test2"));
+
+		Response response = weDeploy.auth(AUTH_URL)
+			.authorization(AUTHORIZATION)
+			.getAllUsers()
+			.execute();
+
+		JSONArray jsonArray = new JSONArray(response.getBody());
+
+		assertEquals(3, jsonArray.length());
+
+		for (int i = 0; i < jsonArray.length(); i++) {
+			JSONObject jsonObject = jsonArray.getJSONObject(i);
+			String id = jsonObject.getString("id");
+
+			assertTrue(ids.contains(id));
+		}
+	}
+
+	@Test
 	public void updateUser() throws Exception {
 		Response response = weDeploy.auth(AUTH_URL)
 			.signIn(EMAIL, PASSWORD)

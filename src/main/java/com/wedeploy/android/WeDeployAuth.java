@@ -151,6 +151,21 @@ public class WeDeployAuth extends BaseWeDeployService<WeDeployAuth> {
 	}
 
 	/**
+	 * Gets all auth users
+	 *
+	 * @return {@link Call}
+	 */
+	public Call<Response> getAllUsers() {
+		checkNotNull(getAuthorization(), "You must be signed in");
+
+		Request.Builder builder = newAuthenticatedRequestBuilder()
+			.path("/users")
+			.method(RequestMethod.GET);
+
+		return newCall(builder.build());
+	}
+
+	/**
 	 * Gets the user associated with the current being used token.
 	 * @return {@link Call}
 	 */
