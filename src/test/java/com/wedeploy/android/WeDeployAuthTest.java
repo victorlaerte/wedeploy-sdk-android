@@ -7,13 +7,18 @@ import com.wedeploy.android.transport.OkHttpTransport;
 import com.wedeploy.android.transport.RequestMethod;
 import com.wedeploy.android.transport.Request;
 import com.wedeploy.android.transport.Response;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.wedeploy.android.Constants.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Silvio Santos
@@ -69,7 +74,7 @@ public class WeDeployAuthTest {
 
 	@Test
 	public void deleteUser() throws WeDeployException {
-		String id = createUser("test@wedeploy.me", "123456", "Test Test");
+		String id = createUser("testdelete@wedeploy.me", "123456", "Test Test");
 
 		weDeploy.auth(AUTH_URL)
 			.authorization(AUTHORIZATION)
