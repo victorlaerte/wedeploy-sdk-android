@@ -100,7 +100,7 @@ public abstract class BaseWeDeployService<T> {
 			return url;
 		}
 		else {
-			return "https://" +  url;
+			return "https://" + url;
 		}
 	}
 
