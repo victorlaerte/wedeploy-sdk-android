@@ -1,17 +1,17 @@
 package com.wedeploy.android;
 
 import com.wedeploy.android.auth.Authorization;
-import com.wedeploy.android.transport.OkHttpTransport;
 import com.wedeploy.android.transport.AsyncTransport;
+import com.wedeploy.android.transport.OkHttpTransport;
 import com.wedeploy.android.transport.Transport;
 
 /**
  * WeDeploy is a factory for creating {@link WeDeployAuth}, {@link WeDeployData},
  * {@link WeDeployEmail} and {@link WeDeployService} instances.
- *
+ * <p>
  * Use {@link Builder} to create WeDeploy instances.
- *
- *  <pre><code>
+ * <p>
+ * <pre><code>
  *  WeDeploy weDeploy = new WeDeploy.Builder().build();
  *
  *  weDeploy
@@ -40,7 +40,8 @@ public class WeDeploy {
 	}
 
 	/**
-	 * Gets the AsyncTransport. If none was set while building this instance, it will return a {@link OkHttpTransport}
+	 * Gets the AsyncTransport. If none was set while building this instance, it will return a
+	 * {@link OkHttpTransport}
 	 *
 	 * @return {@link AsyncTransport}
 	 */
@@ -49,7 +50,8 @@ public class WeDeploy {
 	}
 
 	/**
-	 * Gets the Transport. If none was set while building this instance, it will return a {@link OkHttpTransport}
+	 * Gets the Transport. If none was set while building this instance, it will return a
+	 * {@link OkHttpTransport}
 	 *
 	 * @return {@link AsyncTransport}
 	 */
@@ -59,6 +61,7 @@ public class WeDeploy {
 
 	/**
 	 * Creates a {@link WeDeployAuth} instance.
+	 *
 	 * @param url The WeDeploy Auth url
 	 * @return a new {@link WeDeployAuth} instance.
 	 */
@@ -68,6 +71,7 @@ public class WeDeploy {
 
 	/**
 	 * Creates a {@link WeDeployData} instance.
+	 *
 	 * @param url The WeDeploy Data url
 	 * @return a new {@link WeDeployData} instance.
 	 */
@@ -77,6 +81,7 @@ public class WeDeploy {
 
 	/**
 	 * Creates a {@link WeDeployEmail} instance.
+	 *
 	 * @param url The WeDeploy Email url
 	 * @return a new {@link WeDeployEmail} instance.
 	 */
@@ -86,6 +91,7 @@ public class WeDeploy {
 
 	/**
 	 * Creates a {@link WeDeployService} instance.
+	 *
 	 * @param url The WeDeploy Service url
 	 * @return a new {@link WeDeployService} instance.
 	 */
@@ -101,7 +107,7 @@ public class WeDeploy {
 
 		/**
 		 * Sets the default {@link AsyncTransport}.
-		 *
+		 * <p>
 		 * The default configuration is implemented using OkHttp.
 		 *
 		 * @param transport
@@ -115,8 +121,10 @@ public class WeDeploy {
 
 		/**
 		 * Sets a global {@link Authorization} to authenticate all requests to WeDeploy.
-		 * This authorization will be overridden anytime you call {@link WeDeployAuth#authorization},
-		 * {@link WeDeployData#authorization}, {@link WeDeployEmail#authorization} or {@link WeDeployService#authorization}.
+		 * This authorization will be overridden anytime you call
+		 * {@link WeDeployAuth#authorization},
+		 * {@link WeDeployData#authorization}, {@link WeDeployEmail#authorization} or
+		 * {@link WeDeployService#authorization}.
 		 *
 		 * @param authorization
 		 * @return {@link Builder} Returns the object itself, so calls can be chained.
@@ -129,7 +137,7 @@ public class WeDeploy {
 
 		/**
 		 * Sets the default {@link Transport}.
-		 *
+		 * <p>
 		 * The default configuration is implemented using OkHttp.
 		 *
 		 * @param transport

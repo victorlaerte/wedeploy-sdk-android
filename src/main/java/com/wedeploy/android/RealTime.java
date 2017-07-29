@@ -3,8 +3,8 @@ package com.wedeploy.android;
 /**
  * The RealTime class let's you register for real-time events on WeDeploy.
  *
- * @see WeDeployData#watch(String)
  * @author Silvio Santos
+ * @see WeDeployData#watch(String)
  */
 public interface RealTime {
 

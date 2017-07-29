@@ -15,8 +15,6 @@ public abstract class Platform {
 		return PLATFORM;
 	}
 
-	public abstract void run(Runnable runnable);
-
 	private static Platform getPlatform() {
 		try {
 			Class.forName("android.os.Build");
@@ -30,6 +28,8 @@ public abstract class Platform {
 
 		return new JavaPlatform();
 	}
+
+	public abstract void run(Runnable runnable);
 
 	static class JavaPlatform extends Platform {
 

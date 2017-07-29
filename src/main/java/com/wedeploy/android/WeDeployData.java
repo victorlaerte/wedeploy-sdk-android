@@ -1,13 +1,13 @@
 package com.wedeploy.android;
 
 import com.wedeploy.android.auth.Authorization;
-import com.wedeploy.android.transport.SocketIORealTime;
 import com.wedeploy.android.query.Query;
 import com.wedeploy.android.query.SortOrder;
 import com.wedeploy.android.query.aggregation.Aggregation;
 import com.wedeploy.android.query.filter.Filter;
 import com.wedeploy.android.transport.Request;
 import com.wedeploy.android.transport.Response;
+import com.wedeploy.android.transport.SocketIORealTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,9 +17,10 @@ import static com.wedeploy.android.util.Validator.checkNotNull;
 /**
  * The WeDeployData service enables you to store data securely to a NoSQL cloud database, make
  * complex queries instantly, and consume information in real-time.
- *
- * This class is not thread safe. In order to avoid concurrency issues, you must create a new instance
- * by calling {@link WeDeploy#data(String)} for every request you want to do on {@link WeDeployData}.
+ * <p>
+ * This class is not thread safe. In order to avoid concurrency issues, you must create a new
+ * instance by calling {@link WeDeploy#data(String)} for every request you want to do on
+ * {@link WeDeployData}.
  *
  * @author Silvio Santos
  */
@@ -40,7 +41,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 	 * there's a validation registered in the collection and the request is
 	 * successful, the array of objects is returned.
 	 * The data {@link JSONArray} describes the attributes on the objects that are to be created.
-	 *
+	 * <p>
 	 * <pre><code>
 	 * WeDeployData data = weDeploy.data("http://demodata.wedeploy.io");
 	 *
@@ -59,6 +60,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 	 *      .execute();
 	 *
 	 * </code></pre>
+	 *
 	 * @param collection Collection (key) used to create the new data.
 	 * @param data Attributes on the object that is to be created.
 	 * @return {@link Call}
@@ -74,7 +76,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 	 * there's a validation registered in the collection and the request is
 	 * successful, the object is returned.
 	 * The data {@link JSONObject} describes the attributes on the objects that are to be created.
-	 *
+	 * <p>
 	 * <pre><code>
 	 * WeDeployData data = weDeploy.data("http://demodata.wedeploy.io");
 	 *
@@ -86,6 +88,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 	 *      .execute();
 	 *
 	 * </code></pre>
+	 *
 	 * @param collection Collection (key) used to create the new data.
 	 * @param data Attributes on the object that is to be created.
 	 * @return {@link Call}
@@ -98,6 +101,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 
 	/**
 	 * Deletes a [document/field/collection].
+	 *
 	 * @param key used to delete the document/field/collection.
 	 * @return {@link Call}
 	 */
@@ -116,6 +120,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 
 	/**
 	 * Retrieves data from a [document/field/collection].
+	 *
 	 * @param key used to get the document/field/collection.
 	 * @return {@link Call}
 	 */
@@ -135,7 +140,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 	/**
 	 * Updates the attributes of a document based on the passed-in {@link JSONObject} and saves
 	 * the record.
-	 *
+	 * <p>
 	 * <pre><code>
 	 * WeDeployData data = weDeploy.data("http://demodata.wedeploy.io");
 	 *
@@ -168,7 +173,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 	/**
 	 * Replaces the attributes of a document based on the passed-in {@link JSONObject} and saves
 	 * the record.
-	 *
+	 * <p>
 	 * <pre><code>
 	 * WeDeployData data = weDeploy.data("http://demodata.wedeploy.io");
 	 *
@@ -200,6 +205,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 
 	/**
 	 * Retrieve data from a [document/field/collection] and put it in a search format.
+	 *
 	 * @param key used to search the document/field/collection.
 	 * @return {@link Call}
 	 */
@@ -220,6 +226,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 
 	/**
 	 * Creates new RealTime instance to continuously receive updated query results in real-time.
+	 *
 	 * @param collection key/collection used to find organized data.
 	 * @return {@link RealTime} RealTime instance. Server events can be listened on it.
 	 */
@@ -246,6 +253,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 
 	/**
 	 * Adds an aggregation to this request {@link Query} instance.
+	 *
 	 * @param aggregation The {@link Aggregation} instance.
 	 * @return {@link WeDeployData} Returns the object itself, so calls can be chained.
 	 */
@@ -259,6 +267,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 
 	/**
 	 * Makes this request return the count of objects instead of returning the objects themselves.
+	 *
 	 * @return {@link WeDeployData} Returns the object itself, so calls can be chained.
 	 */
 	public WeDeployData count() {
@@ -269,6 +278,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 
 	/**
 	 * Adds a highlight entry to this request instance.
+	 *
 	 * @param field The field's name.
 	 * @return {@link WeDeployData} Returns the object itself, so calls can be chained.
 	 */
@@ -280,6 +290,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 
 	/**
 	 * Sets the limit for this request's {@link Query}.
+	 *
 	 * @param limit The max amount of entries that this request should return.
 	 * @return {@link WeDeployData} Returns the object itself, so calls can be chained.
 	 */
@@ -291,6 +302,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 
 	/**
 	 * Sets the offset for this request's {@link Query}.
+	 *
 	 * @param offset The index of the first entry that should be returned by this query.
 	 * @return {@link WeDeployData} Returns the object itself, so calls can be chained.
 	 */
@@ -302,6 +314,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 
 	/**
 	 * Adds an ascending sort query to this request's body.
+	 *
 	 * @param field The field that the query should be sorted by.
 	 * @return {@link WeDeployData} Returns the object itself, so calls can be chained.
 	 */
@@ -313,6 +326,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 
 	/**
 	 * Adds a sort query to this request's body.
+	 *
 	 * @param field The field that the query should be sorted by.
 	 * @param order The direction the sort operation should use.
 	 * @return {@link WeDeployData} Returns the object itself, so calls can be chained.
@@ -332,6 +346,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 
 	/**
 	 * Adds a filter to this request's {@link Query}.
+	 *
 	 * @param filter a {@link Filter} instance
 	 * @return {@link WeDeployData} Returns the object itself, so calls can be chained.
 	 */

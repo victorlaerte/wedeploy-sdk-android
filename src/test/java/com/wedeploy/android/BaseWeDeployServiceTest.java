@@ -15,7 +15,8 @@ public class BaseWeDeployServiceTest {
 	@Before
 	public void setUp() {
 		WeDeploy weDeploy = new WeDeploy.Builder().build();
-		service = new BaseWeDeployService(weDeploy, "http://someurl.com") {};
+		service = new BaseWeDeployService(weDeploy, "http://someurl.com") {
+		};
 	}
 
 	@Test
@@ -38,7 +39,8 @@ public class BaseWeDeployServiceTest {
 	@Test
 	public void url_withoutScheme() {
 		WeDeploy weDeploy = new WeDeploy.Builder().build();
-		BaseWeDeployService service = new BaseWeDeployService(weDeploy, "someurl.com") {};
+		BaseWeDeployService service = new BaseWeDeployService(weDeploy, "someurl.com") {
+		};
 
 		Request.Builder builder = service.newAuthenticatedRequestBuilder();
 		Request request = builder.build();
@@ -49,7 +51,8 @@ public class BaseWeDeployServiceTest {
 	@Test
 	public void url_withHttpScheme() {
 		WeDeploy weDeploy = new WeDeploy.Builder().build();
-		BaseWeDeployService service = new BaseWeDeployService(weDeploy, "http://someurl.com") {};
+		BaseWeDeployService service = new BaseWeDeployService(weDeploy, "http://someurl.com") {
+		};
 
 		Request.Builder builder = service.newAuthenticatedRequestBuilder();
 		Request request = builder.build();
@@ -60,7 +63,8 @@ public class BaseWeDeployServiceTest {
 	@Test
 	public void url_withHttpsScheme() {
 		WeDeploy weDeploy = new WeDeploy.Builder().build();
-		BaseWeDeployService service = new BaseWeDeployService(weDeploy, "https://someurl.com") {};
+		BaseWeDeployService service = new BaseWeDeployService(weDeploy, "https://someurl.com") {
+		};
 
 		Request.Builder builder = service.newAuthenticatedRequestBuilder();
 		Request request = builder.build();

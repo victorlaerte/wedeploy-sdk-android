@@ -1,7 +1,7 @@
 package com.wedeploy.android;
 
-import com.wedeploy.android.transport.RequestMethod;
 import com.wedeploy.android.transport.Request;
+import com.wedeploy.android.transport.RequestMethod;
 import com.wedeploy.android.transport.Response;
 
 import static com.wedeploy.android.util.Validator.checkNotNull;
@@ -9,9 +9,10 @@ import static com.wedeploy.android.util.Validator.checkNotNull;
 /**
  * The WeDeployEmail service enables you to send customized emails to your users
  * and check on their status.
- *
- * This class is not thread safe. In order to avoid concurrency issues, you must create a new instance
- * by calling {@link WeDeploy#email(String)} for every request you want to do on {@link WeDeployEmail}.
+ * <p>
+ * This class is not thread safe. In order to avoid concurrency issues, you must create a new
+ * instance by calling {@link WeDeploy#email(String)} for every request you want to do on
+ * {@link WeDeployEmail}.
  *
  * @author Silvio Santos
  */
@@ -29,6 +30,7 @@ public class WeDeployEmail extends BaseWeDeployService<WeDeployEmail> {
 
 	/**
 	 * Set from attribute on params to be sent on email request.
+	 *
 	 * @param from The sender email address.
 	 * @return {@link WeDeployEmail} Returns the {@link WeDeployEmail} object itself,
 	 * so calls can be chained.
@@ -42,7 +44,9 @@ public class WeDeployEmail extends BaseWeDeployService<WeDeployEmail> {
 
 	/**
 	 * Set cc attribute on params to be sent on email request.
-	 * @param cc CC recipient email address. Multiple addresses should be defined in multiple parameters.
+	 *
+	 * @param cc CC recipient email address. Multiple addresses should be defined in multiple
+	 * parameters.
 	 * @return {@link WeDeployEmail} Returns the {@link WeDeployEmail} object itself,
 	 * so calls can be chained.
 	 */
@@ -55,7 +59,9 @@ public class WeDeployEmail extends BaseWeDeployService<WeDeployEmail> {
 
 	/**
 	 * Set bcc attribute on params to be sent on email request.
-	 * @param bcc BCC recipient email address. Multiple addresses should be defined in multiple parameters.
+	 *
+	 * @param bcc BCC recipient email address. Multiple addresses should be defined in multiple
+	 * parameters.
 	 * @return {@link WeDeployEmail} Returns the {@link WeDeployEmail} object itself,
 	 * so calls can be chained.
 	 */
@@ -68,6 +74,7 @@ public class WeDeployEmail extends BaseWeDeployService<WeDeployEmail> {
 
 	/**
 	 * Set message attribute on params to be sent on email request.
+	 *
 	 * @param message HTML content of your email message. Up to 5MB.
 	 * @return {@link WeDeployEmail} Returns the {@link WeDeployEmail} object itself,
 	 * so calls can be chained.
@@ -81,6 +88,7 @@ public class WeDeployEmail extends BaseWeDeployService<WeDeployEmail> {
 
 	/**
 	 * Set priority attribute on params to be sent on email request.
+	 *
 	 * @param priority Used by email clients to define a message's importance.
 	 * From 1 to 5 where '1' is highest and '5' is the lowest priority.
 	 * @return {@link WeDeployEmail} Returns the {@link WeDeployEmail} object itself,
@@ -95,6 +103,7 @@ public class WeDeployEmail extends BaseWeDeployService<WeDeployEmail> {
 
 	/**
 	 * Set replyTo attribute on params to be sent on email request.
+	 *
 	 * @param replyTo Append a reply-to address to your email message.
 	 * @return {@link WeDeployEmail} Returns the {@link WeDeployEmail} object itself,
 	 * so calls can be chained.
@@ -108,7 +117,9 @@ public class WeDeployEmail extends BaseWeDeployService<WeDeployEmail> {
 
 	/**
 	 * Set to attribute on params to be sent on email request.
-	 * @param to Recipient email address. Multiple addresses should be defined in multiple parameters.
+	 *
+	 * @param to Recipient email address. Multiple addresses should be defined in multiple
+	 * parameters.
 	 * @return {@link WeDeployEmail} Returns the {@link WeDeployEmail} object itself,
 	 * so calls can be chained.
 	 */
@@ -121,6 +132,7 @@ public class WeDeployEmail extends BaseWeDeployService<WeDeployEmail> {
 
 	/**
 	 * Set subject attribute on params to be sent on email request.
+	 *
 	 * @param subject Subject of your email. Up to 1MB.
 	 * @return {@link WeDeployEmail} Returns the {@link WeDeployEmail} object itself,
 	 * so calls can be chained.
@@ -134,6 +146,7 @@ public class WeDeployEmail extends BaseWeDeployService<WeDeployEmail> {
 
 	/**
 	 * Builds and encapsulates the request into a Call object.
+	 *
 	 * @return {@link Call} Returns a Call object that encapsulates the request.
 	 */
 	public Call<Response> send() {
@@ -149,6 +162,7 @@ public class WeDeployEmail extends BaseWeDeployService<WeDeployEmail> {
 
 	/**
 	 * Checks the status of an email.
+	 *
 	 * @param emailId The id of the email you want to verify the status.
 	 * @return {@link Call} Returns a Call object that encapsulates the request.
 	 */

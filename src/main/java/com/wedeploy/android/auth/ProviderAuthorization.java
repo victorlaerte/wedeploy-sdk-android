@@ -6,13 +6,15 @@ import static com.wedeploy.android.util.Validator.checkNotNull;
 
 /**
  * This class encapsulates the provider information for executing an OAuth authentication.
- * @see com.wedeploy.android.WeDeployAuth#signIn(Activity, ProviderAuthorization)
+ *
  * @author Silvio Santos
+ * @see com.wedeploy.android.WeDeployAuth#signIn(Activity, ProviderAuthorization)
  */
 public class ProviderAuthorization {
 
 	/**
 	 * Gets authorization url based on the provider configuration.
+	 *
 	 * @return The redirect url
 	 */
 	public String getAuthUrl() {
@@ -38,6 +40,7 @@ public class ProviderAuthorization {
 
 	/**
 	 * Gets the provider
+	 *
 	 * @return {@link Provider}
 	 */
 	public Provider getProvider() {
@@ -46,6 +49,7 @@ public class ProviderAuthorization {
 
 	/**
 	 * Gets the provider's authorization scope
+	 *
 	 * @return The provider scope
 	 */
 	public String getProviderScope() {
@@ -54,6 +58,7 @@ public class ProviderAuthorization {
 
 	/**
 	 * Gets the redirect uri
+	 *
 	 * @return The redirect uri
 	 */
 	public String getRedirectUri() {
@@ -62,6 +67,7 @@ public class ProviderAuthorization {
 
 	/**
 	 * Gets the WeDeploy authorization scope.
+	 *
 	 * @return
 	 */
 	public String getScope() {
@@ -84,6 +90,7 @@ public class ProviderAuthorization {
 
 		/**
 		 * Buids a new isntance of ProviderAuthorization.
+		 *
 		 * @return {@link ProviderAuthorization}
 		 */
 		public ProviderAuthorization build() {
@@ -95,6 +102,7 @@ public class ProviderAuthorization {
 
 		/**
 		 * Sets the provider to connect to.
+		 *
 		 * @param provider
 		 * @return
 		 */
@@ -105,6 +113,7 @@ public class ProviderAuthorization {
 
 		/**
 		 * Sets the provider authorization scope.
+		 *
 		 * @param providerScope The provider scope. Separate by space for multiple scopes,
 		 * e.g. "scope1 scope2".
 		 * @return {@link Builder} Returns the object itself, so calls can be chained.
@@ -116,6 +125,7 @@ public class ProviderAuthorization {
 
 		/**
 		 * Sets the redirect uri.
+		 *
 		 * @param redirectUri The redirect uri.
 		 * @return {@link Builder} Returns the object itself, so calls can be chained.
 		 */
@@ -126,6 +136,7 @@ public class ProviderAuthorization {
 
 		/**
 		 * Sets the WeDeploy authorization scope.
+		 *
 		 * @param scope The WeDeploy scope. Separate by space for multiple scopes,
 		 * e.g. "scope1 scope2".
 		 * @return {@link Builder} Returns the object itself, so calls can be chained.

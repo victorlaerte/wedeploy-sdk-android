@@ -4,8 +4,8 @@ import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
 import com.wedeploy.android.exception.WeDeployException;
 import com.wedeploy.android.transport.OkHttpTransport;
-import com.wedeploy.android.transport.RequestMethod;
 import com.wedeploy.android.transport.Request;
+import com.wedeploy.android.transport.RequestMethod;
 import com.wedeploy.android.transport.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -16,9 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.wedeploy.android.Constants.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * @author Silvio Santos
@@ -29,6 +27,39 @@ public class WeDeployAuthTest {
 	public static void setUpBeforeClass() throws WeDeployException {
 		deleteUsers();
 		USER_ID = createUser(EMAIL, PASSWORD, NAME);
+	}
+
+	private static String createUser(String email, String password, String name)
+		throws WeDeployException {
+
+		Response response = weDeploy.auth(AUTH_URL)
+			.createUser(email, password, name)
+			.execute();
+
+		assertEquals(200, response.getStatusCode());
+
+		JSONObject jsonObject = new JSONObject(response.getBody());
+
+		return jsonObject.getString("id");
+	}
+
+	private static void deleteUsers() {
+		try {
+			Request.Builder builder = new Request.Builder()
+				.url(AUTH_URL)
+				.method(RequestMethod.DELETE)
+				.header("Authorization", "Bearer " + MASTER_TOKEN)
+				.path("users");
+
+			OkHttpTransport transport = new OkHttpTransport.Builder().build();
+
+			Call<Response> call = new Call<>(
+				builder.build(), transport, transport, Response.class);
+
+			call.execute();
+		}
+		catch (Exception e) {
+		}
 	}
 
 	@Test
@@ -144,39 +175,6 @@ public class WeDeployAuthTest {
 		weDeploy.auth(AUTH_URL)
 			.sendPasswordResetEmail(EMAIL)
 			.execute();
-	}
-
-	private static String createUser(String email, String password, String name)
-		throws WeDeployException {
-
-		Response response = weDeploy.auth(AUTH_URL)
-			.createUser(email, password, name)
-			.execute();
-
-		assertEquals(200, response.getStatusCode());
-
-		JSONObject jsonObject = new JSONObject(response.getBody());
-
-		return jsonObject.getString("id");
-	}
-
-	private static void deleteUsers() {
-		try {
-			Request.Builder builder = new Request.Builder()
-				.url(AUTH_URL)
-				.method(RequestMethod.DELETE)
-				.header("Authorization", "Bearer " + MASTER_TOKEN)
-				.path("users");
-
-			OkHttpTransport transport = new OkHttpTransport.Builder().build();
-
-			Call<Response> call = new Call<>(
-				builder.build(), transport, transport, Response.class);
-
-			call.execute();
-		}
-		catch (Exception e) {
-		}
 	}
 
 	private static WeDeploy weDeploy = new WeDeploy.Builder().build();

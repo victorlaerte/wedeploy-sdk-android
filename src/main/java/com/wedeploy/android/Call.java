@@ -24,7 +24,8 @@ public class Call<T> {
 	 *
 	 * @param request The request to be fired to WeDeploy.
 	 * @param transport The {@link Transport} implementation to be used to fire the request.
-	 * @param asyncTransport The {@link AsyncTransport} implementation to be used to fire the request.
+	 * @param asyncTransport The {@link AsyncTransport} implementation to be used to fire the
+	 * request.
 	 * @param clazz The
 	 */
 	Call(Request request, Transport transport, AsyncTransport asyncTransport, Class<T> clazz) {
@@ -61,6 +62,7 @@ public class Call<T> {
 
 	/**
 	 * Executes the request asynchronously.
+	 *
 	 * @param callback The callback to inform if the request succeeded or failed.
 	 */
 	public void execute(final Callback callback) {

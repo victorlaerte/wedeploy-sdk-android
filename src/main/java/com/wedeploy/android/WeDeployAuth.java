@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.ProviderAuthorization;
-import com.wedeploy.android.transport.RequestMethod;
 import com.wedeploy.android.transport.Request;
+import com.wedeploy.android.transport.RequestMethod;
 import com.wedeploy.android.transport.Response;
 import org.json.JSONObject;
 
@@ -15,13 +15,14 @@ import static com.wedeploy.android.util.Validator.checkNotNull;
 /**
  * The WeDeployAuth service provides authentication using email/password or popular third-party
  * identity providers like Google, Facebook, and GitHub.
- *
+ * <p>
  * The Auth service allows you to avoid the headache of operating your own user management system.
  * Features like creating accounts, resetting passwords, and updating profiles are easily
  * accomplished with a few lines of code.
- *
- * This class is not thread safe. In order to avoid concurrency issues, you must create a new instance
- * by calling {@link WeDeploy#auth(String)} for every request you want to do on {@link WeDeployAuth}.
+ * <p>
+ * This class is not thread safe. In order to avoid concurrency issues, you must create a new
+ * instance by calling {@link WeDeploy#auth(String)} for every request you want to do on
+ * {@link WeDeployAuth}.
  *
  * @author Silvio Santos
  */
@@ -67,15 +68,16 @@ public class WeDeployAuth extends BaseWeDeployService<WeDeployAuth> {
 	 * with the authentication token. You can then create a
 	 * {@link com.wedeploy.android.auth.TokenAuthorization} and pass it to authorize your requests
 	 * on WeDeploy.
-	 *
+	 * <p>
 	 * To register the Activity you want to receive the token, you need to declare an intent filter
-	 * like the one below. Don't forget to replace [mypackagename] by your application package name.
-	 *
+	 * like the one below. Don't forget to replace [mypackagename] by your application package
+	 * name.
+	 * <p>
 	 * <intent-filter>
-	 *  <action android:name="android.intent.action.VIEW" />
-	 *  <category android:name="android.intent.category.DEFAULT" />
-	 *  <category android:name="android.intent.category.BROWSABLE" />
-	 *  <data android:scheme="oauth-wedeploy" android:host="[mypackagename]" />
+	 * <action android:name="android.intent.action.VIEW" />
+	 * <category android:name="android.intent.category.DEFAULT" />
+	 * <category android:name="android.intent.category.BROWSABLE" />
+	 * <data android:scheme="oauth-wedeploy" android:host="[mypackagename]" />
 	 * </intent-filter>
 	 *
 	 * @param activity An Android Activity used to start the phone's browser.
@@ -167,6 +169,7 @@ public class WeDeployAuth extends BaseWeDeployService<WeDeployAuth> {
 
 	/**
 	 * Gets the user associated with the current being used token.
+	 *
 	 * @return {@link Call}
 	 */
 	public Call<Response> getCurrentUser() {

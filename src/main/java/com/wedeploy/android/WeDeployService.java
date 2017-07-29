@@ -14,9 +14,10 @@ import static com.wedeploy.android.transport.RequestMethod.*;
 /**
  * This class helps to communicate with custom WeDeploy services.
  * It offers generic methods for building and firing requests to them.
- *
- * This class is not thread safe. In order to avoid concurrency issues, you must create a new instance
- * by calling {@link WeDeploy#url(String)} for every request you want to do on a {@link WeDeployService}.
+ * <p>
+ * This class is not thread safe. In order to avoid concurrency issues, you must create a new
+ * instance by calling {@link WeDeploy#url(String)} for every request you want to do on a
+ * {@link WeDeployService}.
  *
  * @author Silvio Santos
  */
@@ -34,6 +35,7 @@ public class WeDeployService extends BaseWeDeployService<WeDeployService> {
 
 	/**
 	 * Sets the Http request body.
+	 *
 	 * @param body
 	 * @return {@link WeDeployService} Returns the {@link WeDeployService} object itself,
 	 * so calls can be chained.
@@ -48,6 +50,7 @@ public class WeDeployService extends BaseWeDeployService<WeDeployService> {
 	 * Adds a key/value pair to be sent via the body in a 'multipart/form-data' format.
 	 * If the body is set by other means (for example, through the {@link #body(String)} method),
 	 * this will be ignored.
+	 *
 	 * @param name The field name
 	 * @param value The field value
 	 * @return {@link WeDeployService} Returns the {@link WeDeployService} object itself,
@@ -62,6 +65,7 @@ public class WeDeployService extends BaseWeDeployService<WeDeployService> {
 	/**
 	 * Adds a query. If the query with the same name already exists, it will not
 	 * be overwritten, but new value will be stored.
+	 *
 	 * @param name Param name.
 	 * @param value Param value.
 	 * @return {@link WeDeployService} Returns the {@link WeDeployService} object itself,
@@ -75,6 +79,7 @@ public class WeDeployService extends BaseWeDeployService<WeDeployService> {
 
 	/**
 	 * Sets the url path. A path value set by this method will override any previous set path.
+	 *
 	 * @param path The url path.
 	 * @return {@link WeDeployService} Returns the {@link WeDeployService} object itself,
 	 * so calls can be chained.
@@ -87,6 +92,7 @@ public class WeDeployService extends BaseWeDeployService<WeDeployService> {
 
 	/**
 	 * Returns {@link Call} object that represents a DELETE http request.
+	 *
 	 * @return {@link Call} Returns a Call object that encapsulates the request.
 	 */
 	public Call<Response> delete() {
@@ -95,6 +101,7 @@ public class WeDeployService extends BaseWeDeployService<WeDeployService> {
 
 	/**
 	 * Returns {@link Call} object that represents a GET http request.
+	 *
 	 * @return {@link Call} Returns a Call object that encapsulates the request.
 	 */
 	public Call<Response> get() {
@@ -103,6 +110,7 @@ public class WeDeployService extends BaseWeDeployService<WeDeployService> {
 
 	/**
 	 * Returns {@link Call} object that represents a PATCH http request.
+	 *
 	 * @return {@link Call} Returns a Call object that encapsulates the request.
 	 */
 	public Call<Response> patch() {
@@ -111,6 +119,7 @@ public class WeDeployService extends BaseWeDeployService<WeDeployService> {
 
 	/**
 	 * Returns {@link Call} object that represents a POST http request.
+	 *
 	 * @return {@link Call} Returns a Call object that encapsulates the request.
 	 */
 	public Call<Response> post() {
@@ -119,6 +128,7 @@ public class WeDeployService extends BaseWeDeployService<WeDeployService> {
 
 	/**
 	 * Returns {@link Call} object that represents a PUT http request.
+	 *
 	 * @return {@link Call} Returns a Call object that encapsulates the request.
 	 */
 	public Call<Response> put() {

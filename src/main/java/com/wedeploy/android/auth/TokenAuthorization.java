@@ -2,17 +2,15 @@ package com.wedeploy.android.auth;
 
 import android.app.Activity;
 import android.content.Intent;
-import com.wedeploy.android.WeDeployData;
 import com.wedeploy.android.transport.Request;
 
 /**
  * The TokenAuthorization encapsulates a token provided by WeDeploy. It must be provided to requests
  * to WeDeploy that requires authentication.
  *
+ * @author Silvio Santos
  * @see com.wedeploy.android.WeDeployAuth#signIn(String, String)
  * @see com.wedeploy.android.WeDeployAuth#signIn(Activity, ProviderAuthorization)
- *
- * @author Silvio Santos
  */
 public class TokenAuthorization implements Authorization {
 
@@ -29,7 +27,8 @@ public class TokenAuthorization implements Authorization {
 	 * Gets an Authorization from a {@link Intent} returned after successfully executing
 	 * {@link com.wedeploy.android.WeDeployAuth#signIn(Activity, ProviderAuthorization)}
 	 *
-	 * @param intent The intent sent by the Android framework that contains the authorization token.
+	 * @param intent The intent sent by the Android framework that contains the authorization
+	 * token.
 	 * @return The authorization object.
 	 */
 	public static Authorization getAuthorizationFromIntent(Intent intent) {
@@ -53,6 +52,7 @@ public class TokenAuthorization implements Authorization {
 
 	/**
 	 * Returns the token associated with this instance.
+	 *
 	 * @return
 	 */
 	@Override
@@ -62,6 +62,7 @@ public class TokenAuthorization implements Authorization {
 
 	/**
 	 * Authenticates a request using this instance token.
+	 *
 	 * @param builder
 	 * @return
 	 */

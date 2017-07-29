@@ -1,8 +1,8 @@
 package com.wedeploy.android;
 
 import com.wedeploy.android.transport.OkHttpTransport;
-import com.wedeploy.android.transport.RequestMethod;
 import com.wedeploy.android.transport.Request;
+import com.wedeploy.android.transport.RequestMethod;
 import com.wedeploy.android.transport.Response;
 import org.junit.Test;
 
