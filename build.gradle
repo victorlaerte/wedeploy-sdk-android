@@ -16,11 +16,11 @@ apply plugin: 'com.jfrog.bintray'
 
 group 'com.wedeploy'
 
-def release = true
+def release = System.getenv("WEDEPLOY_RELEASE") ? true : false
 if (release)
-    version 'beta-' + new Date().format('yyyyMMdd')
+    version '0.1.0'
 else
-    version 'beta'
+    version 'local'
 
 apply plugin: 'java'
 apply plugin: 'maven-publish'
