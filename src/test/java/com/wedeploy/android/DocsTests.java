@@ -42,9 +42,17 @@ public class DocsTests {
 	}
 
 	@Test
+	public void docs_auth_getAllUsers() throws WeDeployException {
+		WeDeploy
+			.auth("https://<serviceID>-<projectID>.wedeploy.io")
+			.getAllUsers()
+			.execute();
+	}
+
+	@Test
 	public void docs_auth_deleteUser() throws WeDeployException {
 		WeDeploy
-			.auth("<auth-url>")
+			.auth("https://<serviceID>-<projectID>.wedeploy.io")
 			.deleteUser("userId")
 			.execute();
 	}
