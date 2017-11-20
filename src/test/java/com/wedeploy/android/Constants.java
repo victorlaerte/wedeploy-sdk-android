@@ -37,12 +37,12 @@ import com.wedeploy.android.auth.TokenAuthorization;
  */
 public class Constants {
 
-	public static final String MASTER_TOKEN = "d3147c3c-ec20-4e65-9f9d-e6464c04e299";
+	public static final String MASTER_TOKEN = "26312c34-47ad-4bb9-b4f1-af4b37c6b906";
 	public static final TokenAuthorization AUTHORIZATION = new TokenAuthorization(MASTER_TOKEN);
 
-	public static final String AUTH_URL = "https://auth-apiandroid.wedeploy.sh";
-	public static final String DATA_URL = "https://data-apiandroid.wedeploy.sh";
-	public static final String EMAIL_URL = "https://email-apiandroid.wedeploy.sh";
+	public static final String AUTH_URL = "https://auth-androidsdktest.wedeploy.sh";
+	public static final String DATA_URL = "https://data-androidsdktest.wedeploy.sh";
+	public static final String EMAIL_URL = "https://email-androidsdktest.wedeploy.sh";
 
 	public static final String NAME = "Silvio Santos";
 	public static final String EMAIL = "silvio.santos@liferay.com";

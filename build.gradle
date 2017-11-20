@@ -119,10 +119,12 @@ publishing {
     }
     repositories {
         maven {
-            url wedeployRepo
-            credentials {
-                username wedeployRepoUsername
-                password wedeployRepoPassword
+            if (release) {
+                url wedeployRepo
+                credentials {
+                    username wedeployRepoUsername
+                    password wedeployRepoPassword
+                }
             }
         }
         maven {
