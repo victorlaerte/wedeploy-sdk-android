@@ -42,7 +42,7 @@ import org.junit.Test;
 
 import static com.wedeploy.android.Constants.AUTHORIZATION;
 import static com.wedeploy.android.Constants.DATA_URL;
-import static com.wedeploy.android.DataTestHelper.initDataFromFile;
+import static com.wedeploy.android.TestHelper.initDataFromFile;
 import static org.junit.Assert.*;
 
 /**

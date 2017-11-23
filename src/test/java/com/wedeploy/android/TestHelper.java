@@ -30,7 +30,9 @@
 
 package com.wedeploy.android;
 
+import com.wedeploy.android.auth.TokenAuthorization;
 import com.wedeploy.android.exception.WeDeployException;
+import com.wedeploy.android.transport.MultiMap;
 import org.json.JSONArray;
 
 import java.io.InputStream;
@@ -42,7 +44,7 @@ import static com.wedeploy.android.Constants.DATA_URL;
 /**
  * @author Silvio Santos
  */
-public class DataTestHelper {
+public class TestHelper {
 
 	public static void deleteData() {
 		try {
@@ -69,6 +71,17 @@ public class DataTestHelper {
 			.authorization(AUTHORIZATION)
 			.create("messages", new JSONArray(json))
 			.execute();
+	}
+
+	public static MultiMap<String> getHeaders(
+		String url, TokenAuthorization authorization, boolean withCredentials) {
+
+		return weDeploy.url(url)
+			.authorization(authorization)
+			.withCredentials(withCredentials)
+			.newAuthenticatedRequestBuilder()
+			.build()
+			.getHeaders();
 	}
 
 	private static WeDeploy weDeploy = new WeDeploy.Builder().build();

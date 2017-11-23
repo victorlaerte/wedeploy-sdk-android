@@ -43,7 +43,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import static com.wedeploy.android.Constants.*;
-import static com.wedeploy.android.DataTestHelper.deleteData;
+import static com.wedeploy.android.TestHelper.deleteData;
 import static com.wedeploy.android.query.filter.Filter.any;
 import static com.wedeploy.android.query.filter.Filter.equal;
 import static org.junit.Assert.*;
@@ -242,7 +242,7 @@ public class WeDeployDataTest {
 
 	@Test
 	public void search() throws WeDeployException {
-		DataTestHelper.initDataFromFile("messages.json");
+		TestHelper.initDataFromFile("messages.json");
 
 		Response response = weDeploy.data(DATA_URL)
 			.where(any("message", "message1", "message5")
