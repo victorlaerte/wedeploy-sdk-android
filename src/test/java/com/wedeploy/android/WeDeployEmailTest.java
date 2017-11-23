@@ -33,6 +33,7 @@ package com.wedeploy.android;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
 import com.wedeploy.android.exception.WeDeployException;
+import com.wedeploy.android.transport.MultiMap;
 import com.wedeploy.android.transport.Response;
 import org.junit.Assert;
 import org.junit.Test;
@@ -40,11 +41,26 @@ import org.junit.Test;
 import static com.wedeploy.android.Constants.AUTHORIZATION;
 import static com.wedeploy.android.Constants.EMAIL_URL;
 import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 /**
  * @author Silvio Santos
  */
 public class WeDeployEmailTest {
+
+	@Test
+	public void email_withCredentials() throws WeDeployException {
+		MultiMap<String> headers = TestHelper.getHeaders(EMAIL_URL, AUTHORIZATION, true);
+
+		Assert.assertTrue(headers.containsKey("Authorization"));
+	}
+
+	@Test
+	public void email_withoutCredentials() throws WeDeployException {
+		MultiMap<String> headers = TestHelper.getHeaders(EMAIL_URL, AUTHORIZATION, false);
+
+		assertFalse(headers.containsKey("Authorization"));
+	}
 
 	@Test
 	public void email_withGlobalAuthorization() throws WeDeployException {

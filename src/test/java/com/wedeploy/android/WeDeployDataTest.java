@@ -33,6 +33,7 @@ package com.wedeploy.android;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
 import com.wedeploy.android.exception.WeDeployException;
+import com.wedeploy.android.transport.MultiMap;
 import com.wedeploy.android.transport.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -61,6 +62,20 @@ public class WeDeployDataTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void weDeployData_withNullUrl_shouldThrowException() {
 		new WeDeployData(weDeploy, null);
+	}
+
+	@Test
+	public void data_withCredentials() throws WeDeployException {
+		MultiMap<String> headers = TestHelper.getHeaders(DATA_URL, AUTHORIZATION, true);
+
+		assertTrue(headers.containsKey("Authorization"));
+	}
+
+	@Test
+	public void data_withoutCredentials() throws WeDeployException {
+		MultiMap<String> headers = TestHelper.getHeaders(DATA_URL, AUTHORIZATION, false);
+
+		assertFalse(headers.containsKey("Authorization"));
 	}
 
 	@Test

@@ -31,6 +31,7 @@
 package com.wedeploy.android;
 
 import com.wedeploy.android.exception.WeDeployException;
+import com.wedeploy.android.transport.MultiMap;
 import com.wedeploy.android.transport.Request;
 import com.wedeploy.android.transport.RequestMethod;
 import com.wedeploy.android.transport.Response;
@@ -38,7 +39,10 @@ import com.wedeploy.android.transport.Transport;
 import org.junit.Before;
 import org.junit.Test;
 
+import static com.wedeploy.android.Constants.AUTHORIZATION;
 import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Silvio Santos
@@ -61,6 +65,22 @@ public class WeDeployServiceTest {
 				}
 			})
 			.build();
+	}
+
+	@Test
+	public void request_withCredentials() throws WeDeployException {
+		MultiMap<String> headers =
+			TestHelper.getHeaders("http://someurl.io", AUTHORIZATION, true);
+
+		assertTrue(headers.containsKey("Authorization"));
+	}
+
+	@Test
+	public void request_withoutCredentials() throws WeDeployException {
+		MultiMap<String> headers =
+			TestHelper.getHeaders("http://someurl.io", AUTHORIZATION, false);
+
+		assertFalse(headers.containsKey("Authorization"));
 	}
 
 	@Test

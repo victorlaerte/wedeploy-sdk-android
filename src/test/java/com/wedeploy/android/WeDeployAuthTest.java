@@ -33,12 +33,14 @@ package com.wedeploy.android;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
 import com.wedeploy.android.exception.WeDeployException;
+import com.wedeploy.android.transport.MultiMap;
 import com.wedeploy.android.transport.OkHttpTransport;
 import com.wedeploy.android.transport.Request;
 import com.wedeploy.android.transport.RequestMethod;
 import com.wedeploy.android.transport.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -90,6 +92,20 @@ public class WeDeployAuthTest {
 		}
 		catch (Exception e) {
 		}
+	}
+
+	@Test
+	public void auth_withCredentials() throws WeDeployException {
+		MultiMap<String> headers = TestHelper.getHeaders(AUTH_URL, AUTHORIZATION, true);
+
+		Assert.assertTrue(headers.containsKey("Authorization"));
+	}
+
+	@Test
+	public void auth_withoutCredentials() throws WeDeployException {
+		MultiMap<String> headers = TestHelper.getHeaders(AUTH_URL, AUTHORIZATION, false);
+
+		assertFalse(headers.containsKey("Authorization"));
 	}
 
 	@Test
