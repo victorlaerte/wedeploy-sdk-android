@@ -45,6 +45,8 @@ public interface MultiMap<V> {
 
 	boolean isEmpty();
 
+	boolean containsKey(String key);
+
 	List<V> get(String key);
 
 	void put(String key, V value);

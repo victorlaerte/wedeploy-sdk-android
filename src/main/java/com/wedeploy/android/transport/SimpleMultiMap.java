@@ -58,6 +58,11 @@ public class SimpleMultiMap<V> implements MultiMap<V> {
 	}
 
 	@Override
+	public boolean containsKey(String key) {
+		return map.containsKey(key);
+	}
+
+	@Override
 	public void put(String key, V value) {
 		List<V> values = map.get(key);
 
