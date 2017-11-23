@@ -103,6 +103,20 @@ public abstract class BaseWeDeployService<T> {
 		return (T)this;
 	}
 
+	/**
+	 * Sets the optional withCredentials value.
+	 * If the value is to false {@link #authorization} will not be sent in request.
+	 * The default value is true.
+	 *
+	 * @param withCredentials withCredential option value.
+	 * @return {@link this} Returns the object itself, so calls can be chained.
+	 */
+	public T withCredentials(boolean withCredentials) {
+		this.withCredentials = withCredentials;
+
+		return (T)this;
+	}
+
 	protected Request.Builder newAuthenticatedRequestBuilder() {
 		Request.Builder builder = new Request.Builder()
 			.url(url);
@@ -115,7 +129,7 @@ public abstract class BaseWeDeployService<T> {
 
 		Authorization authorization = getAuthorization();
 
-		if (authorization == null) {
+		if (authorization == null || !withCredentials) {
 			return builder;
 		}
 
@@ -141,5 +155,6 @@ public abstract class BaseWeDeployService<T> {
 	private Authorization authorization;
 	private MultiMap<String> headers = new SimpleMultiMap<>();
 	private final WeDeploy weDeploy;
+	private boolean withCredentials = true;
 
 }
