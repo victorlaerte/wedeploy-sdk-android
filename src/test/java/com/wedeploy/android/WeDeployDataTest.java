@@ -32,7 +32,11 @@ package com.wedeploy.android;
 
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
+import com.wedeploy.android.data.Collection;
+import com.wedeploy.android.data.CollectionFieldMap;
+import com.wedeploy.android.data.CollectionFieldType;
 import com.wedeploy.android.exception.WeDeployException;
+import com.wedeploy.android.query.BodyToJsonStringConverter;
 import com.wedeploy.android.transport.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -93,6 +97,72 @@ public class WeDeployDataTest {
 	public void create() {
 		Response response = createMessageObject();
 		assertEquals(200, response.getStatusCode());
+	}
+
+	@Test
+	public void createOneLevelCollection() {
+		CollectionFieldMap mapping = getCollectionMapping();
+		Collection collection = new Collection("collectionName", mapping);
+
+		assertEquals("{\"mapping\":{" +
+				"\"field1\":\"string\"," +
+				"\"field2\":\"geo_point\"," +
+				"\"field3\":\"geo_shape\"," +
+				"\"field4\":\"binary\"}," +
+				"\"name\":\"collectionName\"}",
+			BodyToJsonStringConverter.toString(collection));
+	}
+
+	@Test
+	public void createTwoLevelCollection() {
+		CollectionFieldMap innerCollection = getInnerCollectionMapping();
+		CollectionFieldMap mapping = getCollectionMapping();
+		mapping.put("field5", innerCollection);
+
+		Collection collection = new Collection("collectionName", mapping);
+
+		assertEquals("{\"mapping\":{" +
+				"\"field1\":\"string\"," +
+				"\"field2\":\"geo_point\"," +
+				"\"field3\":\"geo_shape\"," +
+				"\"field4\":\"binary\"," +
+				"\"field5\":{" +
+					"\"innerField1\":\"integer\"," +
+					"\"innerField2\":\"long\"}" +
+				"}," +
+				"\"name\":\"collectionName\"}",
+			BodyToJsonStringConverter.toString(collection));
+	}
+
+	@Test
+	public void createThreeLevelCollection() {
+		CollectionFieldMap innerInnerMapping = new CollectionFieldMap();
+		innerInnerMapping.put("innerInnerField1", CollectionFieldType.BOOLEAN);
+		innerInnerMapping.put("innerInnerField2", CollectionFieldType.DATE);
+
+		CollectionFieldMap innerMapping = getInnerCollectionMapping();
+		innerMapping.put("innerField3", innerInnerMapping);
+
+		CollectionFieldMap mapping = getCollectionMapping();
+		mapping.put("field5", innerMapping);
+
+		Collection collection = new Collection("collectionName", mapping);
+
+		assertEquals("{\"mapping\":{" +
+				"\"field1\":\"string\"," +
+				"\"field2\":\"geo_point\"," +
+				"\"field3\":\"geo_shape\"," +
+				"\"field4\":\"binary\"," +
+				"\"field5\":{" +
+					"\"innerField1\":\"integer\"," +
+					"\"innerField2\":\"long\"," +
+					"\"innerField3\":{" +
+						"\"innerInnerField1\":\"boolean\"," +
+						"\"innerInnerField2\":\"date\"}" +
+					"}" +
+				"}," +
+				"\"name\":\"collectionName\"}",
+			BodyToJsonStringConverter.toString(collection));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -370,6 +440,22 @@ public class WeDeployDataTest {
 		this.id = data.getString("id");
 
 		return response;
+	}
+
+	private CollectionFieldMap getCollectionMapping() {
+		CollectionFieldMap mapping = new CollectionFieldMap();
+		mapping.put("field1", CollectionFieldType.STRING);
+		mapping.put("field2", CollectionFieldType.GEO_POINT);
+		mapping.put("field3", CollectionFieldType.GEO_SHAPE);
+		mapping.put("field4", CollectionFieldType.BINARY);
+		return mapping;
+	}
+
+	private CollectionFieldMap getInnerCollectionMapping() {
+		CollectionFieldMap innerCollection = new CollectionFieldMap();
+		innerCollection.put("innerField1", CollectionFieldType.INTEGER);
+		innerCollection.put("innerField2", CollectionFieldType.LONG);
+		return innerCollection;
 	}
 
 	private JSONObject getMessageObject(String id) {

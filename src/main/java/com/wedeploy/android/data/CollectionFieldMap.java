@@ -28,29 +28,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.wedeploy.android.util;
+package com.wedeploy.android.data;
 
-import com.wedeploy.android.data.CollectionFieldTypeValue;
-import com.wedeploy.android.exception.WeDeployException;
-import com.wedeploy.android.transport.Response;
+import java.util.TreeMap;
 
-/**
- * @author Silvio Santos
- */
-public class Validator {
+public class CollectionFieldMap extends TreeMap<String, CollectionFieldTypeValue> implements
+	CollectionFieldTypeValue {
 
-	public static void checkNotNull(Object object, String message) {
-		if (object == null) throw new IllegalArgumentException(message);
+	@Override
+	public boolean isEmpty() {
+		return this.isEmpty();
 	}
-
-	public static void checkNotNullOrEmpty(CollectionFieldTypeValue value, String message) {
-		if (value == null || value.isEmpty()) {
-			throw new IllegalArgumentException(message);
-		}
-	}
-
-	public static void checkResponseCode(Response response) throws WeDeployException {
-		if (!response.succeeded()) throw new WeDeployException(response);
-	}
-
 }

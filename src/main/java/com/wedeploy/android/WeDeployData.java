@@ -31,6 +31,10 @@
 package com.wedeploy.android;
 
 import com.wedeploy.android.auth.Authorization;
+import com.wedeploy.android.data.Collection;
+import com.wedeploy.android.data.CollectionFieldMap;
+import com.wedeploy.android.data.CollectionFieldType;
+import com.wedeploy.android.query.BodyToJsonStringConverter;
 import com.wedeploy.android.query.Query;
 import com.wedeploy.android.query.SortOrder;
 import com.wedeploy.android.query.aggregation.Aggregation;
@@ -43,6 +47,7 @@ import org.json.JSONObject;
 
 import static com.wedeploy.android.transport.RequestMethod.*;
 import static com.wedeploy.android.util.Validator.checkNotNull;
+import static com.wedeploy.android.util.Validator.checkNotNullOrEmpty;
 
 /**
  * The WeDeployData service enables you to store data securely to a NoSQL cloud database, make
@@ -130,6 +135,72 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 	}
 
 	/**
+	 * Creates a collection and maps the field types.
+	 * The data {@link CollectionFieldMap} contains the field names and their types
+	 * {@link CollectionFieldType}.
+	 * The mapping can also contains nested {@link CollectionFieldMap}.
+	 * <p>
+	 * <pre><code>
+	 * WeDeployData data = weDeploy.data("http://demodata.wedeploy.io");
+	 *
+	 * CollectionFieldMap genreFieldTypeMap = new CollectionFieldMap();
+	 * innerCollection.put("name", CollectionFieldType.STRING);
+	 * innerCollection.put("description", CollectionFieldType.STRING);
+	 *
+	 * CollectionFieldMap movieMap = new CollectionFieldMap();
+	 * mapping.put("title", CollectionFieldType.STRING);
+	 * mapping.put("genre", genreFieldTypeMap);
+	 *
+	 * response = weDeploy.data(DATA_URL)
+	 *      .createCollection("movies", movieMap)
+	 *      .execute();
+	 *
+	 * </code></pre>
+	 *
+	 * @param name Collection name.
+	 * @param mapping Map field names to their types.
+	 * @return {@link Call}
+	 */
+	public Call<Response> createCollection(String name, CollectionFieldMap mapping) {
+		checkNotNull(name, "collection name must be specified");
+		checkNotNull(mapping, "mapping must be specified");
+
+		return createCollection(new Collection(name, mapping));
+	}
+
+	/**
+	 * Creates a collection and maps the field types.
+	 * The data {@link CollectionFieldMap} contains the field names and their types
+	 * {@link CollectionFieldType}.
+	 * The mapping can also contains nested {@link CollectionFieldMap}.
+	 * <p>
+	 * <pre><code>
+	 * WeDeployData data = weDeploy.data("http://demodata.wedeploy.io");
+	 *
+	 * CollectionFieldMap genreFieldTypeMap = new CollectionFieldMap();
+	 * innerCollection.put("name", CollectionFieldType.STRING);
+	 * innerCollection.put("description", CollectionFieldType.STRING);
+	 *
+	 * CollectionFieldMap movieMap = new CollectionFieldMap();
+	 * mapping.put("title", CollectionFieldType.STRING);
+	 * mapping.put("genre", genreFieldTypeMap);
+	 *
+	 * Collection collection = new Collection("movies", movieMap);
+	 *
+	 * response = weDeploy.data(DATA_URL)
+	 *      .createCollection(collection)
+	 *      .execute();
+	 *
+	 * </code></pre>
+	 *
+	 * @param collection Collection object.
+	 * @return {@link Call}
+	 */
+	public Call<Response> createCollection(Collection collection) {
+		return createOrUpdateCollection(collection);
+	}
+
+	/**
 	 * Deletes a [document/field/collection].
 	 *
 	 * @param key used to delete the document/field/collection.
@@ -198,6 +269,78 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 		resetQueryBuilder();
 
 		return newCall(request);
+	}
+
+	/**
+	 * Updates the mapped field types of a collection.
+	 * The data {@link CollectionFieldMap} contains the field names and their types
+	 * {@link CollectionFieldType}.
+	 * The mapping can also contains nested {@link CollectionFieldMap} and can't be empty.
+	 * Existing fields cannot be remapped to a different type.
+	 * <p>
+	 * <pre><code>
+	 * WeDeployData data = weDeploy.data("http://demodata.wedeploy.io");
+	 *
+	 * CollectionFieldMap genreFieldTypeMap = new CollectionFieldMap();
+	 * innerCollection.put("name", CollectionFieldType.STRING);
+	 * innerCollection.put("description", CollectionFieldType.STRING);
+	 *
+	 * CollectionFieldMap movieMap = new CollectionFieldMap();
+	 * mapping.put("title", CollectionFieldType.STRING);
+	 * mapping.put("genre", genreFieldTypeMap);
+	 *
+	 * response = weDeploy.data(DATA_URL)
+	 *      .createCollection("movies", movieMap)
+	 *      .execute();
+	 *
+	 * </code></pre>
+	 *
+	 * @param name Collection name.
+	 * @param mapping Map field names to their types.
+	 * @return {@link Call}
+	 */
+	public Call<Response> updateCollection(String name, CollectionFieldMap mapping) {
+		checkNotNull(name, "collection name must be specified");
+		checkNotNullOrEmpty(mapping, "mapping must be specified");
+
+		return createOrUpdateCollection(new Collection(name, mapping));
+	}
+
+	/**
+	 * Updates the mapped field types of a collection.
+	 * The data {@link CollectionFieldMap} contains the field names and their types
+	 * {@link CollectionFieldType}.
+	 * The mapping can also contains nested {@link CollectionFieldMap} and can't be empty.
+	 * Existing fields cannot be remapped to a different type.
+	 * <p>
+	 * <pre><code>
+	 * WeDeployData data = weDeploy.data("http://demodata.wedeploy.io");
+	 *
+	 * CollectionFieldMap genreFieldTypeMap = new CollectionFieldMap();
+	 * innerCollection.put("name", CollectionFieldType.STRING);
+	 * innerCollection.put("description", CollectionFieldType.STRING);
+	 *
+	 * CollectionFieldMap movieMap = new CollectionFieldMap();
+	 * mapping.put("title", CollectionFieldType.STRING);
+	 * mapping.put("genre", genreFieldTypeMap);
+	 *
+	 * Collection collection = new Collection("movies", movieMap);
+	 *
+	 * response = weDeploy.data(DATA_URL)
+	 *      .createCollection(collection)
+	 *      .execute();
+	 *
+	 * </code></pre>
+	 *
+	 * @param collection Collection object.
+	 * @return {@link Call}
+	 */
+	public Call<Response> updateCollection(Collection collection) {
+		checkNotNull(collection, "collection must be specified");
+		checkNotNull(collection.getName(), "collection name must be specified");
+		checkNotNullOrEmpty(collection.getMapping(), "mapping must be specified");
+
+		return createOrUpdateCollection(collection);
 	}
 
 	/**
@@ -403,6 +546,19 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 			.path(collection)
 			.method(POST)
 			.body(dataJson)
+			.build();
+
+		resetQueryBuilder();
+
+		return newCall(request);
+	}
+
+	private Call<Response> createOrUpdateCollection(Collection collection) {
+		checkNotNull(collection, "collection must be specified");
+
+		Request request = newAuthenticatedRequestBuilder()
+			.method(POST)
+			.body(BodyToJsonStringConverter.toString(collection))
 			.build();
 
 		resetQueryBuilder();

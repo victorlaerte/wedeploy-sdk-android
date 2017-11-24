@@ -28,29 +28,19 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.wedeploy.android.util;
+package com.wedeploy.android.data;
 
-import com.wedeploy.android.data.CollectionFieldTypeValue;
-import com.wedeploy.android.exception.WeDeployException;
-import com.wedeploy.android.transport.Response;
+public enum CollectionFieldType implements CollectionFieldTypeValue {
 
-/**
- * @author Silvio Santos
- */
-public class Validator {
+	STRING, INTEGER, LONG, FLOAT, DOUBLE, BOOLEAN, DATE, GEO_POINT, GEO_SHAPE, BINARY;
 
-	public static void checkNotNull(Object object, String message) {
-		if (object == null) throw new IllegalArgumentException(message);
+	@Override
+	public String toString() {
+		return "\"" + super.toString().toLowerCase() + "\"";
 	}
 
-	public static void checkNotNullOrEmpty(CollectionFieldTypeValue value, String message) {
-		if (value == null || value.isEmpty()) {
-			throw new IllegalArgumentException(message);
-		}
+	@Override
+	public boolean isEmpty() {
+		return false;
 	}
-
-	public static void checkResponseCode(Response response) throws WeDeployException {
-		if (!response.succeeded()) throw new WeDeployException(response);
-	}
-
 }
