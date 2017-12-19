@@ -28,29 +28,47 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.wedeploy.android.util;
+package com.wedeploy.android.data;
 
-import com.wedeploy.android.data.CollectionFieldTypeValue;
-import com.wedeploy.android.exception.WeDeployException;
-import com.wedeploy.android.transport.Response;
+import com.wedeploy.android.query.BodyConvertible;
 
-/**
- * @author Silvio Santos
- */
-public class Validator {
+import java.util.Map;
+import java.util.TreeMap;
 
-	public static void checkNotNull(Object object, String message) {
-		if (object == null) throw new IllegalArgumentException(message);
+public class Collection extends BodyConvertible {
+
+	public Collection(String name, CollectionFieldTypeValue mapping) {
+		this.name = name;
+		this.mapping = mapping;
 	}
 
-	public static void checkNotNullOrEmpty(CollectionFieldTypeValue value, String message) {
-		if (value == null || value.isEmpty()) {
-			throw new IllegalArgumentException(message);
-		}
+	public String getName() {
+		return name;
 	}
 
-	public static void checkResponseCode(Response response) throws WeDeployException {
-		if (!response.succeeded()) throw new WeDeployException(response);
+	public void setName(String name) {
+		this.name = name;
 	}
 
+	public CollectionFieldTypeValue getMapping() {
+		return mapping;
+	}
+
+	public void setMapping(CollectionFieldTypeValue map) {
+		this.mapping = map;
+	}
+
+	@Override
+	public Map<String, Object> body() {
+
+		Map<String, Object> map = new TreeMap<>();
+
+		map.put("name", name);
+		map.put("mapping", mapping);
+
+		return map;
+	}
+
+	private String name;
+	private CollectionFieldTypeValue mapping;
 }
