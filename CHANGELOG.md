@@ -3,10 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
-Nothing added yet
+### Added
+- Create collections
 
 ## [1.0.0] - 2017-10-05
-
 
 ### Added
 - License file
