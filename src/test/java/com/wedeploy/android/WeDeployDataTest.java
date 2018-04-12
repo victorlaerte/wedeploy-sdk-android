@@ -35,6 +35,8 @@ import com.wedeploy.android.auth.TokenAuthorization;
 import com.wedeploy.android.data.Collection;
 import com.wedeploy.android.data.CollectionFieldMap;
 import com.wedeploy.android.data.CollectionFieldType;
+import com.wedeploy.android.data.RealTime;
+import com.wedeploy.android.data.RealTimeEvent;
 import com.wedeploy.android.exception.WeDeployException;
 import com.wedeploy.android.query.BodyToJsonStringConverter;
 import com.wedeploy.android.transport.Response;
@@ -358,7 +360,7 @@ public class WeDeployDataTest {
 					createMessageObject();
 				}
 			})
-			.on("create", new RealTime.OnEventListener() {
+			.on(RealTimeEvent.CREATE, new RealTime.OnEventListener() {
 				@Override
 				public void onEvent(Object... args) {
 					createPayload[0] = args[0];
@@ -391,7 +393,7 @@ public class WeDeployDataTest {
 					createMessageObject();
 				}
 			})
-			.on("changes", new RealTime.OnEventListener() {
+			.on(RealTimeEvent.CHANGES, new RealTime.OnEventListener() {
 				@Override
 				public void onEvent(Object... payload) {
 					changesPayload[0] = payload;

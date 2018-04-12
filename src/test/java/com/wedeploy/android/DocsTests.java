@@ -30,6 +30,7 @@
 
 package com.wedeploy.android;
 
+import com.wedeploy.android.data.RealTime;
 import com.wedeploy.android.exception.WeDeployException;
 import com.wedeploy.android.query.SortOrder;
 import com.wedeploy.android.transport.Response;
