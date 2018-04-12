@@ -30,36 +30,38 @@
 
 package com.wedeploy.android.data;
 
-import com.wedeploy.android.WeDeployData;
-
 /**
- * The RealTime class let's you register for real-time events on WeDeploy.
+ * Available RealTime events
+ * <li>{@link #CHANGES}</li>
+ * <li>{@link #CREATE}</li>
+ * <li>{@link #DELETE}</li>
+ * <li>{@link #UPDATE}</li>
  *
- * @author Silvio Santos
- * @see WeDeployData#watch(String)
+ * @author Victor Oliveira
  */
-public interface RealTime {
-
-	interface OnEventListener {
-
-		void onEvent(Object... args);
-
-	}
+public enum RealTimeEvent {
 
 	/**
-	 * Closes the real-time connection.
+	 * Watches for newly created or updated documents,
+	 * returns list of previous 500 changed documents
 	 */
-	void close();
+	CHANGES,
 
 	/**
-	 * Registers a listener to be notified when the supplied event occurs.
-	 *
-	 * @param event The event to listen to.
-	 * @param listener The event to listen to.
-	 * @return A RealTime object.
+	 * Watches for newly created documents,
+	 * returns most recently created document
 	 */
-	RealTime on(String event, OnEventListener listener);
+	CREATE,
 
-	RealTime on(RealTimeEvent event, OnEventListener listener);
+	/**
+	 * Watches for newly deleted documents,
+	 * returns most recently deleted document
+	 */
+	DELETE,
 
+	/**
+	 * Watches for newly updated,
+	 * returns most recently updated document
+	 */
+	UPDATE
 }
