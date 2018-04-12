@@ -30,7 +30,7 @@
 
 package com.wedeploy.android.transport;
 
-import com.wedeploy.android.RealTime;
+import com.wedeploy.android.data.RealTime;
 import com.wedeploy.android.util.Platform;
 import com.wedeploy.android.util.URLUtil;
 import io.socket.client.IO;
