@@ -46,6 +46,9 @@ dependencies {
     testCompile group: 'org.skyscreamer', name: 'jsonassert', version: '1.2.3'
 }
 
+test {
+    testLogging.showStandardStreams = true
+}
 // maven
 
 task sourceJar(type: Jar) {
@@ -172,7 +175,11 @@ def customizePom(pom, gradleProject) {
                 developer {
                     id 'silvio'
                     name 'Silvio Santos'
-                    email 'silvio.santos@liferay.com'
+                }
+                developer {
+                    id 'victor'
+                    name 'Victor Oliveira'
+                    email 'victor.oliveira@liferay.com'
                 }
             }
         }

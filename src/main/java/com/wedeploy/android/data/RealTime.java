@@ -28,7 +28,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.wedeploy.android;
+package com.wedeploy.android.data;
+
+import com.wedeploy.android.WeDeployData;
 
 /**
  * The RealTime class let's you register for real-time events on WeDeploy.
@@ -57,5 +59,7 @@ public interface RealTime {
 	 * @return A RealTime object.
 	 */
 	RealTime on(String event, OnEventListener listener);
+
+	RealTime on(RealTimeEvent event, OnEventListener listener);
 
 }

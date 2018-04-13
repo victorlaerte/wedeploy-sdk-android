@@ -34,6 +34,7 @@ import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.data.Collection;
 import com.wedeploy.android.data.CollectionFieldMap;
 import com.wedeploy.android.data.CollectionFieldType;
+import com.wedeploy.android.data.RealTime;
 import com.wedeploy.android.query.BodyToJsonStringConverter;
 import com.wedeploy.android.query.Query;
 import com.wedeploy.android.query.SortOrder;

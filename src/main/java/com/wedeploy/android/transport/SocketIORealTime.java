@@ -30,7 +30,8 @@
 
 package com.wedeploy.android.transport;
 
-import com.wedeploy.android.RealTime;
+import com.wedeploy.android.data.RealTime;
+import com.wedeploy.android.data.RealTimeEvent;
 import com.wedeploy.android.util.Platform;
 import com.wedeploy.android.util.URLUtil;
 import io.socket.client.IO;
@@ -68,6 +69,11 @@ public class SocketIORealTime implements RealTime {
 		});
 
 		return this;
+	}
+
+	@Override
+	public RealTime on(RealTimeEvent event, OnEventListener listener) {
+		return on(event.toString().toLowerCase(), listener);
 	}
 
 	private void setHeaders(final Map<String, String> headers) {
