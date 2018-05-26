@@ -63,6 +63,26 @@ public class QueryTest {
 	}
 
 	@Test
+	public void testQuery_withFields() throws Exception {
+		String body = new Query.Builder()
+			.fields("field1")
+			.build()
+			.bodyAsJson();
+
+		JSONAssert.assertEquals(
+			"{\"fields\":[\"field1\"]}", body, true);
+
+		body = new Query.Builder()
+			.fields("field1", "field2", "field3")
+			.build()
+			.bodyAsJson();
+
+		JSONAssert.assertEquals(
+			"{\"fields\":[\"field1\",\"field2\",\"field3\"]}", body,
+			true);
+	}
+
+	@Test
 	public void testQuery_withFilters() throws Exception {
 		String body = new Query.Builder()
 			.filter("field", 1)

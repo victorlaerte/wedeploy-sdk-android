@@ -87,6 +87,17 @@ public class WeDeployDataQueryTest {
 	}
 
 	@Test
+	public void fields() throws WeDeployException {
+		Response response = weDeploy.data(DATA_URL)
+			.fields("message")
+			.get("messages")
+			.execute();
+
+		String body = response.getBody();
+		assertTrue(!body.contains("author") && body.contains("message"));
+	}
+
+	@Test
 	public void highlight() throws WeDeployException {
 		Response response = weDeploy.data(DATA_URL)
 			.highlight("message")
