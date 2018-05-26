@@ -451,6 +451,20 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 	}
 
 	/**
+	 * Adds a fields entry to this request's {@link Query}.
+	 *
+	 * @param fields {@link String...} the field name or an array of field names
+	 * @return {@link WeDeployData} Returns the object itself, so calls can be chained.
+	 */
+	public WeDeployData fields(String... fields) {
+		checkNotNull(fields, "Fields must be specified");
+
+		getOrCreateQueryBuilder().fields(fields);
+
+		return this;
+	}
+
+	/**
 	 * Adds a highlight entry to this request instance.
 	 *
 	 * @param field The field's name.
