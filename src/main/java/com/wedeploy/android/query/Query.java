@@ -36,6 +36,7 @@ import com.wedeploy.android.query.filter.Filter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +48,7 @@ public class Query extends BodyConvertible {
 
 	public Query(Builder builder) {
 		this.aggregations = builder.aggregations;
+		this.fields = builder.fields;
 		this.filters = builder.filters;
 		this.highlights = builder.highlights;
 		this.limit = builder.limit;
@@ -61,6 +63,10 @@ public class Query extends BodyConvertible {
 
 		if (type != null) {
 			body.put("type", type);
+		}
+
+		if (!fields.isEmpty()) {
+			body.put("fields", fields);
 		}
 
 		if (!filters.isEmpty()) {
@@ -135,6 +141,7 @@ public class Query extends BodyConvertible {
 	}
 
 	private final List<Aggregation> aggregations;
+	private final List<String> fields;
 	private final List<Filter> filters;
 	private final List<String> highlights;
 	private final Integer limit;
@@ -146,6 +153,7 @@ public class Query extends BodyConvertible {
 	public static class Builder {
 
 		List<Aggregation> aggregations = new ArrayList<>();
+		List<String> fields = new ArrayList<>();
 		List<Filter> filters = new ArrayList<>();
 		List<String> highlights = new ArrayList<>();
 		Integer limit;
@@ -169,6 +177,11 @@ public class Query extends BodyConvertible {
 
 		public Builder fetch() {
 			return type("fetch");
+		}
+
+		public Builder fields(String... fields) {
+			this.fields.addAll(Arrays.asList(fields));
+			return this;
 		}
 
 		public Builder filter(Filter filter) {
