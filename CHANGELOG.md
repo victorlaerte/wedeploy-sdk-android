@@ -1,10 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## [1.1.0] - 2018-06-05
 
 ### Added
-- Create collections
+- Select Fields in `WeDeployData`
+- Add `RealTimeEvents` with supported events for `RealTime`
+- Create or Update typed collections
 
 ## [1.0.0] - 2017-10-05
 
