@@ -250,6 +250,10 @@ public class Filter extends BodyConvertible {
 		return new SimilarFilter(field, query);
 	}
 
+	public static Filter wildcard(String field, Object value) {
+		return Filter.field(field, "wildcard", value);
+	}
+
 	public Filter and(Filter filter) {
 		if (isComposite(this.operator)) {
 			return this.addToComposite("and", filter);

@@ -187,6 +187,25 @@ public class WeDeployDataQueryTest {
 			.execute();
 	}
 
+	@Test
+	public void wildcard() throws WeDeployException {
+		String field = "author";
+		String value = "*Hiro*";
+		String expectedValue = "Ygor Hiroshi";
+
+		Response response = weDeploy.data(DATA_URL)
+			.wildcard(field, value)
+			.get("messages")
+			.execute();
+
+		assertEquals(200, response.getStatusCode());
+
+		JSONArray jsonArray = new JSONArray(response.getBody());
+		JSONObject messageJson = jsonArray.getJSONObject(0);
+
+		assertEquals(expectedValue, messageJson.getString("author"));
+	}
+
 	private void orderBy(SortOrder order) throws WeDeployException {
 		Response response = weDeploy.data(DATA_URL)
 			.authorization(AUTHORIZATION)

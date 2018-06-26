@@ -521,11 +521,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 	 */
 	public WeDeployData orderBy(String field, SortOrder order) {
 		checkNotNull(field, "Field must be specified");
-		checkNotNull(field, "SortOrder must be specified");
-
-		if (order == null) {
-			throw new IllegalArgumentException("SortOrder can't be null");
-		}
+		checkNotNull(order, "SortOrder must be specified");
 
 		getOrCreateQueryBuilder().sort(field, order.getValue());
 
@@ -542,6 +538,22 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 		checkNotNull(filter, "Filter must be specified");
 
 		getOrCreateQueryBuilder().filter(filter);
+
+		return this;
+	}
+
+	/**
+	 * Adds a wildcard filter to this request's {@link Query}.
+	 *
+	 * @param field The name of the field to filter by.
+	 * @param value The filter's value.
+	 * @return {@link WeDeployData} Returns the object itself, so calls can be chained.
+	 */
+	public WeDeployData wildcard(String field, Object value) {
+		checkNotNull(field, "Field must be specified");
+		checkNotNull(value, "Value must be specified");
+
+		getOrCreateQueryBuilder().filter(Filter.wildcard(field, value));
 
 		return this;
 	}
