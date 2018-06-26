@@ -31,12 +31,14 @@
 package com.wedeploy.android.transport;
 
 import com.wedeploy.android.Callback;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.annotations.Nullable;
 
 /**
  * @author Silvio Santos
  */
 public interface AsyncTransport<T> {
 
-	void sendAsync(Request request, Callback callback);
+	void sendAsync(@NonNull Request request, @Nullable Callback callback);
 
 }

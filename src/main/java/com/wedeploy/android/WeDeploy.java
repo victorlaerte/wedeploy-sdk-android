@@ -34,6 +34,7 @@ import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.transport.AsyncTransport;
 import com.wedeploy.android.transport.OkHttpTransport;
 import com.wedeploy.android.transport.Transport;
+import io.reactivex.annotations.Nullable;
 
 /**
  * WeDeploy is a factory for creating {@link WeDeployAuth}, {@link WeDeployData},
@@ -65,7 +66,7 @@ public class WeDeploy {
 	 *
 	 * @return the current global {@link Authorization} or null, if none was set.
 	 */
-	public Authorization getAuthorization() {
+	public @Nullable Authorization getAuthorization() {
 		return authorization;
 	}
 
@@ -75,7 +76,7 @@ public class WeDeploy {
 	 *
 	 * @return {@link AsyncTransport}
 	 */
-	public AsyncTransport getAsyncTransport() {
+	public @Nullable AsyncTransport getAsyncTransport() {
 		return asyncTransport;
 	}
 

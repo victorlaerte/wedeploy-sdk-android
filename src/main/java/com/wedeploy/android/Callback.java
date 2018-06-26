@@ -31,6 +31,7 @@
 package com.wedeploy.android;
 
 import com.wedeploy.android.transport.Response;
+import io.reactivex.annotations.NonNull;
 
 /**
  * This interface should be implemented to be notified when asynchronous requests to WeDeploy
@@ -47,7 +48,7 @@ public interface Callback {
 	 *
 	 * @param response The {@link Response} returned from WeDeploy.
 	 */
-	void onSuccess(Response response);
+	void onSuccess(@NonNull Response response);
 
 	/**
 	 * Called when the request could not be executed due to connection issues or because of
@@ -55,6 +56,6 @@ public interface Callback {
 	 *
 	 * @param e Exception thrown while executing the request.
 	 */
-	void onFailure(Exception e);
+	void onFailure(@NonNull Exception e);
 
 }

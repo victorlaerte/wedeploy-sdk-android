@@ -41,6 +41,10 @@ public class WeDeployException extends Exception {
 		super(getMessage(response));
 	}
 
+	public WeDeployException(String message) {
+		super(message);
+	}
+
 	public WeDeployException(String message, Throwable cause) {
 		super(message, cause);
 	}

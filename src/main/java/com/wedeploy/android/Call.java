@@ -38,6 +38,8 @@ import com.wedeploy.android.transport.Transport;
 import com.wedeploy.android.util.Platform;
 import com.wedeploy.android.util.Validator;
 import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.annotations.Nullable;
 
 import java.util.concurrent.Callable;
 
@@ -56,9 +58,10 @@ public class Call<T> {
 	 * @param transport The {@link Transport} implementation to be used to fire the request.
 	 * @param asyncTransport The {@link AsyncTransport} implementation to be used to fire the
 	 * request.
-	 * @param clazz The
+	 * @param clazz The response class
 	 */
-	Call(Request request, Transport transport, AsyncTransport asyncTransport, Class<T> clazz) {
+	Call(@NonNull Request request, @NonNull Transport transport, @NonNull AsyncTransport
+		asyncTransport, @NonNull Class<T> clazz) {
 		this.request = request;
 		this.transport = transport;
 		this.asyncTransport = asyncTransport;
@@ -71,7 +74,7 @@ public class Call<T> {
 	 * @return {@link Response}
 	 * @throws WeDeployException If the request fails.
 	 */
-	public T execute() throws WeDeployException {
+	public @NonNull T execute() throws WeDeployException {
 		Response response = null;
 
 		try {
@@ -95,7 +98,7 @@ public class Call<T> {
 	 *
 	 * @param callback The callback to inform if the request succeeded or failed.
 	 */
-	public void execute(final Callback callback) {
+	public void execute(@Nullable final Callback callback) {
 		asyncTransport.sendAsync(request, new Callback() {
 			@Override
 			public void onSuccess(final Response response) {
@@ -105,7 +108,9 @@ public class Call<T> {
 					Platform.get().run(new Runnable() {
 						@Override
 						public void run() {
-							callback.onSuccess(response);
+							if (callback != null) {
+								callback.onSuccess(response);
+							}
 						}
 					});
 				}
@@ -113,7 +118,9 @@ public class Call<T> {
 					Platform.get().run(new Runnable() {
 						@Override
 						public void run() {
-							callback.onFailure(e);
+							if (callback != null) {
+								callback.onFailure(e);
+							}
 						}
 					});
 				}
@@ -124,7 +131,9 @@ public class Call<T> {
 				Platform.get().run(new Runnable() {
 					@Override
 					public void run() {
-						callback.onFailure(e);
+						if (callback != null) {
+							callback.onFailure(e);
+						}
 					}
 				});
 			}
@@ -138,7 +147,7 @@ public class Call<T> {
 	 *
 	 * @return A RxJava {@link Single} object that encapsulates this request.
 	 */
-	public Single<T> asSingle() {
+	public @NonNull Single<T> asSingle() {
 		return Single.fromCallable(new Callable<T>() {
 			@Override
 			public T call() throws Exception {

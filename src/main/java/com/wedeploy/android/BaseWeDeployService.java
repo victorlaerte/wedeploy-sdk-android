@@ -35,6 +35,8 @@ import com.wedeploy.android.transport.MultiMap;
 import com.wedeploy.android.transport.Request;
 import com.wedeploy.android.transport.Response;
 import com.wedeploy.android.transport.SimpleMultiMap;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
@@ -52,7 +54,7 @@ public abstract class BaseWeDeployService<T> {
 	 * @param weDeploy A WeDeploy instance.
 	 * @param url The WeDeploy service url.
 	 */
-	BaseWeDeployService(WeDeploy weDeploy, String url) {
+	BaseWeDeployService(@NonNull WeDeploy weDeploy, @NonNull String url) {
 		checkNotNull(url, "Service url must be specified");
 
 		this.weDeploy = weDeploy;
@@ -61,14 +63,14 @@ public abstract class BaseWeDeployService<T> {
 
 	/**
 	 * Gets the current used {@link Authorization}. If an authorization was configured for this
-	 * service using {@link #authorization}, that one will be returned. Otherwise, the
-	 * authorization provided while building the WeDeploy instance with
+	 * service using {@link #authorization(Authorization)}, that one will be returned. Otherwise,
+	 * the authorization provided while building the WeDeploy instance with
 	 * {@link WeDeploy.Builder#authorization(Authorization)} will be returned
 	 *
 	 * @return The {@link Authorization} used by this Service to authenticate requests with
 	 * WeDeploy.
 	 */
-	public Authorization getAuthorization() {
+	public @Nullable Authorization getAuthorization() {
 		if (authorization != null) {
 			return authorization;
 		}
@@ -81,10 +83,10 @@ public abstract class BaseWeDeployService<T> {
 	 * authorization provided by this method has a higher priority then the one provided while
 	 * building the WeDeploy instance with {@link WeDeploy.Builder#authorization(Authorization)}.
 	 *
-	 * @param authorization
+	 * @param authorization {@link Authorization} needed for authentication
 	 * @return {@link this} Returns the object itself, so calls can be chained.
 	 */
-	public T authorization(Authorization authorization) {
+	public @NonNull T authorization(Authorization authorization) {
 		this.authorization = authorization;
 
 		return (T)this;
@@ -97,7 +99,7 @@ public abstract class BaseWeDeployService<T> {
 	 * @param value The header value.
 	 * @return {@link this} Returns the object itself, so calls can be chained.
 	 */
-	public T header(String name, String value) {
+	public @NonNull T header(String name, String value) {
 		headers.put(name, value);
 
 		return (T)this;

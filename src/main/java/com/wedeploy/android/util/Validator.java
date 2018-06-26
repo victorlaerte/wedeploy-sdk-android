@@ -50,6 +50,7 @@ public class Validator {
 	}
 
 	public static void checkResponseCode(Response response) throws WeDeployException {
+		if (response == null) throw new WeDeployException("Response can not be null");
 		if (!response.succeeded()) throw new WeDeployException(response);
 	}
 
