@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2018-06-28
+
+### Added
+- Add `wildcard` operator in in `WeDeployData`
+
 ## [1.1.0] - 2018-06-05
 
 ### Added
