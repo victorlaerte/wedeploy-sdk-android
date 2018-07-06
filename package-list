@@ -1,0 +1,9 @@
+com.wedeploy.android
+com.wedeploy.android.auth
+com.wedeploy.android.data
+com.wedeploy.android.exception
+com.wedeploy.android.query
+com.wedeploy.android.query.aggregation
+com.wedeploy.android.query.filter
+com.wedeploy.android.transport
+com.wedeploy.android.util
