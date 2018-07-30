@@ -48,6 +48,6 @@ public class CollectionFieldMap
 	 */
 	@Override
 	public boolean isEmpty() {
-		return this.isEmpty();
+		return super.isEmpty();
 	}
 }
