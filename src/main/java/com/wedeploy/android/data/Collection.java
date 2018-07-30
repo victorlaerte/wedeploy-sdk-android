@@ -30,34 +30,84 @@
 
 package com.wedeploy.android.data;
 
+import com.wedeploy.android.WeDeployData;
 import com.wedeploy.android.query.BodyConvertible;
 
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * This class represents a {@link WeDeployData} collection.
+ *
+ * <pre><code>
+ * CollectionFieldMap genreFieldTypeMap = new CollectionFieldMap();
+ * innerCollection.put("name", CollectionFieldType.STRING);
+ * innerCollection.put("description", CollectionFieldType.STRING);
+ *
+ * CollectionFieldMap movieMap = new CollectionFieldMap();
+ * mapping.put("title", CollectionFieldType.STRING);
+ * mapping.put("genre", genreFieldTypeMap);
+ *
+ * Collection collection = new Collection("movies", movieMap);
+ * </code></pre>
+ *
+ * @author Victor Oliveira
+ */
 public class Collection extends BodyConvertible {
 
+	/**
+	 * Constructs a {@link Collection} instance.
+	 *
+	 * @param name The collection name.
+	 * @param mapping The collection field type value. This value can contain.
+	 * field names and their types mapping but also nested collections field types.
+	 */
 	public Collection(String name, CollectionFieldTypeValue mapping) {
 		this.name = name;
 		this.mapping = mapping;
 	}
 
+	/**
+	 * Gets the {@link Collection} name.
+	 *
+	 * @return {@link String} collection name.
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Sets the {@link Collection} name.
+	 *
+	 * @param name Collection name.
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * Get the {@link Collection} field type value mapping.
+	 *
+	 * @return {@link String} collection name.
+	 */
 	public CollectionFieldTypeValue getMapping() {
 		return mapping;
 	}
 
+	/**
+	 * Sets the {@link Collection} field type value mapping.
+	 *
+	 * @param map the field type value map.
+	 */
 	public void setMapping(CollectionFieldTypeValue map) {
 		this.mapping = map;
 	}
 
+	/**
+	 * Gets the embodied object representation.
+	 *
+	 * @return {@link Map} key, value representation.
+	 */
 	@Override
 	public Map<String, Object> body() {
 

@@ -42,6 +42,8 @@ import java.util.Map;
 import static com.wedeploy.android.util.Validator.checkNotNull;
 
 /**
+ * Base class common to WeDeploy Services.
+ *
  * @author Silvio Santos
  */
 public abstract class BaseWeDeployService<T> {

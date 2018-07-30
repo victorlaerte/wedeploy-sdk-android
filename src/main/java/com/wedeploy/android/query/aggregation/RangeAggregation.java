@@ -36,6 +36,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Range Aggregation builder.
+ */
 public class RangeAggregation extends Aggregation {
 
 	RangeAggregation(String name, String field, Range... ranges) {

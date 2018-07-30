@@ -32,6 +32,7 @@ package com.wedeploy.android.auth;
 
 import android.app.Activity;
 import android.content.Intent;
+import com.wedeploy.android.WeDeploy;
 import com.wedeploy.android.transport.Request;
 
 /**
@@ -59,7 +60,7 @@ public class TokenAuthorization implements Authorization {
 	 *
 	 * @param intent The intent sent by the Android framework that contains the authorization
 	 * token.
-	 * @return The authorization object.
+	 * @return {@link Authorization} The authorization object.
 	 */
 	public static Authorization getAuthorizationFromIntent(Intent intent) {
 		String[] fragment = intent.getData().getFragment().split("access_token=");
@@ -72,18 +73,18 @@ public class TokenAuthorization implements Authorization {
 	}
 
 	/**
-	 * Returns the authorization header associated with this token.
+	 * Gets the authorization header associated with this token.
 	 *
-	 * @return The authorization header value.
+	 * @return {@link String} The authorization header value.
 	 */
 	public String getAuthorizationHeader() {
 		return "Bearer " + token;
 	}
 
 	/**
-	 * Returns the token associated with this instance.
+	 * Gets the token associated with this instance.
 	 *
-	 * @return
+	 * @return {@link String} The token value
 	 */
 	@Override
 	public String getToken() {
@@ -93,8 +94,8 @@ public class TokenAuthorization implements Authorization {
 	/**
 	 * Authenticates a request using this instance token.
 	 *
-	 * @param builder
-	 * @return
+	 * @param builder The request builder to be authenticated
+	 * @return Returns the {@link Request.Builder}, so calls can be chained.
 	 */
 	@Override
 	public Request.Builder authenticate(Request.Builder builder) {

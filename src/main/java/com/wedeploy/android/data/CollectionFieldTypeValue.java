@@ -30,6 +30,17 @@
 
 package com.wedeploy.android.data;
 
+/**
+ * This interface abstracts all field types values (recursive or simple)
+ *
+ * @author Victor Oliveira
+ */
 public interface CollectionFieldTypeValue {
+
+	/**
+	 * Check if {@link CollectionFieldTypeValue} implementation is empty.
+	 *
+	 * @return Returns true if the field type size is 0.
+	 */
 	boolean isEmpty();
 }

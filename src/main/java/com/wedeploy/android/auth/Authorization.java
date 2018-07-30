@@ -33,14 +33,32 @@ package com.wedeploy.android.auth;
 import com.wedeploy.android.transport.Request;
 
 /**
+ * This interface abstracts Authorizations provided by WeDeploy.
+ *
  * @author Silvio Santos
  */
 public interface Authorization {
 
+	/**
+	 * Gets the authorization header.
+	 *
+	 * @return {@link String} The authorization header value.
+	 */
 	String getAuthorizationHeader();
 
+	/**
+	 * Gets then authorization token.
+	 *
+	 * @return {@link String} The token value.
+	 */
 	String getToken();
 
+	/**
+	 * Authenticates a request.
+	 *
+	 * @param builder The request builder to be authenticated.
+	 * @return Returns the {@link Request.Builder}.
+	 */
 	Request.Builder authenticate(Request.Builder builder);
 
 }

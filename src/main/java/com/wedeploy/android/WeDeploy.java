@@ -36,6 +36,7 @@ import com.wedeploy.android.transport.OkHttpTransport;
 import com.wedeploy.android.transport.Transport;
 
 /**
+ * The main class for making api requests.
  * WeDeploy is a factory for creating {@link WeDeployAuth}, {@link WeDeployData},
  * {@link WeDeployEmail} and {@link WeDeployService} instances.
  * <p>
@@ -71,9 +72,9 @@ public class WeDeploy {
 
 	/**
 	 * Gets the AsyncTransport. If none was set while building this instance, it will return a
-	 * {@link OkHttpTransport}
+	 * {@link OkHttpTransport}.
 	 *
-	 * @return {@link AsyncTransport}
+	 * @return {@link AsyncTransport}.
 	 */
 	public AsyncTransport getAsyncTransport() {
 		return asyncTransport;
@@ -81,9 +82,9 @@ public class WeDeploy {
 
 	/**
 	 * Gets the Transport. If none was set while building this instance, it will return a
-	 * {@link OkHttpTransport}
+	 * {@link OkHttpTransport}.
 	 *
-	 * @return {@link AsyncTransport}
+	 * @return {@link AsyncTransport}.
 	 */
 	public Transport getTransport() {
 		return transport;
@@ -92,7 +93,7 @@ public class WeDeploy {
 	/**
 	 * Creates a {@link WeDeployAuth} instance.
 	 *
-	 * @param url The WeDeploy Auth url
+	 * @param url The WeDeploy Auth url.
 	 * @return a new {@link WeDeployAuth} instance.
 	 */
 	public WeDeployAuth auth(String url) {
@@ -102,7 +103,7 @@ public class WeDeploy {
 	/**
 	 * Creates a {@link WeDeployData} instance.
 	 *
-	 * @param url The WeDeploy Data url
+	 * @param url The WeDeploy Data url.
 	 * @return a new {@link WeDeployData} instance.
 	 */
 	public WeDeployData data(String url) {
@@ -112,7 +113,7 @@ public class WeDeploy {
 	/**
 	 * Creates a {@link WeDeployEmail} instance.
 	 *
-	 * @param url The WeDeploy Email url
+	 * @param url The WeDeploy Email url.
 	 * @return a new {@link WeDeployEmail} instance.
 	 */
 	public WeDeployEmail email(String url) {
@@ -122,7 +123,7 @@ public class WeDeploy {
 	/**
 	 * Creates a {@link WeDeployService} instance.
 	 *
-	 * @param url The WeDeploy Service url
+	 * @param url The WeDeploy Service url.
 	 * @return a new {@link WeDeployService} instance.
 	 */
 	public WeDeployService url(String url) {
@@ -133,6 +134,9 @@ public class WeDeploy {
 	private final Authorization authorization;
 	private final Transport transport;
 
+	/**
+	 * {@link WeDeploy} Builder.
+	 */
 	public static class Builder {
 
 		/**
@@ -140,7 +144,7 @@ public class WeDeploy {
 		 * <p>
 		 * The default configuration is implemented using OkHttp.
 		 *
-		 * @param transport
+		 * @param transport AsyncTransport implementation.
 		 * @return {@link Builder} Returns the object itself, so calls can be chained.
 		 */
 		public Builder asyncTransport(AsyncTransport transport) {
@@ -156,7 +160,7 @@ public class WeDeploy {
 		 * {@link WeDeployData#authorization}, {@link WeDeployEmail#authorization} or
 		 * {@link WeDeployService#authorization}.
 		 *
-		 * @param authorization
+		 * @param authorization Authorization implementation.
 		 * @return {@link Builder} Returns the object itself, so calls can be chained.
 		 */
 		public Builder authorization(Authorization authorization) {
@@ -170,7 +174,7 @@ public class WeDeploy {
 		 * <p>
 		 * The default configuration is implemented using OkHttp.
 		 *
-		 * @param transport
+		 * @param transport Transport implementation.
 		 * @return {@link Builder} Returns the object itself, so calls can be chained.
 		 */
 		public Builder transport(Transport transport) {
@@ -191,9 +195,8 @@ public class WeDeploy {
 
 			if (asyncTransport == null) {
 				if (transport instanceof OkHttpTransport) {
-					asyncTransport = (OkHttpTransport)transport;
-				}
-				else {
+					asyncTransport = (OkHttpTransport) transport;
+				} else {
 					asyncTransport = new OkHttpTransport.Builder().build();
 				}
 			}

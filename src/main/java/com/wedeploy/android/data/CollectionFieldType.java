@@ -30,15 +30,87 @@
 
 package com.wedeploy.android.data;
 
+/**
+ * Enumerator used to create typed collections in WeDeploy’s data service.
+ *
+ * {@link CollectionFieldTypeValue} implementation that represents all supported WeDeploy primitive types.
+ *
+ * Available Collection field types
+ * <li>{@link #STRING}</li>
+ * <li>{@link #INTEGER}</li>
+ * <li>{@link #LONG}</li>
+ * <li>{@link #FLOAT}</li>
+ * <li>{@link #DOUBLE}</li>
+ * <li>{@link #BOOLEAN}</li>
+ * <li>{@link #DATE}</li>
+ * <li>{@link #GEO_POINT}</li>
+ * <li>{@link #GEO_SHAPE}</li>
+ * <li>{@link #BINARY}</li>
+ *
+ * @author Victor Oliveira
+ */
 public enum CollectionFieldType implements CollectionFieldTypeValue {
 
-	STRING, INTEGER, LONG, FLOAT, DOUBLE, BOOLEAN, DATE, GEO_POINT, GEO_SHAPE, BINARY;
+	/**
+	 * Field of type string.
+	 */
+	STRING,
+
+	/**
+	 * Field of type integer.
+	 */
+	INTEGER,
+
+	/**
+	 * Field of type long.
+	 */
+	LONG,
+
+	/**
+	 * Field of type float.
+	 */
+	FLOAT,
+
+	/**
+	 * Field of type double.
+	 */
+	DOUBLE,
+
+	/**
+	 * Field of type boolean.
+	 */
+	BOOLEAN,
+
+	/**
+	 * Field of type date.
+	 */
+	DATE,
+
+	/**
+	 * Field of type geo point.
+	 */
+	GEO_POINT,
+
+	/**
+	 * Field of type geo shape.
+	 */
+	GEO_SHAPE,
+
+	/**
+	 * Field of type binary.
+	 */
+	BINARY;
 
 	@Override
 	public String toString() {
 		return "\"" + super.toString().toLowerCase() + "\"";
 	}
 
+	/**
+	 * Check if {@link CollectionFieldTypeValue} implementation is empty.
+	 *
+	 * @return This implementation returns false.
+	 */
 	@Override
 	public boolean isEmpty() {
 		return false;

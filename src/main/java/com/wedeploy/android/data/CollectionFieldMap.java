@@ -32,9 +32,20 @@ package com.wedeploy.android.data;
 
 import java.util.TreeMap;
 
-public class CollectionFieldMap extends TreeMap<String, CollectionFieldTypeValue> implements
-	CollectionFieldTypeValue {
+/**
+ * {@link CollectionFieldTypeValue} implementation that represents nested collection types
+ *
+ * @author Victor Oliveira
+ */
+public class CollectionFieldMap
+	extends TreeMap<String, CollectionFieldTypeValue>
+	implements CollectionFieldTypeValue {
 
+	/**
+	 * Check if {@link CollectionFieldTypeValue} implementation is empty.
+	 *
+	 * @return This implementation returns <tt>size() == 0</tt>.
+	 */
 	@Override
 	public boolean isEmpty() {
 		return this.isEmpty();

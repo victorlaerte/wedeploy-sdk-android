@@ -45,7 +45,7 @@ public class ProviderAuthorization {
 	/**
 	 * Gets authorization url based on the provider configuration.
 	 *
-	 * @return The redirect url
+	 * @return {@link String} The redirect url.
 	 */
 	public String getAuthUrl() {
 		StringBuilder sb = new StringBuilder()
@@ -69,27 +69,27 @@ public class ProviderAuthorization {
 	}
 
 	/**
-	 * Gets the provider
+	 * Gets the provider.
 	 *
-	 * @return {@link Provider}
+	 * @return {@link Provider}.
 	 */
 	public Provider getProvider() {
 		return provider;
 	}
 
 	/**
-	 * Gets the provider's authorization scope
+	 * Gets the provider's authorization scope.
 	 *
-	 * @return The provider scope
+	 * @return {@link String} The provider scope.
 	 */
 	public String getProviderScope() {
 		return providerScope;
 	}
 
 	/**
-	 * Gets the redirect uri
+	 * Gets the redirect uri.
 	 *
-	 * @return The redirect uri
+	 * @return {@link String} The redirect uri.
 	 */
 	public String getRedirectUri() {
 		return redirectUri;
@@ -98,7 +98,7 @@ public class ProviderAuthorization {
 	/**
 	 * Gets the WeDeploy authorization scope.
 	 *
-	 * @return
+	 * @return {@link String} scope.
 	 */
 	public String getScope() {
 		return scope;
@@ -116,12 +116,15 @@ public class ProviderAuthorization {
 	private final String redirectUri;
 	private final String scope;
 
+	/**
+	 * {@link ProviderAuthorization} Builder.
+	 */
 	public static class Builder {
 
 		/**
 		 * Buids a new isntance of ProviderAuthorization.
 		 *
-		 * @return {@link ProviderAuthorization}
+		 * @return {@link ProviderAuthorization}.
 		 */
 		public ProviderAuthorization build() {
 			checkNotNull(provider, "Provider must be specified");
@@ -133,8 +136,8 @@ public class ProviderAuthorization {
 		/**
 		 * Sets the provider to connect to.
 		 *
-		 * @param provider
-		 * @return
+		 * @param provider Enumerable for third party provider.
+		 * @return {@link Builder} Returns the object itself, so calls can be chained.
 		 */
 		public Builder provider(Provider provider) {
 			this.provider = provider;
@@ -183,9 +186,36 @@ public class ProviderAuthorization {
 
 	}
 
+	/**
+	 * Available third party auth providers
+	 * <li>{@link #GITHUB}</li>
+	 * <li>{@link #GOOGLE}</li>
+	 * <li>{@link #FACEBOOK}</li>
+	 *
+	 * @author Victor Oliveira
+	 */
 	public enum Provider {
-		GITHUB("github"), GOOGLE("google"), FACEBOOK("facebook");
 
+		/**
+		 * Login with github.
+		 */
+		GITHUB("github"),
+
+		/**
+		 * Login with google.
+		 */
+		GOOGLE("google"),
+
+		/**
+		 * Login with facebook.
+		 */
+		FACEBOOK("facebook");
+
+		/**
+		 * Gets the provider' raw value.
+		 *
+		 * @return {@link String} Returns the string raw value for the provider.
+		 */
 		public String getProvider() {
 			return provider;
 		}
