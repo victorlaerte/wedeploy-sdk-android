@@ -19,7 +19,7 @@ group 'com.wedeploy'
 
 def release = System.getenv("WEDEPLOY_RELEASE") ? true : false
 if (release)
-    version '1.2.0'
+    version '1.2.1'
 else
     version 'local'
 
