@@ -439,6 +439,18 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 		return this;
 	}
 
+	public WeDeployData addQuery(Query.Builder queryBuilder) {
+		checkNotNull(queryBuilder, "Query.Builder must be specified");
+
+		if (this.queryBuilder == null) {
+			this.queryBuilder = queryBuilder;
+		} else {
+			this.queryBuilder.mergeQuery(queryBuilder);
+		}
+
+		return this;
+	}
+
 	/**
 	 * Makes this request return the count of objects instead of returning the objects themselves.
 	 *

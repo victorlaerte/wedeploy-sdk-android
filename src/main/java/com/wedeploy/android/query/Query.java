@@ -251,6 +251,16 @@ public class Query extends BodyConvertible {
 			return new Query(this);
 		}
 
+		public Builder mergeQuery(Builder builder) {
+			aggregations.addAll(builder.aggregations);
+			fields.addAll(builder.fields);
+			filters.addAll(builder.filters);
+			highlights.addAll(builder.highlights);
+			queries.addAll(builder.queries);
+			sort.addAll(builder.sort);
+
+			return this;
+		}
 	}
 
 }
