@@ -105,6 +105,24 @@ public class AggregationTest {
 	}
 
 	@Test
+	public void testAggregation_nested() throws Exception {
+		JSONAssert.assertEquals(
+			"{\"field\":{\"name\":\"name\"," +
+				"\"aggregation\":[" +
+					"{\"field\":{\"name\":\"name\",\"operator\":\"avg\"}}]," +
+				"\"operator\":\"terms\"}}",
+			Aggregation.terms("name", "field").aggregate(
+				Aggregation.avg("name", "field")).bodyAsJson(), true);
+	}
+
+	@Test(expected = IllegalStateException.class)
+	public void testAggregation_nested_circular_references() throws Exception {
+		Aggregation agg = Aggregation.terms("name", "field");
+		agg.aggregate(agg);
+		agg.bodyAsJson();
+	}
+
+	@Test
 	public void testAggregation_range() throws Exception {
 		JSONAssert.assertEquals(
 			"{\"field\":{\"operator\":\"range\",\"name\":\"name\"," +

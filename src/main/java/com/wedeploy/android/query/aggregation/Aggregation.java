@@ -34,8 +34,13 @@ import com.wedeploy.android.query.BodyConvertible;
 import com.wedeploy.android.query.MapWrapper;
 import com.wedeploy.android.query.filter.Range;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Aggregation builder.
@@ -113,15 +118,54 @@ public class Aggregation extends BodyConvertible {
 		return of(name, field, "terms");
 	}
 
+	public Aggregation aggregate(Aggregation... aggregations) {
+		if (_aggregations == null) {
+			_aggregations = new ArrayList<>();
+		}
+
+		Collections.addAll(_aggregations, aggregations);
+
+		return this;
+	}
+
 	@Override
 	public Object body() {
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<>();
 
 		map.put("name", name);
 		map.put("operator", operator);
 
 		if (value != null) {
 			map.put("value", value);
+		}
+
+		if (_aggregations != null && !_aggregations.isEmpty()) {
+			boolean treeRoot = false;
+			Set<Aggregation> parsedAggregations = _localParsedAggregations.get();
+
+			if (parsedAggregations == null) {
+				treeRoot = true;
+				parsedAggregations = new HashSet<>();
+				_localParsedAggregations.set(parsedAggregations);
+			}
+
+			List<Object> bodies = new ArrayList<>(_aggregations.size());
+
+			try {
+				for (Aggregation aggregation : _aggregations) {
+					if (!parsedAggregations.add(aggregation)) {
+						throw new IllegalStateException("Circular reference detected");
+					}
+
+					bodies.add(aggregation.body());
+				}
+			} finally {
+				if (treeRoot) {
+					_localParsedAggregations.remove();
+				}
+			}
+
+			map.put("aggregation", bodies);
 		}
 
 		return MapWrapper.wrap(field, map);
@@ -131,5 +175,8 @@ public class Aggregation extends BodyConvertible {
 	private final String field;
 	private final String name;
 	private final String operator;
+	private List<Aggregation> _aggregations;
+	private static final ThreadLocal<Set<Aggregation>> _localParsedAggregations =
+		new ThreadLocal<>();
 
 }
