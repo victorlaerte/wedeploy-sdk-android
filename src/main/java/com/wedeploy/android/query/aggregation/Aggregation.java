@@ -34,7 +34,10 @@ import com.wedeploy.android.query.BodyConvertible;
 import com.wedeploy.android.query.MapWrapper;
 import com.wedeploy.android.query.filter.Range;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -113,15 +116,35 @@ public class Aggregation extends BodyConvertible {
 		return of(name, field, "terms");
 	}
 
+	public Aggregation aggregate(Aggregation... aggregations) {
+		if (_aggregations == null) {
+			_aggregations = new ArrayList<>();
+		}
+
+		Collections.addAll(_aggregations, aggregations);
+
+		return this;
+	}
+
 	@Override
 	public Object body() {
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<>();
 
 		map.put("name", name);
 		map.put("operator", operator);
 
 		if (value != null) {
 			map.put("value", value);
+		}
+
+		if (_aggregations != null && !_aggregations.isEmpty()) {
+			List<Object> bodies = new ArrayList<>(_aggregations.size());
+
+			for (Aggregation aggregation : _aggregations) {
+				bodies.add(aggregation.body());
+			}
+
+			map.put("aggregation", bodies);
 		}
 
 		return MapWrapper.wrap(field, map);
@@ -131,5 +154,6 @@ public class Aggregation extends BodyConvertible {
 	private final String field;
 	private final String name;
 	private final String operator;
+	private List<Aggregation> _aggregations;
 
 }
