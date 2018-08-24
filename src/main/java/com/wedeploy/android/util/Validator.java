@@ -33,6 +33,7 @@ package com.wedeploy.android.util;
 import com.wedeploy.android.data.CollectionFieldTypeValue;
 import com.wedeploy.android.exception.WeDeployException;
 import com.wedeploy.android.transport.Response;
+import java.util.List;
 
 /**
  * @author Silvio Santos
@@ -53,4 +54,7 @@ public class Validator {
 		if (!response.succeeded()) throw new WeDeployException(response);
 	}
 
+	public static boolean isNotNullOrEmpty(List list) {
+		return list != null && !list.isEmpty();
+	}
 }

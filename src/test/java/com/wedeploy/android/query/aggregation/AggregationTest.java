@@ -106,19 +106,23 @@ public class AggregationTest {
 
 	@Test
 	public void testAggregation_nested() throws Exception {
+		Aggregation aggregation = Aggregation.terms("name", "field");
+		Aggregation aggregation2 = Aggregation.sum("nestedName", "nestedField");
+
+		aggregation.addNestedAggregation(aggregation2);
+
 		JSONAssert.assertEquals(
-			"{\"field\":{\"name\":\"name\"," +
-				"\"aggregation\":[" +
-					"{\"field\":{\"name\":\"name\",\"operator\":\"avg\"}}]," +
-				"\"operator\":\"terms\"}}",
-			Aggregation.terms("name", "field").aggregate(
-				Aggregation.avg("name", "field")).bodyAsJson(), true);
+			"{\"field\":{\"name\":\"name\","
+				+ "\"aggregation\":"
+				+ "[{\"nestedField\":{\"name\":\"nestedName\",\"operator\":\"sum\"}}],"
+				+ "\"operator\":\"terms\"}}",
+			aggregation.bodyAsJson(), true);
 	}
 
 	@Test(expected = IllegalStateException.class)
 	public void testAggregation_nested_circular_references() throws Exception {
 		Aggregation agg = Aggregation.terms("name", "field");
-		agg.aggregate(agg);
+		agg.addNestedAggregation(agg);
 		agg.bodyAsJson();
 	}
 
