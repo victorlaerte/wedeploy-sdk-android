@@ -151,12 +151,12 @@ public class Aggregation extends BodyConvertible {
 
 	private List<Object> getAggregationsBody() {
 		boolean treeRoot = false;
-		Set<Aggregation> parsedAggregations = _localParsedAggregations.get();
+		Set<Aggregation> parsedAggregations = localParsedAggregations.get();
 
 		if (parsedAggregations == null) {
 			treeRoot = true;
 			parsedAggregations = new HashSet<>();
-			_localParsedAggregations.set(parsedAggregations);
+			localParsedAggregations.set(parsedAggregations);
 		}
 
 		List<Object> bodies = new ArrayList<>(aggregations.size());
@@ -171,7 +171,7 @@ public class Aggregation extends BodyConvertible {
 			}
 		} finally {
 			if (treeRoot) {
-				_localParsedAggregations.remove();
+				localParsedAggregations.remove();
 			}
 		}
 		return bodies;
@@ -183,5 +183,5 @@ public class Aggregation extends BodyConvertible {
 	private final String operator;
 	private List<Aggregation> aggregations;
 	private static final ThreadLocal<Set<Aggregation>>
-		_localParsedAggregations = new ThreadLocal<>();
+		localParsedAggregations = new ThreadLocal<>();
 }
