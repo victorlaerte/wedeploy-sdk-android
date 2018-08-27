@@ -71,6 +71,10 @@ public class Aggregation extends BodyConvertible {
 		return of(name, field, "count");
 	}
 
+	public static Aggregation cardinality(String name, String field) {
+		return of(name, field, "cardinality");
+	}
+
 	public static DistanceAggregation distance(
 		String name, String field, Object location, Range... ranges) {
 

@@ -51,6 +51,14 @@ public class AggregationTest {
 	}
 
 	@Test
+	public void testAggregation_cardinality() throws Exception {
+		JSONAssert.assertEquals(
+			"{\"field\":{\"name\":\"name\",\"operator\":\"cardinality\"}}",
+			Aggregation.cardinality("name", "field").bodyAsJson(),
+			true);
+	}
+
+	@Test
 	public void testAggregation_distance() throws Exception {
 		JSONAssert.assertEquals(
 			"{\"field\":{\"operator\":\"geoDistance\",\"name\":\"name\"," +
