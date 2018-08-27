@@ -33,6 +33,7 @@ package com.wedeploy.android.query.filter;
 import com.wedeploy.android.query.BodyConvertible;
 import com.wedeploy.android.query.MapWrapper;
 
+import com.wedeploy.android.util.StringUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -176,6 +177,15 @@ public class Filter extends BodyConvertible {
 
 	public static Filter match(String field, String query) {
 		return Filter.field(field, "match", query);
+	}
+
+	public static Filter multiMatch(String query) {
+		return multiMatch(new String[] { ALL }, query);
+	}
+
+	public static Filter multiMatch(String[] fields, String query) {
+		return Filter.field(
+			StringUtils.join(fields, ','), "multi_match", query);
 	}
 
 	public static Filter missing(String field) {

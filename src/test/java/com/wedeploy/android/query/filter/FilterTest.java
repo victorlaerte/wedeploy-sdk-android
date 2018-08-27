@@ -196,6 +196,20 @@ public class FilterTest {
 	}
 
 	@Test
+	public void testFilter_withMultiMatchFilter() {
+		JSONAssert.assertEquals(
+			"{\"*\":{\"value\":\"str\",\"operator\":\"multi_match\"}}",
+			Filter.multiMatch("str").bodyAsJson(), true);
+
+		JSONAssert.assertEquals(
+			"{\"field1,field2,field3\":"
+				+ "{\"operator\":\"multi_match\",\"value\":\"str\"}}",
+			Filter.multiMatch(
+				new String[] { "field1", "field2", "field3" }, "str").bodyAsJson(),
+			true);
+	}
+
+	@Test
 	public void testFilter_withPrefixFilter() throws Exception {
 		JSONAssert.assertEquals(
 			"{\"*\":{\"operator\":\"prefix\",\"value\":\"str\"}}",
