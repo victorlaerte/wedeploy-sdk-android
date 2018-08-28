@@ -32,6 +32,7 @@ package com.wedeploy.android.query.aggregation;
 
 import com.wedeploy.android.query.BodyConvertible;
 import com.wedeploy.android.query.MapWrapper;
+import com.wedeploy.android.query.filter.BucketOrder;
 import com.wedeploy.android.query.filter.Range;
 
 import java.util.ArrayList;
@@ -121,8 +122,18 @@ public class Aggregation extends BodyConvertible {
 		return of(name, field, "sum");
 	}
 
-	public static Aggregation terms(String name, String field) {
-		return of(name, field, "terms");
+	public static TermsAggregation terms(String name, String field) {
+		return new TermsAggregation(name, field);
+	}
+
+	public static TermsAggregation terms(String name, String field, int size) {
+		return new TermsAggregation(name, field, size);
+	}
+
+	public static TermsAggregation terms(
+		String name, String field, int size, BucketOrder... bucketOrders) {
+
+		return new TermsAggregation(name, field, size, bucketOrders);
 	}
 
 	public Aggregation addNestedAggregation(Aggregation... aggregation) {
@@ -136,7 +147,7 @@ public class Aggregation extends BodyConvertible {
 	}
 
 	@Override
-	public Object body() {
+	public Map body() {
 		Map<String, Object> map = new HashMap<>();
 
 		map.put("name", name);
@@ -182,10 +193,10 @@ public class Aggregation extends BodyConvertible {
 	}
 
 	protected final Object value;
-	private final String field;
+	protected final String field;
+	protected List<Aggregation> aggregations;
 	private final String name;
 	private final String operator;
-	private List<Aggregation> aggregations;
 	private static final ThreadLocal<Set<Aggregation>>
 		localParsedAggregations = new ThreadLocal<>();
 }

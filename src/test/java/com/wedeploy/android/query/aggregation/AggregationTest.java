@@ -30,6 +30,8 @@
 
 package com.wedeploy.android.query.aggregation;
 
+import com.wedeploy.android.query.SortOrder;
+import com.wedeploy.android.query.filter.BucketOrder;
 import com.wedeploy.android.query.filter.Range;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -168,6 +170,60 @@ public class AggregationTest {
 		JSONAssert.assertEquals(
 			"{\"field\":{\"operator\":\"terms\",\"name\":\"name\"}}",
 			Aggregation.terms("name", "field").bodyAsJson(), true);
+	}
+
+	@Test
+	public void testAggregation_terms_bucket_order() throws Exception {
+		BucketOrder count = BucketOrder.count(SortOrder.ASCENDING);
+		BucketOrder key = BucketOrder.key(SortOrder.DESCENDING);
+
+		JSONAssert.assertEquals(
+			"{\"field\":{\"size\":3,\"name\":\"name\",\"operator\":\"terms\","
+				+ "\"order\":[{\"asc\":true,\"key\":\"_count\"}]}}",
+			Aggregation.terms("name", "field", 3, count).bodyAsJson(), true);
+
+		JSONAssert.assertEquals(
+			"{\"field\":{\"size\":3,\"name\":\"name\",\"operator\":\"terms\","
+				+ "\"order\":[{\"asc\":false,\"key\":\"_key\"}]}}",
+			Aggregation.terms("name", "field", 3, key).bodyAsJson(), true);
+
+		TermsAggregation termsAgg1 =
+			Aggregation.terms("name", "field", 3)
+				.addBucketOrders(count)
+				.addBucketOrders(key);
+
+		JSONAssert.assertEquals(
+			"{\"field\":{\"size\":3,\"name\":\"name\",\"operator\":\"terms\","
+				+ "\"order\":[{\"asc\":true,\"key\":\"_count\"},"
+				+ "{\"asc\":false,\"key\":\"_key\"}]}}",
+			termsAgg1.bodyAsJson(), true);
+
+		TermsAggregation termsAgg2 =
+			Aggregation.terms("name", "field", 3, count, key);
+
+		JSONAssert.assertEquals(
+			"{\"field\":{\"size\":3,\"name\":\"name\",\"operator\":\"terms\","
+				+ "\"order\":[{\"asc\":true,\"key\":\"_count\"},"
+				+ "{\"asc\":false,\"key\":\"_key\"}]}}",
+			termsAgg2.bodyAsJson(), true);
+	}
+
+	@Test
+	public void testAggregation_terms_bucket_order_path() throws Exception {
+		BucketOrder path = BucketOrder.path("path", SortOrder.ASCENDING);
+
+		JSONAssert.assertEquals(
+			"{\"field\":{\"size\":3,\"name\":\"name\",\"operator\":\"terms\","
+				+ "\"order\":[{\"asc\":true,\"key\":\"path\"}]}}",
+			Aggregation.terms("name", "field", 3, path).bodyAsJson(), true);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testAggregation_bucket_order_path_without_nested_aggregation() throws Exception {
+		TermsAggregation agg = Aggregation.terms("name", "field");
+
+		agg.addBucketOrders(BucketOrder.path("path", SortOrder.ASCENDING));
+		agg.bodyAsJson();
 	}
 
 }

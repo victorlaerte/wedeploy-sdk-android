@@ -28,37 +28,73 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.wedeploy.android.util;
+package com.wedeploy.android.query.aggregation;
 
-import com.wedeploy.android.data.CollectionFieldTypeValue;
-import com.wedeploy.android.exception.WeDeployException;
-import com.wedeploy.android.transport.Response;
+import com.wedeploy.android.query.filter.BucketOrder;
+import com.wedeploy.android.util.Validator;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
- * @author Silvio Santos
+ * @author Victor Oliveira
  */
-public class Validator {
+public class TermsAggregation extends Aggregation {
 
-	public static void checkNotNull(Object object, String message) {
-		if (object == null) throw new IllegalArgumentException(message);
+	TermsAggregation(String name, String field) {
+		super(name, field, "terms");
 	}
 
-	public static void checkNotNullOrEmpty(CollectionFieldTypeValue value, String message) {
-		if (value == null || value.isEmpty()) {
-			throw new IllegalArgumentException(message);
+	TermsAggregation(String name, String field, int size) {
+		super(name, field, "terms");
+		this.size = size;
+	}
+
+	TermsAggregation(String name, String field, int size,
+		BucketOrder... bucketOrders) {
+		super(name, field, "terms");
+		this.size = size;
+		this.bucketOrders = new ArrayList<>(Arrays.asList(bucketOrders));
+	}
+
+	public TermsAggregation addBucketOrders(BucketOrder... bucketOrders) {
+		if (bucketOrders == null) {
+			return this;
 		}
+
+		if (this.bucketOrders == null) {
+			this.bucketOrders = new ArrayList<>();
+		}
+
+		for (BucketOrder bucketOrder : bucketOrders) {
+			if (bucketOrder.isPath() && Validator.isNullOrEmpty(aggregations)) {
+				throw new IllegalArgumentException(
+					"BucketOrder for path needs at least one nested Aggregation");
+			}
+		}
+
+		this.bucketOrders.addAll(Arrays.asList(bucketOrders));
+
+		return this;
 	}
 
-	public static void checkResponseCode(Response response) throws WeDeployException {
-		if (!response.succeeded()) throw new WeDeployException(response);
+	@Override
+	public Map body() {
+		Map body = super.body();
+		Map fieldMap = (Map) body.get(field);
+
+		if (size != null) {
+			fieldMap.put("size", size);
+		}
+
+		if (bucketOrders != null && !bucketOrders.isEmpty()) {
+			fieldMap.put("order", bucketOrders);
+		}
+
+		return body;
 	}
 
-	public static boolean isNotNullOrEmpty(List list) {
-		return !isNullOrEmpty(list);
-	}
-
-	public static boolean isNullOrEmpty(List list) {
-		return list == null || list.isEmpty();
-	}
+	private Integer size;
+	private List<BucketOrder> bucketOrders;
 }

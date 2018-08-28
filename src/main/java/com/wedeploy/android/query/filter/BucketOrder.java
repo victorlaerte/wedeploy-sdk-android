@@ -28,37 +28,60 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.wedeploy.android.util;
+package com.wedeploy.android.query.filter;
 
-import com.wedeploy.android.data.CollectionFieldTypeValue;
-import com.wedeploy.android.exception.WeDeployException;
-import com.wedeploy.android.transport.Response;
-import java.util.List;
+import com.wedeploy.android.query.BodyConvertible;
+import com.wedeploy.android.query.SortOrder;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * @author Silvio Santos
+ * @author Victor Oliveira
  */
-public class Validator {
+public class BucketOrder extends BodyConvertible {
 
-	public static void checkNotNull(Object object, String message) {
-		if (object == null) throw new IllegalArgumentException(message);
+	public static BucketOrder count(SortOrder sortOrder) {
+		return new BucketOrder("_count", sortOrder);
 	}
 
-	public static void checkNotNullOrEmpty(CollectionFieldTypeValue value, String message) {
-		if (value == null || value.isEmpty()) {
-			throw new IllegalArgumentException(message);
+	public static BucketOrder key(SortOrder sortOrder) {
+		return new BucketOrder("_key", sortOrder);
+	}
+
+	public static BucketOrder path(String path, SortOrder sortOrder) {
+		return new BucketOrder(path, sortOrder, true);
+	}
+
+	@Override
+	public Map body() {
+		Map<String, Object> map = new HashMap<>();
+
+		if (key != null) {
+			map.put("key", key);
 		}
+
+		if (sortOrder != null) {
+			map.put("asc", sortOrder == SortOrder.ASCENDING);
+		}
+
+		return map;
 	}
 
-	public static void checkResponseCode(Response response) throws WeDeployException {
-		if (!response.succeeded()) throw new WeDeployException(response);
+	private BucketOrder(String key, SortOrder sortOrder) {
+		this(key, sortOrder, false);
 	}
 
-	public static boolean isNotNullOrEmpty(List list) {
-		return !isNullOrEmpty(list);
+	private BucketOrder(String key, SortOrder sortOrder, boolean isPath) {
+		this.key = key;
+		this.sortOrder = sortOrder;
+		this.isPath = isPath;
 	}
 
-	public static boolean isNullOrEmpty(List list) {
-		return list == null || list.isEmpty();
+	public boolean isPath() {
+		return isPath;
 	}
+
+	private boolean isPath = false;
+	private String key;
+	private SortOrder sortOrder;
 }
