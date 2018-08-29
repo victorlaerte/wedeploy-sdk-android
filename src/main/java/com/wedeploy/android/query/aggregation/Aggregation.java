@@ -75,6 +75,12 @@ public class Aggregation extends BodyConvertible {
 		return of(name, field, "cardinality");
 	}
 
+	public static Aggregation dateHistogram(
+		String name, String field, String interval) {
+
+		return new Aggregation(name, field, "date_histogram", interval);
+	}
+
 	public static DistanceAggregation distance(
 		String name, String field, Object location, Range... ranges) {
 

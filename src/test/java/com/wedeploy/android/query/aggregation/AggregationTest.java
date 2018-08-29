@@ -59,6 +59,15 @@ public class AggregationTest {
 	}
 
 	@Test
+	public void testAggregation_dateHistogram() throws Exception {
+		JSONAssert.assertEquals(
+			"{\"field\":{\"operator\":\"date_histogram\"," +
+				"\"name\":\"name\",\"value\":\"month\"}}",
+			Aggregation.dateHistogram("name", "field", "month").bodyAsJson(),
+			true);
+	}
+
+	@Test
 	public void testAggregation_distance() throws Exception {
 		JSONAssert.assertEquals(
 			"{\"field\":{\"operator\":\"geoDistance\",\"name\":\"name\"," +
