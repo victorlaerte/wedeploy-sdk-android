@@ -189,8 +189,8 @@ public class AggregationTest {
 
 		TermsAggregation termsAgg1 =
 			Aggregation.terms("name", "field", 3)
-				.addBucketOrders(count)
-				.addBucketOrders(key);
+				.addBucketOrder(count)
+				.addBucketOrder(key);
 
 		JSONAssert.assertEquals(
 			"{\"field\":{\"size\":3,\"name\":\"name\",\"operator\":\"terms\","

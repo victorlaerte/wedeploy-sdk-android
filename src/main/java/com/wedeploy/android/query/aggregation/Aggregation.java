@@ -131,9 +131,9 @@ public class Aggregation extends BodyConvertible {
 	}
 
 	public static TermsAggregation terms(
-		String name, String field, int size, BucketOrder... bucketOrders) {
+		String name, String field, int size, BucketOrder... bucketOrder) {
 
-		return new TermsAggregation(name, field, size, bucketOrders);
+		return new TermsAggregation(name, field, size, bucketOrder);
 	}
 
 	public Aggregation addNestedAggregation(Aggregation... aggregation) {

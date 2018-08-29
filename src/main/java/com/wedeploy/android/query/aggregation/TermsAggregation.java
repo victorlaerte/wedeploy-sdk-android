@@ -51,15 +51,16 @@ public class TermsAggregation extends Aggregation {
 		this.size = size;
 	}
 
-	TermsAggregation(String name, String field, int size,
-		BucketOrder... bucketOrders) {
+	TermsAggregation(
+		String name, String field, int size, BucketOrder... bucketOrder) {
+
 		super(name, field, "terms");
 		this.size = size;
-		this.bucketOrders = new ArrayList<>(Arrays.asList(bucketOrders));
+		this.bucketOrders = new ArrayList<>(Arrays.asList(bucketOrder));
 	}
 
-	public TermsAggregation addBucketOrders(BucketOrder... bucketOrders) {
-		if (bucketOrders == null) {
+	public TermsAggregation addBucketOrder(BucketOrder... bucketOrder) {
+		if (bucketOrder == null) {
 			return this;
 		}
 
@@ -67,8 +68,7 @@ public class TermsAggregation extends Aggregation {
 			this.bucketOrders = new ArrayList<>();
 		}
 
-
-		this.bucketOrders.addAll(Arrays.asList(bucketOrders));
+		this.bucketOrders.addAll(Arrays.asList(bucketOrder));
 
 		return this;
 	}
