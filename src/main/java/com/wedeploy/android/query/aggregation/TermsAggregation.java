@@ -67,12 +67,6 @@ public class TermsAggregation extends Aggregation {
 			this.bucketOrders = new ArrayList<>();
 		}
 
-		for (BucketOrder bucketOrder : bucketOrders) {
-			if (bucketOrder.isPath() && Validator.isNullOrEmpty(aggregations)) {
-				throw new IllegalArgumentException(
-					"BucketOrder for path needs at least one nested Aggregation");
-			}
-		}
 
 		this.bucketOrders.addAll(Arrays.asList(bucketOrders));
 

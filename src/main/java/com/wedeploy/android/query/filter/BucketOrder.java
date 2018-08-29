@@ -49,7 +49,7 @@ public class BucketOrder extends BodyConvertible {
 	}
 
 	public static BucketOrder path(String path, SortOrder sortOrder) {
-		return new BucketOrder(path, sortOrder, true);
+		return new BucketOrder(path, sortOrder);
 	}
 
 	@Override
@@ -68,20 +68,10 @@ public class BucketOrder extends BodyConvertible {
 	}
 
 	private BucketOrder(String key, SortOrder sortOrder) {
-		this(key, sortOrder, false);
-	}
-
-	private BucketOrder(String key, SortOrder sortOrder, boolean isPath) {
 		this.key = key;
 		this.sortOrder = sortOrder;
-		this.isPath = isPath;
 	}
 
-	public boolean isPath() {
-		return isPath;
-	}
-
-	private boolean isPath = false;
 	private String key;
 	private SortOrder sortOrder;
 }

@@ -218,12 +218,4 @@ public class AggregationTest {
 			Aggregation.terms("name", "field", 3, path).bodyAsJson(), true);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testAggregation_bucket_order_path_without_nested_aggregation() throws Exception {
-		TermsAggregation agg = Aggregation.terms("name", "field");
-
-		agg.addBucketOrders(BucketOrder.path("path", SortOrder.ASCENDING));
-		agg.bodyAsJson();
-	}
-
 }
