@@ -61,11 +61,20 @@ public class AggregationTest {
 	}
 
 	@Test
-	public void testAggregation_dateHistogram() throws Exception {
+	public void testAggregation_histogram_by_interval() throws Exception {
 		JSONAssert.assertEquals(
 			"{\"field\":{\"operator\":\"date_histogram\"," +
 				"\"name\":\"name\",\"value\":\"month\"}}",
-			Aggregation.dateHistogram("name", "field", "month").bodyAsJson(),
+			Aggregation.histogram("name", "field", Interval.MONTH).bodyAsJson(),
+			true);
+	}
+
+	@Test
+	public void testAggregation_histogram_by_time_unit() throws Exception {
+		JSONAssert.assertEquals(
+			"{\"field\":{\"operator\":\"date_histogram\"," +
+				"\"name\":\"name\",\"value\":\"10d\"}}",
+			Aggregation.histogram("name", "field", 10, TimeUnit.DAYS).bodyAsJson(),
 			true);
 	}
 

@@ -76,12 +76,6 @@ public class Aggregation extends BodyConvertible {
 		return of(name, field, "cardinality");
 	}
 
-	public static Aggregation dateHistogram(
-		String name, String field, String interval) {
-
-		return new Aggregation(name, field, "date_histogram", interval);
-	}
-
 	public static DistanceAggregation distance(
 		String name, String field, Object location, Range... ranges) {
 
@@ -96,6 +90,19 @@ public class Aggregation extends BodyConvertible {
 		String name, String field, int interval) {
 
 		return new Aggregation(name, field, "histogram", interval);
+	}
+
+	public static Aggregation histogram(
+		String name, String field, Interval interval) {
+
+		return new Aggregation(
+			name, field, "date_histogram", interval.name().toLowerCase());
+	}
+	public static Aggregation histogram(
+		String name, String field, int value, TimeUnit timeUnit) {
+
+		String rawValue = String.valueOf(value) + timeUnit.getRawValue();
+		return new Aggregation(name, field, "date_histogram", rawValue);
 	}
 
 	public static Aggregation max(String name, String field) {
