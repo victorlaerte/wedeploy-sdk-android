@@ -35,6 +35,7 @@ import com.wedeploy.android.query.MapWrapper;
 import com.wedeploy.android.query.filter.BucketOrder;
 import com.wedeploy.android.query.filter.Range;
 
+import com.wedeploy.android.transport.Request;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -47,7 +48,9 @@ import java.util.Set;
 import static com.wedeploy.android.util.Validator.isNotNullOrEmpty;
 
 /**
- * Aggregation builder.
+ * Class that represents a search aggregation.
+ *
+ * @author Victor Oliveira
  */
 public class Aggregation extends BodyConvertible {
 
@@ -64,91 +67,12 @@ public class Aggregation extends BodyConvertible {
 		this.value = value;
 	}
 
-	public static Aggregation avg(String name, String field) {
-		return of(name, field, "avg");
-	}
-
-	public static Aggregation count(String name, String field) {
-		return of(name, field, "count");
-	}
-
-	public static Aggregation cardinality(String name, String field) {
-		return of(name, field, "cardinality");
-	}
-
-	public static DistanceAggregation distance(
-		String name, String field, Object location, Range... ranges) {
-
-		return new DistanceAggregation(name, field, location, ranges);
-	}
-
-	public static Aggregation extendedStats(String name, String field) {
-		return of(name, field, "extendedStats");
-	}
-
-	public static Aggregation histogram(
-		String name, String field, int interval) {
-
-		return new Aggregation(name, field, "histogram", interval);
-	}
-
-	public static Aggregation histogram(
-		String name, String field, Interval interval) {
-
-		return new Aggregation(
-			name, field, "date_histogram", interval.name().toLowerCase());
-	}
-	public static Aggregation histogram(
-		String name, String field, int value, TimeUnit timeUnit) {
-
-		String rawValue = String.valueOf(value) + timeUnit.getRawValue();
-		return new Aggregation(name, field, "date_histogram", rawValue);
-	}
-
-	public static Aggregation max(String name, String field) {
-		return of(name, field, "max");
-	}
-
-	public static Aggregation min(String name, String field) {
-		return of(name, field, "min");
-	}
-
-	public static Aggregation missing(String name, String field) {
-		return of(name, field, "missing");
-	}
-
-	public static Aggregation of(String name, String field, String operator) {
-		return new Aggregation(name, field, operator);
-	}
-
-	public static RangeAggregation range(
-		String name, String field, Range... ranges) {
-
-		return new RangeAggregation(name, field, ranges);
-	}
-
-	public static Aggregation stats(String name, String field) {
-		return of(name, field, "stats");
-	}
-
-	public static Aggregation sum(String name, String field) {
-		return of(name, field, "sum");
-	}
-
-	public static TermsAggregation terms(String name, String field) {
-		return new TermsAggregation(name, field);
-	}
-
-	public static TermsAggregation terms(String name, String field, int size) {
-		return new TermsAggregation(name, field, size);
-	}
-
-	public static TermsAggregation terms(
-		String name, String field, int size, BucketOrder... bucketOrder) {
-
-		return new TermsAggregation(name, field, size, bucketOrder);
-	}
-
+	/**
+	 * Adds a new aggregation as nested to the current Aggregation instance.
+	 * @param aggregation The aggregation The aggregation to be nested in
+	 * current aggregation
+	 * @return {@link Aggregation}
+	 */
 	public Aggregation addNestedAggregation(Aggregation... aggregation) {
 		if (aggregations == null) {
 			aggregations = new LinkedList<>();
@@ -159,6 +83,237 @@ public class Aggregation extends BodyConvertible {
 		return this;
 	}
 
+	/**
+	 * Creates an {@link Aggregation} instance with the <code>avg</code>
+	 * operator.
+	 * @param name The aggregation name
+	 * @param field The aggregation field
+	 * @return {@link Aggregation}
+	 */
+	public static Aggregation avg(String name, String field) {
+		return of(name, field, "avg");
+	}
+
+	/**
+	 * Creates an {@link Aggregation} instance with the <code>count</code>
+	 * operator.
+	 * @param name The aggregation name
+	 * @param field The aggregation field
+	 * @return {@link Aggregation}
+	 */
+	public static Aggregation count(String name, String field) {
+		return of(name, field, "count");
+	}
+
+	/**
+	 * Creates an {@link Aggregation} instance with the <code>cardinality</code>
+	 * operator.
+	 * @param name The aggregation name
+	 * @param field The aggregation field
+	 * @return {@link Aggregation}
+	 */
+	public static Aggregation cardinality(String name, String field) {
+		return of(name, field, "cardinality");
+	}
+
+	/**
+	 * Creates an {@link DistanceAggregation} instance with the
+	 * <code>geoDistance</code> operator.
+	 * @param name The aggregation name
+	 * @param field The aggregation field
+	 * @param location The aggregation location
+	 * @param ranges The aggregation ranges
+	 * @return {@link DistanceAggregation}
+	 */
+	public static DistanceAggregation distance(
+		String name, String field, Object location, Range... ranges) {
+
+		return new DistanceAggregation(name, field, location, ranges);
+	}
+
+	/**
+	 * Creates an {@link Aggregation} instance with the
+	 * <code>extendedStats</code> operator.
+	 * @param name The aggregation name
+	 * @param field The aggregation field
+	 * @return {@link Aggregation}
+	 */
+	public static Aggregation extendedStats(String name, String field) {
+		return of(name, field, "extendedStats");
+	}
+
+	/**
+	 * Creates an {@link Aggregation} instance with the <code>histogram</code>
+	 * operator.
+	 * @param name The aggregation name
+	 * @param field The aggregation field
+	 * @param interval The histogram Interval
+	 * @return {@link Aggregation}
+	 */
+	public static Aggregation histogram(
+		String name, String field, int interval) {
+
+		return new Aggregation(name, field, "histogram", interval);
+	}
+
+	/**
+	 * Creates an {@link Aggregation} instance with the
+	 * <code>date_histogram</code> operator.
+	 * Similar to the {@link #histogram(String, String, int)} except it can only
+	 * be applied on {@link Interval} dates.
+	 * @param name The aggregation name
+	 * @param field The aggregation field
+	 * @param interval The histogram {@link Interval}
+	 * @return {@link Aggregation}
+	 */
+	public static Aggregation histogram(
+		String name, String field, Interval interval) {
+
+		return new Aggregation(
+			name, field, "date_histogram", interval.name().toLowerCase());
+	}
+
+	/**
+	 * Creates an {@link Aggregation} instance with the
+	 * <code>date_histogram</code> operator.
+	 * Similar to the {@link #histogram(String, String, int)} except it can
+	 * only be applied on {@link TimeUnit} values.
+	 * @param name The aggregation name
+	 * @param field The aggregation field
+	 * @param value The histogram value
+	 * @param timeUnit The histogram timeUnit
+	 * @return {@link Aggregation}
+	 */
+	public static Aggregation histogram(
+		String name, String field, int value, TimeUnit timeUnit) {
+
+		String rawValue = String.valueOf(value) + timeUnit.getRawValue();
+		return new Aggregation(name, field, "date_histogram", rawValue);
+	}
+
+	/**
+	 * Creates an {@link Aggregation} instance with the
+	 * <code>max</code> operator.
+	 * @param name The aggregation name
+	 * @param field The aggregation field
+	 * @return {@link Aggregation}
+	 */
+	public static Aggregation max(String name, String field) {
+		return of(name, field, "max");
+	}
+
+	/**
+	 * Creates an {@link Aggregation} instance with the <code>min</code>
+	 * operator.
+	 * @param name The aggregation name
+	 * @param field The aggregation field
+	 * @return {@link Aggregation}
+	 */
+	public static Aggregation min(String name, String field) {
+		return of(name, field, "min");
+	}
+
+	/**
+	 * Creates an {@link Aggregation} instance with the <code>missing</code>
+	 * operator.
+	 * @param name The aggregation name
+	 * @param field The aggregation field
+	 * @return {@link Aggregation}
+	 */
+	public static Aggregation missing(String name, String field) {
+		return of(name, field, "missing");
+	}
+
+	/**
+	 * Creates an {@link Aggregation} instance with custom operator.
+	 * @param name The aggregation name
+	 * @param field The aggregation field
+	 * @param operator The aggregation operator
+	 * @return {@link Aggregation}
+	 */
+	public static Aggregation of(String name, String field, String operator) {
+		return new Aggregation(name, field, operator);
+	}
+
+	/**
+	 * Creates an {@link RangeAggregation} instance with the <code>range</code>
+	 * operator.
+	 * @param name The aggregation name
+	 * @param field The aggregation field
+	 * @return {@link RangeAggregation}
+	 */
+	public static RangeAggregation range(
+		String name, String field, Range... ranges) {
+
+		return new RangeAggregation(name, field, ranges);
+	}
+
+	/**
+	 * Creates an {@link Aggregation} instance with the <code>stats</code>
+	 * operator.
+	 * @param name The aggregation name
+	 * @param field The aggregation field
+	 * @return {@link Aggregation}
+	 */
+	public static Aggregation stats(String name, String field) {
+		return of(name, field, "stats");
+	}
+
+	/**
+	 * Creates an {@link Aggregation} instance with the <code>sum</code>
+	 * operator.
+	 * @param name The aggregation name
+	 * @param field The aggregation field
+	 * @return {@link Aggregation}
+	 */
+	public static Aggregation sum(String name, String field) {
+		return of(name, field, "sum");
+	}
+
+	/**
+	 * Creates an {@link TermsAggregation} instance with the <code>terms</code>
+	 * operator.
+	 * @param name The aggregation name
+	 * @param field The aggregation field
+	 * @return {@link TermsAggregation}
+	 */
+	public static TermsAggregation terms(String name, String field) {
+		return new TermsAggregation(name, field);
+	}
+
+	/**
+	 * Creates an {@link TermsAggregation} instance with the <code>terms</code>
+	 * operator.
+	 * @param name The aggregation name
+	 * @param field The aggregation field
+	 * @param size Represents how many term buckets should be returned
+	 * @return {@link TermsAggregation}
+	 */
+	public static TermsAggregation terms(String name, String field, int size) {
+		return new TermsAggregation(name, field, size);
+	}
+
+	/**
+	 * Creates an {@link TermsAggregation} instance with the <code>terms</code>
+	 * operator.
+	 * {@link TermsAggregation} supports {@link BucketOrder} aggregations
+	 * @param name The aggregation name
+	 * @param field The aggregation field
+	 * @param size Represents how many term buckets should be returned
+	 * @param bucketOrder The bucket order of this aggregation
+	 * @return {@link TermsAggregation}
+	 */
+	public static TermsAggregation terms(
+		String name, String field, int size, BucketOrder... bucketOrder) {
+
+		return new TermsAggregation(name, field, size, bucketOrder);
+	}
+
+	/**
+	 * Gets a map that represents the {@link Request} body for this
+	 * {@link Aggregation}.
+	 * @return {@link Map}
+	 */
 	@Override
 	public Map body() {
 		Map<String, Object> map = new HashMap<>();
