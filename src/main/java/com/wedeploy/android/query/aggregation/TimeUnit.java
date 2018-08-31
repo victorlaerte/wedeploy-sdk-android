@@ -31,6 +31,15 @@
 package com.wedeploy.android.query.aggregation;
 
 /**
+ * Available Time Units
+ * <li>{@link #DAYS}</li>
+ * <li>{@link #HOURS}</li>
+ * <li>{@link #MINUTES}</li>
+ * <li>{@link #SECONDS}</li>
+ * <li>{@link #MILLISECONDS}</li>
+ * <li>{@link #MICROSECONDS}</li>
+ * <li>{@link #NANOSECONDS}</li>
+ *
  * @author Victor Oliveira
  */
 public enum TimeUnit {
@@ -41,6 +50,9 @@ public enum TimeUnit {
 		this.rawValue = rawValue;
 	}
 
+	/**
+	 * Returns the raw value of this type.
+	 */
 	public String getRawValue() {
 		return rawValue;
 	}

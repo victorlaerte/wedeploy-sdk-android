@@ -39,7 +39,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Distance Aggregation builder.
+ * Class that represents a Distance {@link Aggregation}.
+ * You can filter for results based on a distance away from a specific location
  */
 public class DistanceAggregation extends Aggregation {
 
@@ -56,15 +57,45 @@ public class DistanceAggregation extends Aggregation {
 		map.put("ranges", this.ranges);
 	}
 
+	/**
+	 * Adds a range to current aggregation.
+	 * @param from The initial value of {@link Range}
+	 * @param to The final value of {@link Range}
+	 * @return {@link DistanceAggregation}
+	 */
 	public DistanceAggregation range(Object from, Object to) {
 		return range(Range.range(from, to));
 	}
 
+	/**
+	 * Adds a range to current aggregation.
+	 * @param range Instance of {@link Range}
+	 * @return {@link DistanceAggregation}
+	 */
 	public DistanceAggregation range(Range range) {
 		this.ranges.add(range);
 		return this;
 	}
 
+	/**
+	 * Sets current aggregation's unit.
+	 * @param unit The aggregation unit to be set
+	 * <p>
+	 * Supported distance units:</br>
+	 * mi: miles</br>
+	 * yd: yards</br>
+	 * ft: feet</br>
+	 * in: inch</br>
+	 * km: kilometers</br>
+	 * m: meters</br>
+	 * cm: centimeters</br>
+	 * mm: millimeters</br>
+	 * nmi: nautical miles</br>
+	 *
+	 * @see <a href="https://wedeploy.com/docs/data/filtering-data/#distance">
+	 *     https://wedeploy.com/docs/data/filtering-data/#distance</a>
+	 * @return {@link DistanceAggregation}
+	 */
 	public DistanceAggregation unit(String unit) {
 		((Map)value).put("unit", unit);
 		return this;

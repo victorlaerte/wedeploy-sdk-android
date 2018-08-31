@@ -31,13 +31,16 @@
 package com.wedeploy.android.query.aggregation;
 
 import com.wedeploy.android.query.filter.BucketOrder;
-import com.wedeploy.android.util.Validator;
+import com.wedeploy.android.transport.Request;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 /**
+ * Class that represents a Terms {@link Aggregation}.
+ * You can filter results that match any of the provided terms
+ *
  * @author Victor Oliveira
  */
 public class TermsAggregation extends Aggregation {
@@ -59,6 +62,11 @@ public class TermsAggregation extends Aggregation {
 		this.bucketOrders = new ArrayList<>(Arrays.asList(bucketOrder));
 	}
 
+	/**
+	 * Adds {@link BucketOrder} instance to the current Aggregation.
+	 * @param bucketOrder The bucket order to be added to this aggregation
+	 * @return {@link TermsAggregation}
+	 */
 	public TermsAggregation addBucketOrder(BucketOrder... bucketOrder) {
 		if (bucketOrder == null) {
 			return this;
@@ -73,6 +81,11 @@ public class TermsAggregation extends Aggregation {
 		return this;
 	}
 
+	/**
+	 * Gets a map that represents the {@link Request} body for this
+	 * {@link Aggregation}.
+	 * @return {@link Map}
+	 */
 	@Override
 	public Map body() {
 		Map body = super.body();

@@ -69,8 +69,7 @@ public class Aggregation extends BodyConvertible {
 
 	/**
 	 * Adds a new aggregation as nested to the current Aggregation instance.
-	 * @param aggregation The aggregation The aggregation to be nested in
-	 * current aggregation
+	 * @param aggregation The aggregation to be nested in current aggregation
 	 * @return {@link Aggregation}
 	 */
 	public Aggregation addNestedAggregation(Aggregation... aggregation) {

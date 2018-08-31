@@ -30,8 +30,57 @@
 package com.wedeploy.android.query.aggregation;
 
 /**
+ * Available Intervals
+ * <li>{@link #YEAR}</li>
+ * <li>{@link #QUARTER}</li>
+ * <li>{@link #MONTH}</li>
+ * <li>{@link #WEEK}</li>
+ * <li>{@link #DAY}</li>
+ * <li>{@link #HOUR}</li>
+ * <li>{@link #MINUTE}</li>
+ * <li>{@link #SECOND}</li>
+ *
  * @author Victor Oliveira
  */
 public enum Interval {
-	YEAR, QUARTER, MONTH, WEEK, DAY, HOUR, MINUTE, SECOND
+
+	/**
+	 * Represents the interval of one year.
+	 */
+	YEAR,
+
+	/**
+	 * Represents the interval of one quarter.
+	 */
+	QUARTER,
+
+	/**
+	 * Represents the interval of one month.
+	 */
+	MONTH,
+
+	/**
+	 * Represents the interval of one week.
+	 */
+	WEEK,
+
+	/**
+	 * Represents the interval of one day.
+	 */
+	DAY,
+
+	/**
+	 * Represents the interval of one hour.
+	 */
+	HOUR,
+
+	/**
+	 * Represents the interval of one minute.
+	 */
+	MINUTE,
+
+	/**
+	 * Represents the interval of one second.
+	 */
+	SECOND
 }

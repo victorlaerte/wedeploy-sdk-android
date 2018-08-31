@@ -37,7 +37,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Range Aggregation builder.
+ * Class that represents a Range {@link Aggregation}.
+ * You can filter results that fit within a numerical {@link Range}
  */
 public class RangeAggregation extends Aggregation {
 
@@ -46,10 +47,21 @@ public class RangeAggregation extends Aggregation {
 		((List)this.value).addAll(Arrays.asList(ranges));
 	}
 
+	/**
+	 * Adds a range to current aggregation.
+	 * @param from The initial value of {@link Range}
+	 * @param to The final value of {@link Range}
+	 * @return {@link RangeAggregation}
+	 */
 	public RangeAggregation range(Object from, Object to) {
 		return range(Range.range(from, to));
 	}
 
+	/**
+	 * Adds a range to current aggregation.
+	 * @param range Instance of {@link Range}
+	 * @return {@link DistanceAggregation}
+	 */
 	public RangeAggregation range(Range range) {
 		((List)this.value).add(range);
 		return this;
