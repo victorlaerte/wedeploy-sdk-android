@@ -36,6 +36,7 @@ import com.wedeploy.android.query.filter.BucketOrder;
 import com.wedeploy.android.query.filter.Range;
 
 import com.wedeploy.android.transport.Request;
+import com.wedeploy.android.util.StringUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -245,6 +246,31 @@ public class Aggregation extends BodyConvertible {
 		String name, String field, Range... ranges) {
 
 		return new RangeAggregation(name, field, ranges);
+	}
+
+	/**
+	 * Creates an {@link Aggregation} instance with the <code>script</code>
+	 * operator.
+	 * @param name The aggregation name
+	 * @param path The aggregation path
+	 * @param script The aggregation script to be run
+	 * @return {@link Aggregation}
+	 */
+	public static Aggregation script(String name, String path, String script) {
+		return new Aggregation(name, path, "script", script);
+	}
+
+	/**
+	 * Creates an {@link Aggregation} instance with the <code>script</code>
+	 * operator.
+	 * @param name The aggregation name
+	 * @param path The aggregation path array
+	 * @param script The aggregation script to be run
+	 * @return {@link Aggregation}
+	 */
+	public static Aggregation script(String name, String[] path, String script) {
+		String paths = StringUtils.join(path, ',');
+		return new Aggregation(name, paths, "script", script);
 	}
 
 	/**

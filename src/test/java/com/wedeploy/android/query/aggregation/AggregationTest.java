@@ -170,6 +170,22 @@ public class AggregationTest {
 	}
 
 	@Test
+	public void testAggregation_script() throws Exception {
+		JSONAssert.assertEquals(
+			"{\"path\":{\"name\":\"name\",\"value\":\"(params.path - 32) * 5\\/9\","
+				+ "\"operator\":\"script\"}}",
+			Aggregation.script("name", "path", "(params.path - 32) * 5/9")
+				.bodyAsJson(), true);
+
+		JSONAssert.assertEquals(
+			"{\"path1,path2\":{\"name\":\"name\",\"value\":\"((params.path1 - 32) * 5\\/9)"
+				+ " + params.path2\",\"operator\":\"script\"}}",
+			Aggregation.script("name", new String[] { "path1", "path2" },
+				"((params.path1 - 32) * 5/9) + params.path2").bodyAsJson(),
+			true);
+	}
+
+	@Test
 	public void testAggregation_stats() throws Exception {
 		JSONAssert.assertEquals(
 			"{\"field\":{\"operator\":\"stats\",\"name\":\"name\"}}",
