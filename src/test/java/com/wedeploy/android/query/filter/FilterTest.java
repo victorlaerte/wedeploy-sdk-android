@@ -198,10 +198,6 @@ public class FilterTest {
 	@Test
 	public void testFilter_withMultiMatchFilter() {
 		JSONAssert.assertEquals(
-			"{\"*\":{\"value\":\"str\",\"operator\":\"multi_match\"}}",
-			Filter.multiMatch("str").bodyAsJson(), true);
-
-		JSONAssert.assertEquals(
 			"{\"field1,field2,field3\":"
 				+ "{\"operator\":\"multi_match\",\"value\":\"str\"}}",
 			Filter.multiMatch(

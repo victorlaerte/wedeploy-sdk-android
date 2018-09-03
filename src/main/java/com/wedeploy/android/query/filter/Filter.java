@@ -179,10 +179,6 @@ public class Filter extends BodyConvertible {
 		return Filter.field(field, "match", query);
 	}
 
-	public static Filter multiMatch(String query) {
-		return multiMatch(new String[] { ALL }, query);
-	}
-
 	public static Filter multiMatch(String[] fields, String query) {
 		return Filter.field(
 			StringUtils.join(fields, ','), "multi_match", query);
