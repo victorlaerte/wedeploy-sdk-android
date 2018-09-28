@@ -32,6 +32,7 @@ package com.wedeploy.android.query.aggregation;
 
 import com.wedeploy.android.query.BodyConvertible;
 import com.wedeploy.android.query.MapWrapper;
+import com.wedeploy.android.query.SortOption;
 import com.wedeploy.android.query.filter.BucketOrder;
 import com.wedeploy.android.query.filter.Range;
 
@@ -324,6 +325,33 @@ public class Aggregation extends BodyConvertible {
 	public static Aggregation script(String name, String[] path, String script) {
 		String paths = StringUtils.join(path, ',');
 		return new Aggregation(name, paths, "script", script);
+	}
+
+	/**
+	 * Creates an {@link Aggregation} instance with the <code>sort</code>
+	 * operator.
+	 * @param name The aggregation name
+	 * @param field The aggregation field
+	 * @param sort The bucket sort of this aggregation
+	 * @return {@link Aggregation}
+	 */
+	public static Aggregation sort(String name, String field, SortOption... sort) {
+		return new BucketSortAggregation(name, field, 10, 0, true, sort);
+	}
+
+	/**
+	 * Creates an {@link Aggregation} instance with the <code>sort</code>
+	 * operator.
+	 * @param name The aggregation name
+	 * @param field The aggregation field
+	 * @param from Buckets in positions prior will be truncated
+	 * @param size Represents how many term buckets should be returned
+	 * @param sort The bucket sort of this aggregation
+	 * @return {@link Aggregation}
+	 */
+	public static Aggregation sort(String name, String field, int from,
+		int size, boolean skipGaps, SortOption... sort) {
+		return new BucketSortAggregation(name, field, size, from, skipGaps, sort);
 	}
 
 	/**

@@ -30,6 +30,7 @@
 
 package com.wedeploy.android.query.aggregation;
 
+import com.wedeploy.android.query.SortOption;
 import com.wedeploy.android.query.SortOrder;
 import com.wedeploy.android.query.filter.BucketOrder;
 import com.wedeploy.android.query.filter.Range;
@@ -221,6 +222,30 @@ public class AggregationTest {
 			Aggregation.script("name", new String[] { "path1", "path2" },
 				"((params.path1 - 32) * 5/9) + params.path2").bodyAsJson(),
 			true);
+	}
+
+	@Test
+	public void testAggregation_sort() throws Exception {
+		JSONAssert.assertEquals(
+			"{\"field\":{\"operator\":\"sort\",\"name\":\"name\",\"options\":{"
+				+ "\"gap_policy\":\"skip\"},"
+				+ "\"value\":["
+				+ "{\"field\":\"field1\",\"order\":\"desc\"},"
+				+ "{\"field\":\"field2\",\"order\":\"asc\"}]}}",
+			Aggregation.sort("name", "field",
+				new SortOption("field1", SortOrder.DESCENDING),
+				new SortOption("field2")).bodyAsJson(), true);
+	}
+
+	@Test
+	public void testAggregation_sort_withFromAndSize() throws Exception {
+		JSONAssert.assertEquals(
+			"{\"field\":{\"operator\":\"sort\",\"name\":\"name\",\"options\":{"
+				+ "\"gap_policy\":\"insert_zeros\"},\"from\":20,\"size\":10,"
+				+ "\"value\":["
+				+ "{\"field\":\"field1\",\"order\":\"asc\"}]}}",
+			Aggregation.sort("name", "field", 20, 10, false,
+				new SortOption("field1")).bodyAsJson(), true);
 	}
 
 	@Test
