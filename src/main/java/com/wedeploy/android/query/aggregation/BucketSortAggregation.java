@@ -45,6 +45,30 @@ public class BucketSortAggregation extends Aggregation {
 		return body;
 	}
 
+	public int getFrom() {
+		return from;
+	}
+
+	public void setFrom(int from) {
+		this.from = from;
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
+	}
+
+	public boolean isSkipGaps() {
+		return skipGaps;
+	}
+
+	public void setSkipGaps(boolean skipGaps) {
+		this.skipGaps = skipGaps;
+	}
+
 	private int from;
 	private int size;
 	private boolean skipGaps;

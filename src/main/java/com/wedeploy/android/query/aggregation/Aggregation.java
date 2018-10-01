@@ -328,19 +328,19 @@ public class Aggregation extends BodyConvertible {
 	}
 
 	/**
-	 * Creates an {@link Aggregation} instance with the <code>sort</code>
+	 * Creates an {@link BucketSortAggregation} instance with the <code>sort</code>
 	 * operator.
 	 * @param name The aggregation name
 	 * @param field The aggregation field
 	 * @param sort The bucket sort of this aggregation
 	 * @return {@link Aggregation}
 	 */
-	public static Aggregation sort(String name, String field, SortOption... sort) {
+	public static BucketSortAggregation sort(String name, String field, SortOption... sort) {
 		return new BucketSortAggregation(name, field, 10, 0, true, sort);
 	}
 
 	/**
-	 * Creates an {@link Aggregation} instance with the <code>sort</code>
+	 * Creates an {@link BucketSortAggregation} instance with the <code>sort</code>
 	 * operator.
 	 * @param name The aggregation name
 	 * @param field The aggregation field
@@ -349,7 +349,7 @@ public class Aggregation extends BodyConvertible {
 	 * @param sort The bucket sort of this aggregation
 	 * @return {@link Aggregation}
 	 */
-	public static Aggregation sort(String name, String field, int from,
+	public static BucketSortAggregation sort(String name, String field, int from,
 		int size, boolean skipGaps, SortOption... sort) {
 		return new BucketSortAggregation(name, field, size, from, skipGaps, sort);
 	}
