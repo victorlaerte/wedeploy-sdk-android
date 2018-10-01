@@ -227,11 +227,12 @@ public class AggregationTest {
 	@Test
 	public void testAggregation_sort() throws Exception {
 		JSONAssert.assertEquals(
-			"{\"field\":{\"operator\":\"sort\",\"name\":\"name\",\"options\":{"
-				+ "\"gap_policy\":\"skip\"},"
-				+ "\"value\":["
+			"{\"field\":{\"size\":10,\"name\":\"name\","
+				+ "\"options\":{\"gap_policy\":\"skip\"},"
+				+ "\"from\":0,\"value\":["
 				+ "{\"field\":\"field1\",\"order\":\"desc\"},"
-				+ "{\"field\":\"field2\",\"order\":\"asc\"}]}}",
+				+ "{\"field\":\"field2\",\"order\":\"asc\"}]"
+				+ ",\"operator\":\"sort\"}}",
 			Aggregation.sort("name", "field",
 				new SortOption("field1", SortOrder.DESCENDING),
 				new SortOption("field2")).bodyAsJson(), true);
