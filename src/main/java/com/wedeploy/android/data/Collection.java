@@ -114,7 +114,7 @@ public class Collection extends BodyConvertible {
 		Map<String, Object> map = new TreeMap<>();
 
 		map.put("name", name);
-		map.put("mapping", mapping);
+		map.put("mappings", mapping);
 
 		return map;
 	}
