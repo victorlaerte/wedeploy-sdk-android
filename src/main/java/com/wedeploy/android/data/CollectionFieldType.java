@@ -36,6 +36,8 @@ package com.wedeploy.android.data;
  * {@link CollectionFieldTypeValue} implementation that represents all supported WeDeploy primitive types.
  *
  * Available Collection field types
+ * <li>{@link #TEXT}</li>
+ * <li>{@link #KEYWORD}</li>
  * <li>{@link #STRING}</li>
  * <li>{@link #INTEGER}</li>
  * <li>{@link #LONG}</li>
@@ -52,8 +54,19 @@ package com.wedeploy.android.data;
 public enum CollectionFieldType implements CollectionFieldTypeValue {
 
 	/**
-	 * Field of type string.
+	 * Field of type text.
 	 */
+	TEXT,
+
+	/**
+	 * Field of type keyword.
+	 */
+	KEYWORD,
+
+	/**
+	 * @deprecated Use TEXT or KEYWORD.
+	 */
+	@Deprecated
 	STRING,
 
 	/**
