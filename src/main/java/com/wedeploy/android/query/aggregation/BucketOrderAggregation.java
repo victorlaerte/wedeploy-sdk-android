@@ -4,6 +4,7 @@ import com.wedeploy.android.query.filter.BucketOrder;
 import com.wedeploy.android.transport.Request;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -66,6 +67,16 @@ public class BucketOrderAggregation extends Aggregation {
 		return this;
 	}
 
+	private void addOptions(Map fieldMap) {
+		Map<String, String> options = new HashMap<>();
+
+		if (script != null) {
+			options.put("script", script);
+		}
+
+		fieldMap.put("options", options);
+	}
+
 	/**
 	 * Gets a map that represents the {@link Request} body for this
 	 * {@link Aggregation}.
@@ -85,6 +96,8 @@ public class BucketOrderAggregation extends Aggregation {
 			fieldMap.put("order", bucketOrders);
 		}
 
+		addOptions(fieldMap);
+
 		return body;
 	}
 
@@ -92,11 +105,17 @@ public class BucketOrderAggregation extends Aggregation {
 		return size;
 	}
 
+	public BucketOrderAggregation script(String script) {
+		this.script = script;
+		return this;
+	}
+
 	public BucketOrderAggregation setSize(Integer size) {
 		this.size = size;
 		return this;
 	}
 
-	private Integer size;
 	private List<BucketOrder> bucketOrders;
+	private String script;
+	private Integer size;
 }

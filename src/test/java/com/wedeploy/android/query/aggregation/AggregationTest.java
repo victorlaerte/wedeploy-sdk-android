@@ -316,4 +316,14 @@ public class AggregationTest {
 			Aggregation.terms("name", "field", 3, path).bodyAsJson(), true);
 	}
 
+	@Test
+	public void testAggregation_terms_bucket_order_script() throws Exception {
+
+		JSONAssert.assertEquals(
+			"{\"field\":{\"size\":3,\"name\":\"name\","
+				+ "\"options\":{\"script\":\"my script\"},\"operator\":\"terms\"}}",
+			Aggregation.terms("name", "field", 3).script("my script")
+				.bodyAsJson(), true);
+	}
+
 }
