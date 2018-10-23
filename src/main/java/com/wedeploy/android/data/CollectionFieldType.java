@@ -39,6 +39,7 @@ package com.wedeploy.android.data;
  * <li>{@link #TEXT}</li>
  * <li>{@link #KEYWORD}</li>
  * <li>{@link #STRING}</li>
+ * <li>{@link #NESTED}</li>
  * <li>{@link #INTEGER}</li>
  * <li>{@link #LONG}</li>
  * <li>{@link #FLOAT}</li>
@@ -68,6 +69,11 @@ public enum CollectionFieldType implements CollectionFieldTypeValue {
 	 */
 	@Deprecated
 	STRING,
+	
+	/**
+	 * Field of type nested.
+	 */
+	NESTED,
 
 	/**
 	 * Field of type integer.
