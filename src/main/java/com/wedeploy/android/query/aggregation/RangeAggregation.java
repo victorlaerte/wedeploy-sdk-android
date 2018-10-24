@@ -40,7 +40,7 @@ import java.util.List;
  * Class that represents a Range {@link Aggregation}.
  * You can filter results that fit within a numerical {@link Range}
  */
-public class RangeAggregation extends Aggregation {
+public class RangeAggregation extends ValueSourceAggregation {
 
 	RangeAggregation(String name, String field, Range... ranges) {
 		super(name, field, "range", new ArrayList());

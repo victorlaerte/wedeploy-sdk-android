@@ -14,7 +14,7 @@ import java.util.Map;
  *
  * @author Victor Oliveira
  */
-public class BucketOrderAggregation extends Aggregation {
+public class BucketOrderAggregation extends ValueSourceAggregation {
 
 	BucketOrderAggregation(String name, String field, String operator) {
 		super(name, field, operator);
@@ -67,16 +67,6 @@ public class BucketOrderAggregation extends Aggregation {
 		return this;
 	}
 
-	private void addOptions(Map fieldMap) {
-		Map<String, String> options = new HashMap<>();
-
-		if (script != null) {
-			options.put("script", script);
-		}
-
-		fieldMap.put("options", options);
-	}
-
 	/**
 	 * Gets a map that represents the {@link Request} body for this
 	 * {@link Aggregation}.
@@ -96,18 +86,11 @@ public class BucketOrderAggregation extends Aggregation {
 			fieldMap.put("order", bucketOrders);
 		}
 
-		addOptions(fieldMap);
-
 		return body;
 	}
 
 	public Integer getSize() {
 		return size;
-	}
-
-	public BucketOrderAggregation script(String script) {
-		this.script = script;
-		return this;
 	}
 
 	public BucketOrderAggregation setSize(Integer size) {
@@ -116,6 +99,5 @@ public class BucketOrderAggregation extends Aggregation {
 	}
 
 	private List<BucketOrder> bucketOrders;
-	private String script;
 	private Integer size;
 }
