@@ -240,6 +240,22 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 	}
 
 	/**
+	 * Retrieves a collection and maps the field types.
+	 * 
+	 * @param collectionName used to get the collection.
+	 * @return {@link Call}
+	 */
+	public Call<Response> getCollection(String collectionName) {
+		Request.Builder builder = newAuthenticatedRequestBuilder()
+			.method(GET)
+			.param("name", collectionName);
+
+		resetQueryBuilder();
+
+		return newCall(builder.build());
+	}
+
+	/**
 	 * Updates the attributes of a document based on the passed-in {@link JSONObject} and saves
 	 * the record.
 	 * <p>
