@@ -279,6 +279,17 @@ public class Aggregation extends BodyConvertible {
 	}
 
 	/**
+	 * Creates an {@link Aggregation} instance with the <code>nested</code>
+	 * operator.
+	 * @param name The aggregation name
+	 * @param field The aggregation field
+	 * @return {@link Aggregation}
+	 */
+	public static Aggregation nested(String name, String field) {
+		return of(name, field, "nested");
+	}
+
+	/**
 	 * Creates an {@link Aggregation} instance with custom operator.
 	 * @param name The aggregation name
 	 * @param field The aggregation field
