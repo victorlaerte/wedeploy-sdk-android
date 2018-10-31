@@ -106,7 +106,7 @@ public class WeDeployDataTest {
 		CollectionFieldMap mapping = getCollectionMapping();
 		Collection collection = new Collection("collectionName", mapping);
 
-		assertEquals("{\"mapping\":{" +
+		assertEquals("{\"mappings\":{" +
 				"\"field1\":\"string\"," +
 				"\"field2\":\"geo_point\"," +
 				"\"field3\":\"geo_shape\"," +
@@ -123,7 +123,7 @@ public class WeDeployDataTest {
 
 		Collection collection = new Collection("collectionName", mapping);
 
-		assertEquals("{\"mapping\":{" +
+		assertEquals("{\"mappings\":{" +
 				"\"field1\":\"string\"," +
 				"\"field2\":\"geo_point\"," +
 				"\"field3\":\"geo_shape\"," +
@@ -150,7 +150,7 @@ public class WeDeployDataTest {
 
 		Collection collection = new Collection("collectionName", mapping);
 
-		assertEquals("{\"mapping\":{" +
+		assertEquals("{\"mappings\":{" +
 				"\"field1\":\"string\"," +
 				"\"field2\":\"geo_point\"," +
 				"\"field3\":\"geo_shape\"," +
