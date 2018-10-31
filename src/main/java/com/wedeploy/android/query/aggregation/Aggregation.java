@@ -102,8 +102,8 @@ public class Aggregation extends BodyConvertible {
 	 * @param field The aggregation field
 	 * @return {@link Aggregation}
 	 */
-	public static Aggregation count(String name, String field) {
-		return of(name, field, "count");
+	public static ValueSourceAggregation count(String name, String field) {
+		return new ValueSourceAggregation(name, field, "count");
 	}
 
 	/**
