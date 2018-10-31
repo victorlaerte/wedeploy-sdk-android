@@ -236,6 +236,14 @@ public class Filter extends BodyConvertible {
 		return Filter.field(field, "range", Range.range(min, max));
 	}
 
+	public static Filter range(
+		String field, Object min, boolean includeLower, boolean includeUpper,
+		Object max) {
+
+		return Filter.field(
+			field, "range", Range.range(min, includeLower, includeUpper, max));
+	}
+
 	public static Filter range(String field, Range range) {
 		return Filter.field(field, "range", range);
 	}

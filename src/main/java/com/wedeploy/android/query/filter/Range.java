@@ -41,15 +41,20 @@ import java.util.Map;
 public final class Range extends BodyConvertible {
 
 	public static Range from(Object value) {
-		return new Range(value, null);
+		return new Range(value, true, true, null);
 	}
 
 	public static Range range(Object from, Object to) {
-		return new Range(from, to);
+		return new Range(from, true, true, to);
+	}
+	
+	public static Range range(
+		Object from, boolean includeLower, boolean includeUpper, Object to) {
+		return new Range(from, includeLower, includeUpper, to);
 	}
 
 	public static Range to(Object value) {
-		return new Range(null, value);
+		return new Range(null, true, true, value);
 	}
 
 	@Override
@@ -60,6 +65,9 @@ public final class Range extends BodyConvertible {
 			map.put("from", from);
 		}
 
+		map.put("includeLower", includeLower);
+		map.put("includeUpper", includeUpper);
+
 		if (to != null) {
 			map.put("to", to);
 		}
@@ -68,10 +76,16 @@ public final class Range extends BodyConvertible {
 	}
 
 	protected final Object from;
+	protected final boolean includeLower ;
+	protected final boolean includeUpper;
 	protected final Object to;
 
-	private Range(Object from, Object to) {
+	private Range(
+		Object from, boolean includeLower, boolean includeUpper, Object to) {
+
 		this.from = from;
+		this.includeLower = includeLower;
+		this.includeUpper = includeUpper;
 		this.to = to;
 	}
 
