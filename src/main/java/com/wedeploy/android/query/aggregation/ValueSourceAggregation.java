@@ -17,6 +17,12 @@ public class ValueSourceAggregation extends Aggregation {
 		super(name, field, operator, value);
 	}
 
+	public ValueSourceAggregation offset(String offset) {
+		options.put("offset", offset);
+		
+		return this;
+	}
+
 	public ValueSourceAggregation script(String script) {
 		options.put("script", script);
 
