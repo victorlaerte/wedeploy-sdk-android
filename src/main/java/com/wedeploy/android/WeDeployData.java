@@ -240,6 +240,28 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 	}
 
 	/**
+	 * Retrieves data from a [document/field/collection] using POST method.<br>
+	 * Useful for long queries that may exceed the URL length limit.
+	 *
+	 * @param key used to get the document/field/collection.
+	 * @return {@link Call}
+	 */
+	public Call<Response> getAsPost(String key) {
+		checkNotNull(key, "Document/Field/Collection key must be specified");
+
+		Query query = getOrCreateQueryBuilder().build();
+
+		Request.Builder builder = newAuthenticatedRequestBuilder()
+			.path(key + "/_search")
+			.body(BodyToJsonStringConverter.toString(query))
+			.method(POST);
+
+		resetQueryBuilder();
+
+		return newCall(builder.build());
+	}
+
+	/**
 	 * Updates the attributes of a document based on the passed-in {@link JSONObject} and saves
 	 * the record.
 	 * <p>
