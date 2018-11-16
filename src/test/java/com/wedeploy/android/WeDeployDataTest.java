@@ -230,6 +230,22 @@ public class WeDeployDataTest {
 		assertEquals("\"" + AUTHOR + "\"", response.getBody());
 	}
 
+	@Test
+	public void getAsPost() throws WeDeployException {
+		createMessageObject();
+
+		Response response = weDeploy.data(DATA_URL)
+			.authorization(AUTHORIZATION)
+			.getAsPost("messages")
+			.execute();
+
+		assertEquals(200, response.getStatusCode());
+
+		JSONArray jsonArray = new JSONArray(response.getBody());
+		assertEquals(1, jsonArray.length());
+		assertEquals(AUTHOR, jsonArray.getJSONObject(0).getString("author"));
+	}
+
 	@Test(expected = IllegalArgumentException.class)
 	public void get_withNullResourcePath_shouldThrowException() throws WeDeployException {
 		weDeploy.data(DATA_URL)
