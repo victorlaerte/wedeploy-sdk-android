@@ -91,8 +91,8 @@ public class Aggregation extends BodyConvertible {
 	 * @param field The aggregation field
 	 * @return {@link Aggregation}
 	 */
-	public static Aggregation avg(String name, String field) {
-		return of(name, field, "avg");
+	public static ValueSourceAggregation avg(String name, String field) {
+		return new ValueSourceAggregation(name, field, "avg");
 	}
 
 	/**
@@ -102,8 +102,8 @@ public class Aggregation extends BodyConvertible {
 	 * @param field The aggregation field
 	 * @return {@link Aggregation}
 	 */
-	public static Aggregation count(String name, String field) {
-		return of(name, field, "count");
+	public static ValueSourceAggregation count(String name, String field) {
+		return new ValueSourceAggregation(name, field, "count");
 	}
 
 	/**
@@ -113,8 +113,8 @@ public class Aggregation extends BodyConvertible {
 	 * @param field The aggregation field
 	 * @return {@link Aggregation}
 	 */
-	public static Aggregation cardinality(String name, String field) {
-		return of(name, field, "cardinality");
+	public static ValueSourceAggregation cardinality(String name, String field) {
+		return new ValueSourceAggregation(name, field, "cardinality");
 	}
 
 	/**
@@ -252,8 +252,8 @@ public class Aggregation extends BodyConvertible {
 	 * @param field The aggregation field
 	 * @return {@link Aggregation}
 	 */
-	public static Aggregation max(String name, String field) {
-		return of(name, field, "max");
+	public static ValueSourceAggregation max(String name, String field) {
+		return new ValueSourceAggregation(name, field, "max");
 	}
 
 	/**
@@ -263,8 +263,8 @@ public class Aggregation extends BodyConvertible {
 	 * @param field The aggregation field
 	 * @return {@link Aggregation}
 	 */
-	public static Aggregation min(String name, String field) {
-		return of(name, field, "min");
+	public static ValueSourceAggregation min(String name, String field) {
+		return new ValueSourceAggregation(name, field, "min");
 	}
 
 	/**
@@ -276,6 +276,17 @@ public class Aggregation extends BodyConvertible {
 	 */
 	public static Aggregation missing(String name, String field) {
 		return of(name, field, "missing");
+	}
+
+	/**
+	 * Creates an {@link Aggregation} instance with the <code>nested</code>
+	 * operator.
+	 * @param name The aggregation name
+	 * @param field The aggregation field
+	 * @return {@link Aggregation}
+	 */
+	public static Aggregation nested(String name, String field) {
+		return of(name, field, "nested");
 	}
 
 	/**
@@ -372,8 +383,8 @@ public class Aggregation extends BodyConvertible {
 	 * @param field The aggregation field
 	 * @return {@link Aggregation}
 	 */
-	public static Aggregation sum(String name, String field) {
-		return of(name, field, "sum");
+	public static ValueSourceAggregation sum(String name, String field) {
+		return new ValueSourceAggregation(name, field, "sum");
 	}
 
 	/**

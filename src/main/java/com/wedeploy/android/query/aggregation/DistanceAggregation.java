@@ -42,7 +42,7 @@ import java.util.Map;
  * Class that represents a Distance {@link Aggregation}.
  * You can filter for results based on a distance away from a specific location
  */
-public class DistanceAggregation extends Aggregation {
+public class DistanceAggregation extends ValueSourceAggregation {
 
 	DistanceAggregation(
 		String name, String field, Object location, Range... ranges) {

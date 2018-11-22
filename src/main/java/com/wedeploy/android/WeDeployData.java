@@ -240,6 +240,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 	}
 
 	/**
+
 	 * Retrieves data from a [document/field/collection] using POST method.<br>
 	 * Useful for long queries that may exceed the URL length limit.
 	 *
@@ -255,6 +256,21 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 			.path(key + "/_search")
 			.body(BodyToJsonStringConverter.toString(query))
 			.method(POST);
+    
+		resetQueryBuilder();
+
+		return newCall(builder.build());
+	}
+  
+	 * Retrieves a collection and maps the field types.
+	 * 
+	 * @param collectionName used to get the collection.
+	 * @return {@link Call}
+	 */
+	public Call<Response> getCollection(String collectionName) {
+		Request.Builder builder = newAuthenticatedRequestBuilder()
+			.method(GET)
+			.param("name", collectionName);
 
 		resetQueryBuilder();
 
@@ -457,6 +473,18 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 		checkNotNull(aggregation, "Aggregation must be specified");
 
 		getOrCreateQueryBuilder().aggregate(aggregation);
+
+		return this;
+	}
+
+	public WeDeployData addQuery(Query.Builder queryBuilder) {
+		checkNotNull(queryBuilder, "Query.Builder must be specified");
+
+		if (this.queryBuilder == null) {
+			this.queryBuilder = queryBuilder;
+		} else {
+			this.queryBuilder.mergeQuery(queryBuilder);
+		}
 
 		return this;
 	}

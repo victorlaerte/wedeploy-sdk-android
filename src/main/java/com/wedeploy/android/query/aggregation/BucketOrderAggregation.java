@@ -4,6 +4,7 @@ import com.wedeploy.android.query.filter.BucketOrder;
 import com.wedeploy.android.transport.Request;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +14,7 @@ import java.util.Map;
  *
  * @author Victor Oliveira
  */
-public class BucketOrderAggregation extends Aggregation {
+public class BucketOrderAggregation extends ValueSourceAggregation {
 
 	BucketOrderAggregation(String name, String field, String operator) {
 		super(name, field, operator);
@@ -97,6 +98,6 @@ public class BucketOrderAggregation extends Aggregation {
 		return this;
 	}
 
-	private Integer size;
 	private List<BucketOrder> bucketOrders;
+	private Integer size;
 }

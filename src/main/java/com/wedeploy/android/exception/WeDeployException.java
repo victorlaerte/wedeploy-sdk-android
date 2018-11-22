@@ -32,6 +32,8 @@ package com.wedeploy.android.exception;
 
 import com.wedeploy.android.transport.Response;
 
+import org.apache.http.HttpStatus;
+
 /**
  * @author Silvio Santos
  */
@@ -39,10 +41,20 @@ public class WeDeployException extends Exception {
 
 	public WeDeployException(Response response) {
 		super(getMessage(response));
+
+		_response = response;
 	}
 
 	public WeDeployException(String message, Throwable cause) {
 		super(message, cause);
+	}
+
+	public int getStatusCode() {
+		if (_response == null) {
+			return HttpStatus.SC_INTERNAL_SERVER_ERROR;
+		}
+
+		return _response.getStatusCode();
 	}
 
 	private static String getMessage(Response response) {
@@ -54,5 +66,7 @@ public class WeDeployException extends Exception {
 
 		return response.getStatusMessage();
 	}
+
+	private Response _response;
 
 }
