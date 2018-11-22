@@ -59,12 +59,12 @@ public class Collection extends BodyConvertible {
 	 * Constructs a {@link Collection} instance.
 	 *
 	 * @param name The collection name.
-	 * @param mapping The collection field type value. This value can contain.
+	 * @param mappings The collection field type value. This value can contain.
 	 * field names and their types mapping but also nested collections field types.
 	 */
-	public Collection(String name, CollectionFieldTypeValue mapping) {
+	public Collection(String name, CollectionFieldTypeValue mappings) {
 		this.name = name;
-		this.mapping = mapping;
+		this.mapping = mappings;
 	}
 
 	/**
