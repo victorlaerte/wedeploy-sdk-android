@@ -261,7 +261,8 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 
 		return newCall(builder.build());
 	}
-  
+
+	/**
 	 * Retrieves a collection and maps the field types.
 	 * 
 	 * @param collectionName used to get the collection.
