@@ -245,12 +245,12 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 	}
 
 	/**
-	 * Retrieves a collection and maps the field types.
+	 * Get data type mappings of the collection.
 	 * 
-	 * @param collectionName used to get the collection.
+	 * @param collectionName used to get the collection mappings.
 	 * @return {@link Call}
 	 */
-	public Call<Response> getCollection(String collectionName) {
+	public Call<Response> getCollectionMappings(String collectionName) {
 		Request.Builder builder = newAuthenticatedRequestBuilder()
 			.method(GET)
 			.param("name", collectionName);
