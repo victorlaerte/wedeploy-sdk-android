@@ -230,6 +230,19 @@ public class WeDeployDataTest {
 		assertEquals("\"" + AUTHOR + "\"", response.getBody());
 	}
 
+	@Test
+	public void get_collectionMappings() throws WeDeployException {
+		createMessageObject();
+
+		Response response = weDeploy.data(DATA_URL)
+			.authorization(AUTHORIZATION)
+			.getCollectionMappings("messages")
+			.execute();
+
+		String body = response.getBody();
+		assertTrue(body.contains("mappings") && body.contains("\"name\":\"messages\""));
+	}
+
 	@Test(expected = IllegalArgumentException.class)
 	public void get_withNullResourcePath_shouldThrowException() throws WeDeployException {
 		weDeploy.data(DATA_URL)
