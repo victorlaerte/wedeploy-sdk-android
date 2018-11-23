@@ -36,51 +36,26 @@ package com.wedeploy.android.data;
  * {@link CollectionFieldTypeValue} implementation that represents all supported WeDeploy primitive types.
  *
  * Available Collection field types
- * <li>{@link #STRING}</li>
- * <li>{@link #NESTED}</li>
- * <li>{@link #INTEGER}</li>
- * <li>{@link #LONG}</li>
- * <li>{@link #FLOAT}</li>
- * <li>{@link #DOUBLE}</li>
+ * <li>{@link #BINARY}</li>
  * <li>{@link #BOOLEAN}</li>
  * <li>{@link #DATE}</li>
+ * <li>{@link #DOUBLE}</li>
+ * <li>{@link #FLOAT}</li>
  * <li>{@link #GEO_POINT}</li>
  * <li>{@link #GEO_SHAPE}</li>
- * <li>{@link #BINARY}</li>
+ * <li>{@link #INTEGER}</li>
+ * <li>{@link #LONG}</li>
+ * <li>{@link #NESTED}</li>
+ * <li>{@link #STRING}</li>
  *
  * @author Victor Oliveira
  */
 public enum CollectionFieldType implements CollectionFieldTypeValue {
 
 	/**
-	 * Field of type string.
+	 * Field of type binary.
 	 */
-	STRING,
-	
-	/**
-	 * Field of type nested.
-	 */
-	NESTED,
-
-	/**
-	 * Field of type integer.
-	 */
-	INTEGER,
-
-	/**
-	 * Field of type long.
-	 */
-	LONG,
-
-	/**
-	 * Field of type float.
-	 */
-	FLOAT,
-
-	/**
-	 * Field of type double.
-	 */
-	DOUBLE,
+	BINARY,
 
 	/**
 	 * Field of type boolean.
@@ -93,6 +68,16 @@ public enum CollectionFieldType implements CollectionFieldTypeValue {
 	DATE,
 
 	/**
+	 * Field of type double.
+	 */
+	DOUBLE,
+
+	/**
+	 * Field of type float.
+	 */
+	FLOAT,
+
+	/**
 	 * Field of type geo point.
 	 */
 	GEO_POINT,
@@ -103,9 +88,24 @@ public enum CollectionFieldType implements CollectionFieldTypeValue {
 	GEO_SHAPE,
 
 	/**
-	 * Field of type binary.
+	 * Field of type integer.
 	 */
-	BINARY;
+	INTEGER,
+
+	/**
+	 * Field of type long.
+	 */
+	LONG,
+
+	/**
+	 * Field of type nested.
+	 */
+	NESTED,
+
+	/**
+	 * Field of type string.
+	 */
+	STRING;
 
 	@Override
 	public String toString() {
