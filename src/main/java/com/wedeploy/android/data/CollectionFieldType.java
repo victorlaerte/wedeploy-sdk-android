@@ -44,9 +44,11 @@ package com.wedeploy.android.data;
  * <li>{@link #GEO_POINT}</li>
  * <li>{@link #GEO_SHAPE}</li>
  * <li>{@link #INTEGER}</li>
+ * <li>{@link #KEYWORD}</li>
  * <li>{@link #LONG}</li>
  * <li>{@link #NESTED}</li>
  * <li>{@link #STRING}</li>
+ * <li>{@link #TEXT}</li>
  *
  * @author Victor Oliveira
  */
@@ -93,6 +95,11 @@ public enum CollectionFieldType implements CollectionFieldTypeValue {
 	INTEGER,
 
 	/**
+	 * Field of type keyword.
+	 */
+	KEYWORD,
+
+	/**
 	 * Field of type long.
 	 */
 	LONG,
@@ -103,9 +110,16 @@ public enum CollectionFieldType implements CollectionFieldTypeValue {
 	NESTED,
 
 	/**
-	 * Field of type string.
+	 * @deprecated Field of type string.
+	 * Use {@link #KEYWORD} or {@link #TEXT} instead.
 	 */
-	STRING;
+	@Deprecated
+	STRING,
+
+	/**
+	 * Field of type text.
+	 */
+	TEXT;
 
 	@Override
 	public String toString() {

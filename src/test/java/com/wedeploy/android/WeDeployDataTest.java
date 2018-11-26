@@ -107,7 +107,7 @@ public class WeDeployDataTest {
 		Collection collection = new Collection("collectionName", mapping);
 
 		assertEquals("{\"mappings\":{" +
-				"\"field1\":\"string\"," +
+				"\"field1\":\"text\"," +
 				"\"field2\":\"geo_point\"," +
 				"\"field3\":\"geo_shape\"," +
 				"\"field4\":\"binary\"}," +
@@ -124,7 +124,7 @@ public class WeDeployDataTest {
 		Collection collection = new Collection("collectionName", mapping);
 
 		assertEquals("{\"mappings\":{" +
-				"\"field1\":\"string\"," +
+				"\"field1\":\"text\"," +
 				"\"field2\":\"geo_point\"," +
 				"\"field3\":\"geo_shape\"," +
 				"\"field4\":\"binary\"," +
@@ -151,7 +151,7 @@ public class WeDeployDataTest {
 		Collection collection = new Collection("collectionName", mapping);
 
 		assertEquals("{\"mappings\":{" +
-				"\"field1\":\"string\"," +
+				"\"field1\":\"text\"," +
 				"\"field2\":\"geo_point\"," +
 				"\"field3\":\"geo_shape\"," +
 				"\"field4\":\"binary\"," +
@@ -446,7 +446,7 @@ public class WeDeployDataTest {
 
 	private CollectionFieldMap getCollectionMapping() {
 		CollectionFieldMap mapping = new CollectionFieldMap();
-		mapping.put("field1", CollectionFieldType.STRING);
+		mapping.put("field1", CollectionFieldType.TEXT);
 		mapping.put("field2", CollectionFieldType.GEO_POINT);
 		mapping.put("field3", CollectionFieldType.GEO_SHAPE);
 		mapping.put("field4", CollectionFieldType.BINARY);
