@@ -41,6 +41,7 @@ import com.wedeploy.android.query.SortOrder;
 import com.wedeploy.android.query.aggregation.Aggregation;
 import com.wedeploy.android.query.filter.Filter;
 import com.wedeploy.android.transport.Request;
+import com.wedeploy.android.transport.RequestMethod;
 import com.wedeploy.android.transport.Response;
 import com.wedeploy.android.transport.SocketIORealTime;
 import org.json.JSONArray;
@@ -166,7 +167,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 		checkNotNull(name, "collection name must be specified");
 		checkNotNull(mapping, "mapping must be specified");
 
-		return createCollection(new Collection(name, mapping));
+		return createOrUpdateCollection(new Collection(name, mapping), POST);
 	}
 
 	/**
@@ -198,7 +199,11 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 	 * @return {@link Call}
 	 */
 	public Call<Response> createCollection(Collection collection) {
-		return createOrUpdateCollection(collection);
+		checkNotNull(collection, "collection must be specified");
+		checkNotNull(collection.getName(), "collection name must be specified");
+		checkNotNull(collection.getMapping(), "collection mapping must be specified");
+
+		return createOrUpdateCollection(collection, POST);
 	}
 
 	/**
@@ -304,7 +309,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 		checkNotNull(name, "collection name must be specified");
 		checkNotNullOrEmpty(mapping, "mapping must be specified");
 
-		return createOrUpdateCollection(new Collection(name, mapping));
+		return createOrUpdateCollection(new Collection(name, mapping), PATCH);
 	}
 
 	/**
@@ -341,7 +346,7 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 		checkNotNull(collection.getName(), "collection name must be specified");
 		checkNotNullOrEmpty(collection.getMapping(), "mapping must be specified");
 
-		return createOrUpdateCollection(collection);
+		return createOrUpdateCollection(collection, PATCH);
 	}
 
 	/**
@@ -580,11 +585,11 @@ public class WeDeployData extends BaseWeDeployService<WeDeployData> {
 		return newCall(request);
 	}
 
-	private Call<Response> createOrUpdateCollection(Collection collection) {
-		checkNotNull(collection, "collection must be specified");
+	private Call<Response> createOrUpdateCollection(
+		Collection collection, RequestMethod requestMethod) {
 
 		Request request = newAuthenticatedRequestBuilder()
-			.method(POST)
+			.method(requestMethod)
 			.body(BodyToJsonStringConverter.toString(collection))
 			.build();
 
