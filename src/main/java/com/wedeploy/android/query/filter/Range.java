@@ -41,20 +41,25 @@ import java.util.Map;
 public final class Range extends BodyConvertible {
 
 	public static Range from(Object value) {
-		return new Range(value, true, true, null);
+		return new Range(value, null, RangeEdges.INCLUDE_LOWER, RangeEdges.INCLUDE_UPPER);
 	}
 
 	public static Range range(Object from, Object to) {
-		return new Range(from, true, true, to);
+		return new Range(from, to, RangeEdges.INCLUDE_LOWER, RangeEdges.INCLUDE_UPPER);
 	}
-	
-	public static Range range(
-		Object from, boolean includeLower, boolean includeUpper, Object to) {
-		return new Range(from, includeLower, includeUpper, to);
+
+	public static Range range(Object from, Object to, RangeEdges unknownEdge) {
+		if (unknownEdge == RangeEdges.NONE) {
+			return new Range(from, to, null, null);
+		} else if (unknownEdge == RangeEdges.INCLUDE_UPPER) {
+			return new Range(from, to, null, unknownEdge);
+		} else {
+			return new Range(from, to, unknownEdge, null);
+		}
 	}
 
 	public static Range to(Object value) {
-		return new Range(null, true, true, value);
+		return new Range(null, value, RangeEdges.INCLUDE_LOWER, RangeEdges.INCLUDE_UPPER);
 	}
 
 	@Override
@@ -64,6 +69,9 @@ public final class Range extends BodyConvertible {
 		if (from != null) {
 			map.put("from", from);
 		}
+
+		boolean includeLower = (lowerEdge != null && lowerEdge == RangeEdges.INCLUDE_LOWER);
+		boolean includeUpper = (upperEdge != null && upperEdge == RangeEdges.INCLUDE_UPPER);
 
 		map.put("includeLower", includeLower);
 		map.put("includeUpper", includeUpper);
@@ -76,17 +84,14 @@ public final class Range extends BodyConvertible {
 	}
 
 	protected final Object from;
-	protected final boolean includeLower ;
-	protected final boolean includeUpper;
 	protected final Object to;
+	private final RangeEdges lowerEdge;
+	private final RangeEdges upperEdge;
 
-	private Range(
-		Object from, boolean includeLower, boolean includeUpper, Object to) {
-
+	private Range(Object from, Object to, RangeEdges lowerEdge, RangeEdges upperEdge) {
 		this.from = from;
-		this.includeLower = includeLower;
-		this.includeUpper = includeUpper;
 		this.to = to;
+		this.lowerEdge = lowerEdge;
+		this.upperEdge = upperEdge;
 	}
-
 }
