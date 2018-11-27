@@ -32,7 +32,7 @@ package com.wedeploy.android.exception;
 
 import com.wedeploy.android.transport.Response;
 
-import org.apache.http.HttpStatus;
+import java.net.HttpURLConnection;
 
 /**
  * @author Silvio Santos
@@ -61,7 +61,7 @@ public class WeDeployException extends Exception {
 
 	public int getStatusCode() {
 		if (response == null) {
-			return HttpStatus.SC_INTERNAL_SERVER_ERROR;
+			return HttpURLConnection.HTTP_INTERNAL_ERROR;
 		}
 
 		return response.getStatusCode();
