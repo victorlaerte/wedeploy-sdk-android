@@ -306,7 +306,16 @@ public class FilterTest {
 			Filter.range("f", Range.to(1)).bodyAsJson(), true);
 		JSONAssert.assertEquals(
 			"{\"f\":{\"operator\":\"range\",\"value\":{\"from\":0,\"to\":1, \"includeLower\": false, \"includeUpper\": true}}}}",
-			Filter.range("f", Range.range(0, false, true, 1)).bodyAsJson(), true);
+			Filter.range("f", Range.range(0, 1, RangeEdges.INCLUDE_UPPER)).bodyAsJson(), true);
+		JSONAssert.assertEquals(
+			"{\"f\":{\"operator\":\"range\",\"value\":{\"from\":0,\"to\":1, \"includeLower\": true, \"includeUpper\": false}}}}",
+			Filter.range("f", Range.range(0, 1, RangeEdges.INCLUDE_LOWER)).bodyAsJson(), true);
+		JSONAssert.assertEquals(
+			"{\"f\":{\"operator\":\"range\",\"value\":{\"from\":0,\"to\":1, \"includeLower\": true, \"includeUpper\": true}}}}",
+			Filter.range("f", Range.range(0, 1)).bodyAsJson(), true);
+		JSONAssert.assertEquals(
+			"{\"f\":{\"operator\":\"range\",\"value\":{\"from\":0,\"to\":1, \"includeLower\": false, \"includeUpper\": false}}}}",
+			Filter.range("f", Range.range(0, 1, RangeEdges.NONE)).bodyAsJson(), true);
 	}
 
 	private String getCompositeFilter(String operator, int count) {

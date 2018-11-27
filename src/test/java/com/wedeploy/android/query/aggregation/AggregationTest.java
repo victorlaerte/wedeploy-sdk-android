@@ -63,12 +63,13 @@ public class AggregationTest {
 	@Test
 	public void testAggregation_distance() throws Exception {
 		JSONAssert.assertEquals(
-			"{\"field\":{\"operator\":\"geoDistance\",\"name\":\"name\"," +
-				"\"value\":{\"location\":\"0,0\",\"unit\":\"km\"," +
-				"\"ranges\":[" +
-				"{\"from\":0},{\"to\":0},{\"to\":0}," +
-				"{\"from\":0,\"to\":1},{\"from\":1}" +
-				"]}}}",
+			"{\"field\":{\"name\":\"name\",\"value\":{\"unit\":\"km\"," +
+				"\"ranges\":[{\"includeUpper\":true,\"includeLower\":true,\"from\":0}," +
+				"{\"includeUpper\":true,\"includeLower\":true,\"to\":0}," +
+				"{\"includeUpper\":true,\"includeLower\":true,\"to\":0}," +
+				"{\"includeUpper\":true,\"includeLower\":true,\"from\":0,\"to\":1}," +
+				"{\"includeUpper\":true,\"includeLower\":true,\"from\":1}]," +
+				"\"location\":\"0,0\"},\"operator\":\"geoDistance\"}}",
 			Aggregation.distance(
 				"name", "field", "0,0", Range.from(0), Range.to(0))
 				.range(Range.to(0))
@@ -195,11 +196,13 @@ public class AggregationTest {
 	@Test
 	public void testAggregation_range() throws Exception {
 		JSONAssert.assertEquals(
-			"{\"field\":{\"operator\":\"range\",\"name\":\"name\"," +
-				"\"value\":[" +
-				"{\"from\":0},{\"to\":0},{\"to\":0}," +
-				"{\"from\":0,\"to\":1},{\"from\":1}" +
-				"]}}",
+			"{\"field\":{\"name\":\"name\"," +
+				"\"value\":[{\"includeUpper\":true,\"includeLower\":true,\"from\":0}," +
+				"{\"includeUpper\":true,\"includeLower\":true,\"to\":0}," +
+				"{\"includeUpper\":true,\"includeLower\":true,\"to\":0}," +
+				"{\"includeUpper\":true,\"includeLower\":true,\"from\":0,\"to\":1}," +
+				"{\"includeUpper\":true,\"includeLower\":true,\"from\":1}]," +
+				"\"operator\":\"range\"}}",
 			Aggregation.range("name", "field", Range.from(0), Range.to(0))
 				.range(Range.to(0))
 				.range(0, 1)
