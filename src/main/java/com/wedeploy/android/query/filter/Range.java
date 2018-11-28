@@ -41,25 +41,28 @@ import java.util.Map;
 public final class Range extends BodyConvertible {
 
 	public static Range from(Object value) {
-		return new Range(value, null, RangeEdges.INCLUDE_LOWER, RangeEdges.INCLUDE_UPPER);
+		return new Range(
+			value, null, RangeEdges.INCLUDE_LOWER, RangeEdges.INCLUDE_UPPER);
 	}
 
 	public static Range range(Object from, Object to) {
-		return new Range(from, to, RangeEdges.INCLUDE_LOWER, RangeEdges.INCLUDE_UPPER);
+		return new Range(
+			from, to, RangeEdges.INCLUDE_LOWER, RangeEdges.INCLUDE_UPPER);
 	}
 
-	public static Range range(Object from, Object to, RangeEdges unknownEdge) {
-		if (unknownEdge == RangeEdges.NONE) {
+	public static Range range(Object from, Object to, RangeEdges rangeEdge) {
+		if (rangeEdge == RangeEdges.NONE) {
 			return new Range(from, to, null, null);
-		} else if (unknownEdge == RangeEdges.INCLUDE_UPPER) {
-			return new Range(from, to, null, unknownEdge);
+		} else if (rangeEdge == RangeEdges.INCLUDE_UPPER) {
+			return new Range(from, to, null, rangeEdge);
 		} else {
-			return new Range(from, to, unknownEdge, null);
+			return new Range(from, to, rangeEdge, null);
 		}
 	}
 
 	public static Range to(Object value) {
-		return new Range(null, value, RangeEdges.INCLUDE_LOWER, RangeEdges.INCLUDE_UPPER);
+		return new Range(
+			null, value, RangeEdges.INCLUDE_LOWER, RangeEdges.INCLUDE_UPPER);
 	}
 
 	@Override
@@ -70,8 +73,10 @@ public final class Range extends BodyConvertible {
 			map.put("from", from);
 		}
 
-		boolean includeLower = (lowerEdge != null && lowerEdge == RangeEdges.INCLUDE_LOWER);
-		boolean includeUpper = (upperEdge != null && upperEdge == RangeEdges.INCLUDE_UPPER);
+		boolean includeLower =
+			(lowerEdge != null && lowerEdge == RangeEdges.INCLUDE_LOWER);
+		boolean includeUpper =
+			(upperEdge != null && upperEdge == RangeEdges.INCLUDE_UPPER);
 
 		map.put("includeLower", includeLower);
 		map.put("includeUpper", includeUpper);
@@ -88,7 +93,9 @@ public final class Range extends BodyConvertible {
 	private final RangeEdges lowerEdge;
 	private final RangeEdges upperEdge;
 
-	private Range(Object from, Object to, RangeEdges lowerEdge, RangeEdges upperEdge) {
+	private Range(
+		Object from, Object to, RangeEdges lowerEdge, RangeEdges upperEdge) {
+		
 		this.from = from;
 		this.to = to;
 		this.lowerEdge = lowerEdge;
