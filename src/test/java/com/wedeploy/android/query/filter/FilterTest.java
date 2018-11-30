@@ -30,6 +30,7 @@
 
 package com.wedeploy.android.query.filter;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 
@@ -193,6 +194,21 @@ public class FilterTest {
 		JSONAssert.assertEquals(
 			"{\"f\":{\"operator\":\"phrase\",\"value\":\"str\"}}",
 			Filter.phrase("f", "str").bodyAsJson(), true);
+	}
+
+	@Test
+	public void testFilter_alwaysReturnANewObjectReference() {
+		Filter firstFilter = Filter.field("column1", "value")
+			.or(Filter.field("column1", "value2"));
+
+		Filter secondFilter = firstFilter
+			.and(Filter.equal("column2", "value3"));
+
+		Filter thirdFilter = firstFilter
+			.or(Filter.equal("column2", "value3"));
+
+		Assert.assertNotEquals(firstFilter, secondFilter);
+		Assert.assertNotEquals(firstFilter, thirdFilter);
 	}
 
 	@Test

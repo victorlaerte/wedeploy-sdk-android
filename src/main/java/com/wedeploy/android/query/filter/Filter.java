@@ -324,7 +324,7 @@ public class Filter extends BodyConvertible {
 
 	protected Filter addToComposite(Filter filter) {
 		((List)this.value).add(filter);
-		return this;
+		return new Filter(operator, this.value);
 	}
 
 	protected Filter addToComposite(String newOperator, Filter filter) {
