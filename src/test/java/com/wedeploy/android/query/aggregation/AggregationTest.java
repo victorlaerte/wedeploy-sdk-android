@@ -33,6 +33,7 @@ package com.wedeploy.android.query.aggregation;
 import com.wedeploy.android.query.SortOption;
 import com.wedeploy.android.query.SortOrder;
 import com.wedeploy.android.query.filter.BucketOrder;
+import com.wedeploy.android.query.filter.Filter;
 import com.wedeploy.android.query.filter.Range;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -87,6 +88,18 @@ public class AggregationTest {
 		JSONAssert.assertEquals(
 			"{\"field\":{\"operator\":\"extendedStats\",\"name\":\"name\"}}",
 			Aggregation.extendedStats("name", "field").bodyAsJson(), true);
+	}
+
+	@Test
+	public void testAggregation_filter() throws Exception {
+		Filter filter = Filter.gt("field", 0);
+
+		String body = Aggregation.filter("name", "field", filter).bodyAsJson();
+
+		JSONAssert.assertEquals(
+			"{\"field\":{\"name\":\"name\",\"value\":[{\"field\":{" +
+				"\"value\":0,\"operator\":\">\"}}],\"operator\":\"filter\"}}",
+			body, true);
 	}
 
 	@Test
