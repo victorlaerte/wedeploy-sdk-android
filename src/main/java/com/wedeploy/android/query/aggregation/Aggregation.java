@@ -33,6 +33,7 @@ package com.wedeploy.android.query.aggregation;
 import com.wedeploy.android.query.BodyConvertible;
 import com.wedeploy.android.query.MapWrapper;
 import com.wedeploy.android.query.filter.BucketOrder;
+import com.wedeploy.android.query.filter.Filter;
 import com.wedeploy.android.query.filter.Range;
 
 import com.wedeploy.android.transport.Request;
@@ -140,6 +141,20 @@ public class Aggregation extends BodyConvertible {
 	 */
 	public static Aggregation extendedStats(String name, String field) {
 		return of(name, field, "extendedStats");
+	}
+
+	/**
+	 * Creates an {@link Aggregation} instance with the <code>filter</code>
+	 * operator.
+	 * @param name The aggregation name
+	 * @param field The aggregation field
+	 * @param filters The aggregation filters
+	 * @return {@link Aggregation}
+	 */
+	public static FilterAggregation filter(
+			String name, String field, Filter... filters) {
+
+		return new FilterAggregation(name, field, filters);
 	}
 
 	/**
